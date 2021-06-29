@@ -1,0 +1,151 @@
+{
+  "start": "1540341456",
+  "end": "1540341756",
+  "filters": [
+    {
+      "id": "f1",
+      "filter": {
+        "filter": "proc-den",
+        "type": "TagValueLiteralOr",
+        "tagKey": "hostgroup"
+      }
+    }
+  ],
+  "mode": "SINGLE",
+  "executionGraph": [
+    {
+      "id": "m1",
+      "type": "TimeSeriesDataSource",
+      "overrides": null,
+      "types": null,
+      "metric": {
+        "metric": "host_life.alive",
+        "type": "MetricLiteral"
+      },
+      "builder": {
+        "id": "m1",
+        "type": "TimeSeriesDataSource",
+        "sources": [],
+        "overrides": null,
+        "sourceId": null,
+        "types": null,
+        "metric": {
+          "metric": "host_life.alive",
+          "type": "MetricLiteral"
+        },
+        "filterId": "f1",
+        "filter": null,
+        "fetchLast": false
+      },
+      "sourceId": null,
+      "filterId": "f1",
+      "pushDownNodes": null
+    },
+    {
+      "id": "dowmsample_m1",
+      "type": "Downsample",
+      "sources": [
+        "m1"
+      ],
+      "interval": "1m",
+      "timezone": "UTC",
+      "aggregator": "avg",
+      "fill": true,
+      "infectiousNan": false,
+      "runAll": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "scalar",
+          "realFillPolicy": "NONE",
+          "dataType": "net.opentsdb.data.types.numeric.NumericType"
+        }
+      ]
+    },
+    {
+      "id": "threshold",
+      "type": "Expression",
+      "sources": [
+        "groupby_m1"
+      ],
+      "expression": "dowmsample_m1 == 0",
+      "as": "threshold",
+      "join": {
+        "id": "Join",
+        "type": "Join",
+        "sources": [],
+        "joins": {},
+        "joinType": "NATURAL",
+        "explicitTags": false
+      },
+      "infectiousNan": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "scalar",
+          "realFillPolicy": "NONE",
+          "dataType": "net.opentsdb.data.types.numeric.NumericType"
+        }
+      ]
+    },
+    {
+      "id": "alert",
+      "type": "Downsample",
+      "sources": [
+        "threshold"
+      ],
+      "interval": "5m",
+      "timezone": "UTC",
+      "aggregator": "sum",
+      "fill": true,
+      "infectiousNan": false,
+      "runAll": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "scalar",
+          "realFillPolicy": "NONE",
+          "dataType": "net.opentsdb.data.types.numeric.NumericType"
+        }
+      ]
+    },
+    {
+      "id": "final_out",
+      "type": "Expression",
+      "sources": [
+        "alert"
+      ],
+      "expression": "alert > 1",
+      "as": "final_out",
+      "join": {
+        "id": "Join",
+        "type": "Join",
+        "sources": [],
+        "joins": {},
+        "joinType": "NATURAL",
+        "explicitTags": false
+      },
+      "infectiousNan": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "scalar",
+          "realFillPolicy": "NONE",
+          "dataType": "net.opentsdb.data.types.numeric.NumericType"
+        }
+      ]
+    }
+  ],
+  "serdesConfigs": [
+    {
+      "id": "JsonV3QuerySerdes",
+      "type": "JsonV3QuerySerdes",
+      "filter": [
+        "alert"
+      ],
+      "msResolution": false,
+      "showTsuids": false,
+      "showQuery": false,
+      "showStats": false,
+      "showSummary": false,
+      "parallelThreshold": 0
+    }
+  ],
+  "timezone": null
+}

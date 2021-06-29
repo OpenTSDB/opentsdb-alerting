@@ -1,0 +1,51 @@
+{
+  "createdTime": 1555449029703,
+  "createdBy": "user.bob",
+  "updatedTime": 1555449199675,
+  "updatedBy": "user.bob",
+  "id": 321321,
+  "name": "Test Event Alert",
+  "slug": "test-event-alert",
+  "namespace": "NS",
+  "type": "event",
+  "enabled": true,
+  "deleted": false,
+  "labels": [
+    "cpu"
+  ],
+  "queries": {
+    "eventdb": [
+      {
+        "namespace": "mse_prd",
+        "filter": "audit-process AND ERROR AND dev",
+        "groupBy": ["process_name"]
+      }
+    ]
+  },
+  "threshold": {
+    "subType": "eventAlert",
+    "eventAlert": {
+      "queryIndex": "0",
+      "queryType": "eventdb",
+      "threshold": 1,
+      "slidingWindow": "600"
+    }
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "goodToBad",
+      "badToGood"
+    ],
+    "recipients": {
+      "email": [
+        {
+          "name": "bob@opentsdb.net.com"
+        }
+      ]
+    },
+    "subject": "(Subject) Event Alert",
+    "body": "(Body) Event Alert"
+  },
+  "alertGroupingRules": ["process_name"],
+  "namespaceId": 0
+}

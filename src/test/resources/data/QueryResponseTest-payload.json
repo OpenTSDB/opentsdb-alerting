@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "source": "data_node:data_node",
+      "data": [
+        {
+          "EventsGroupType": {
+            "group": {
+              "app": "_NO_GROUP"
+            },
+            "event": {
+              "namespace": "NS",
+              "source": "jenkins",
+              "title": "Job build # 1 on jenkins failed",
+              "message": "%%% \n [See results for build #1] (1.07 mins) \n %%%",
+              "priority": "low",
+              "timestamp": "1567616466",
+              "endTimestamp": "0",
+              "userId": null,
+              "ongoing": false,
+              "eventId": "2019-09-04_7811626834071043641",
+              "parentIds": [],
+              "childIds": [],
+              "additionalProps": {
+                "aggregation_key": "Jenkins Build Job",
+                "event_type": "build result",
+                "alert_type": "success"
+              },
+              "tags": {
+                "host": "localhost"
+              }
+            }
+          },
+          "metric": "ignored",
+          "hits": 575
+        }
+      ]
+    }
+  ],
+  "log": []
+}

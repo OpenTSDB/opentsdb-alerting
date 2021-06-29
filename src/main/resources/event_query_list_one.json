@@ -1,0 +1,32 @@
+{
+  "start": "",
+  "end": "",
+  "filters": [],
+  "mode": "SINGLE",
+  "traceEnabled": false,
+  "debugEnabled": false,
+  "warnEnabled": false,
+  "timezone": null,
+  "executionGraph": [
+    {
+      "id": "data_node",
+      "type": "TimeSeriesDataSource",
+      "types": ["events"],
+      "from": 0,
+      "size": 1,
+      "namespace": "",
+      "filter": {
+        "filters": [
+          {
+            "filter": "",
+            "type": "PassThrough"
+          }
+        ],
+        "op": "AND",
+        "type": "Chain"
+      }
+    }
+  ],
+  "serdesConfigs": [],
+  "logLevel": "ERROR"
+}

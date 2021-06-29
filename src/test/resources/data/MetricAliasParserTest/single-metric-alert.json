@@ -1,0 +1,344 @@
+{
+  "createdTime": 1596659697867,
+  "createdBy": "user.bob",
+  "updatedTime": 1596681995683,
+  "updatedBy": "user.bob",
+  "id": 5135,
+  "name": "Test metric alias",
+  "slug": "test-metric-alias",
+  "namespace": "NS",
+  "type": "simple",
+  "enabled": true,
+  "deleted": false,
+  "version": 1,
+  "labels": [],
+  "queries": {
+    "raw": [
+      {
+        "id": "do7t07",
+        "namespace": "NS",
+        "metrics": [
+          {
+            "id": "jwe",
+            "name": "alerts.consumer.den_la_alertconsumed_diff",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": "den-alerts-consumed"
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "summarizer": ""
+          },
+          {
+            "id": "bqk",
+            "name": "alerts.consumer.den_la_ns_alertconsumed_perc_diff",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": ""
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "summarizer": ""
+          },
+          {
+            "id": "b7g",
+            "expression": "{{jwe}}",
+            "originalExpression": "m1",
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": "den-alert-consumed-2"
+              }
+            },
+            "summarizer": "",
+            "groupByTags": []
+          },
+          {
+            "id": "ivn",
+            "expression": "{{jwe}} + {{bqk}}",
+            "originalExpression": "m1 + m2",
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": "m1_plus_m2"
+              }
+            },
+            "summarizer": "",
+            "groupByTags": []
+          }
+        ],
+        "filters": [],
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        }
+      },
+      {
+        "id": "sc7x67",
+        "namespace": "NS",
+        "metrics": [
+          {
+            "id": "lwp",
+            "name": "alert.processor.alert.send.success.sum",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": ""
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "summarizer": ""
+          },
+          {
+            "id": "uvq",
+            "expression": "{{b7g}}-{{lwp}}",
+            "originalExpression": "q1.e1-m1",
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": "q2-expr"
+              }
+            },
+            "summarizer": "",
+            "groupByTags": []
+          }
+        ],
+        "filters": [],
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        }
+      }
+    ],
+    "tsdb": [
+      {
+        "start": "1h-ago",
+        "executionGraph": [
+          {
+            "id": "q1_m1",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS.alerts.consumer.den_la_alertconsumed_diff"
+            },
+            "sourceId": null,
+            "fetchLast": false
+          },
+          {
+            "id": "q1_m1_downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1"
+            ]
+          },
+          {
+            "id": "q1_m1_groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1_downsample"
+            ]
+          },
+          {
+            "id": "q2_m1",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS.alert.processor.alert.send.success.sum"
+            },
+            "sourceId": null,
+            "fetchLast": false
+          },
+          {
+            "id": "q2_m1_downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q2_m1"
+            ]
+          },
+          {
+            "id": "q2_m1_groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q2_m1_downsample"
+            ]
+          },
+          {
+            "id": "q1_e1",
+            "type": "expression",
+            "expression": " q1_m1 ",
+            "join": {
+              "type": "Join",
+              "joinType": "NATURAL_OUTER",
+              "joins": {}
+            },
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "infectiousNan": false,
+            "substituteMissing": true,
+            "variableInterpolators": {},
+            "sources": [
+              "q1_m1_groupby"
+            ]
+          },
+          {
+            "id": "q2_e1",
+            "type": "expression",
+            "expression": " q1_e1 - q2_m1 ",
+            "join": {
+              "type": "Join",
+              "joinType": "NATURAL_OUTER",
+              "joins": {}
+            },
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "infectiousNan": false,
+            "substituteMissing": true,
+            "variableInterpolators": {},
+            "sources": [
+              "q1_e1",
+              "q2_m1_groupby"
+            ]
+          },
+          {
+            "id": "summarizer",
+            "sources": [
+              "q2_e1"
+            ],
+            "summaries": [
+              "avg",
+              "max",
+              "min",
+              "count",
+              "sum",
+              "first",
+              "last"
+            ]
+          }
+        ],
+        "serdesConfigs": [
+          {
+            "id": "JsonV3QuerySerdes",
+            "filter": [
+              "q2_e1",
+              "summarizer"
+            ]
+          }
+        ],
+        "logLevel": "ERROR",
+        "cacheMode": null
+      }
+    ]
+  },
+  "threshold": {
+    "subType": "singleMetric",
+    "nagInterval": "1800",
+    "notifyOnMissing": "true",
+    "autoRecoveryInterval": null,
+    "delayEvaluation": 0,
+    "singleMetric": {
+      "queryIndex": 0,
+      "queryType": "tsdb",
+      "metricId": "q2_e1",
+      "badThreshold": 20,
+      "warnThreshold": null,
+      "requiresFullWindow": false,
+      "reportingInterval": null,
+      "recoveryThreshold": null,
+      "recoveryType": "minimum",
+      "slidingWindow": "600",
+      "comparisonOperator": "above",
+      "timeSampler": "at_least_once"
+    },
+    "isNagEnabled": true
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "goodToBad",
+      "badToGood"
+    ],
+    "subject": "Test Alias",
+    "body": "Test Alias",
+    "opsgeniePriority": "P5",
+    "runbookId": "",
+    "ocSeverity": "5",
+    "ocTier": "1",
+    "recipients": {
+      "email": [
+        {
+          "id": 183,
+          "name": "test@opentsdb.net",
+          "email": "test@opentsdb.net",
+          "admin": false
+        }
+      ]
+    }
+  },
+  "alertGroupingRules": [],
+  "namespaceId": 22
+}

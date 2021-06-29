@@ -1,0 +1,236 @@
+{
+  "createdTime": 1555449029703,
+  "createdBy": "user.bob",
+  "updatedTime": 1555449199675,
+  "updatedBy": "user.bob",
+  "id": 7,
+  "name": "NS cpu test alert",
+  "slug": "cpu-test-alert",
+  "namespace": "NS",
+  "type": "simple",
+  "enabled": true,
+  "deleted": false,
+  "labels": [
+    "cpu"
+  ],
+  "queries": {
+    "raw": [
+      {
+        "id": "grtp3m",
+        "namespace": "NS",
+        "metrics": [
+          {
+            "id": "eaw",
+            "name": "system.cpu.busy.pct",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": ""
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "groupByTags": [
+              "host",
+              "_aggregate",
+              "colo",
+              "hostgroup"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "tagk": "_aggregate",
+            "filter": [
+              "raw"
+            ],
+            "groupBy": false
+          },
+          {
+            "tagk": "colo",
+            "filter": [
+              "den"
+            ],
+            "groupBy": false
+          },
+          {
+            "tagk": "host",
+            "filter": [
+              "regexp(.*)"
+            ],
+            "groupBy": false
+          },
+          {
+            "tagk": "hostgroup",
+            "filter": [
+              "NS.all"
+            ],
+            "groupBy": false
+          }
+        ],
+        "settings": {
+          "visual": {
+            "visible": true
+          },
+          "explicitTagMatch": true
+        }
+      }
+    ],
+    "tsdb": [
+      {
+        "start": "1h-ago",
+        "executionGraph": [
+          {
+            "id": "m0",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS.system.cpu.busy.pct"
+            },
+            "fetchLast": false,
+            "filterId": "filter"
+          },
+          {
+            "id": "m0-avg-downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "m0"
+            ]
+          },
+          {
+            "id": "m0-avg-groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [
+              "host",
+              "_aggregate",
+              "colo",
+              "hostgroup"
+            ],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "m0-avg-downsample"
+            ]
+          },
+          {
+            "id": "summarizer",
+            "sources": [
+              "m0-avg-groupby"
+            ],
+            "summaries": [
+              "avg",
+              "max",
+              "min",
+              "count",
+              "sum",
+              "first",
+              "last"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "filter": {
+              "type": "ExplicitTags",
+              "filter": {
+                "type": "Chain",
+                "op": "AND",
+                "filters": [
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "raw",
+                    "tagKey": "_aggregate"
+                  },
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "den",
+                    "tagKey": "colo"
+                  },
+                  {
+                    "type": "TagValueRegex",
+                    "filter": ".*",
+                    "tagKey": "host"
+                  },
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "NS.all",
+                    "tagKey": "hostgroup"
+                  }
+                ]
+              }
+            },
+            "id": "filter"
+          }
+        ],
+        "serdesConfigs": [
+          {
+            "id": "JsonV3QuerySerdes",
+            "filter": [
+              "m0-avg-groupby",
+              "summarizer"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "threshold": {
+    "subType": "singleMetric",
+    "nagInterval": "0",
+    "notifyOnMissing": "true",
+    "singleMetric": {
+      "queryIndex": "0",
+      "queryType": "tsdb",
+      "metricId": "m0-avg-groupby",
+      "badThreshold": 60,
+      "warnThreshold": 55,
+      "recoveryType": "minimum",
+      "slidingWindow": "43201",
+      "comparisonOperator": "above",
+      "timeSampler": "at_least_once"
+    },
+    "isNagEnabled": true
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "goodToBad",
+      "warnToBad",
+      "warnToGood",
+      "badToGood",
+      "goodToWarn"
+    ],
+    "recipients": {
+      "email": [
+        {
+          "name": "bob@opentsdb.net.com"
+        }
+      ]
+    },
+    "subject": "Cpu is high for the given host",
+    "body": "Cpu is high for the given host",
+    "opsgeniePriority": "",
+    "runbookId": "",
+    "ocSeverity": "5"
+  },
+  "alertGroupingRules": [],
+  "namespaceId": 0
+}

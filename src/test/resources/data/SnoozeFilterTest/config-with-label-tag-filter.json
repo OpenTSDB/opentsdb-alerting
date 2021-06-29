@@ -1,0 +1,56 @@
+{
+  "createdTime": 1563920715542,
+  "createdBy": "user.bob",
+  "updatedTime": 1563920715542,
+  "updatedBy": "user.bob",
+  "id": 1,
+  "namespace": "NS",
+  "alertIds": [],
+  "labels": ["label1"],
+  "startTime": 1563865200000,
+  "endTime": 1564077600000,
+  "filter": {
+    "type": "Chain",
+    "filters": [
+      {
+        "type": "FieldLiteralOr",
+        "key": "statusType",
+        "filter": "check"
+      },
+      {
+        "type": "Chain",
+        "op": "OR",
+        "filters": [
+          {
+            "type": "TagValueLiteralOr",
+            "filter": "ap-northeast-2|ap-northeast-1|ap-south-1|ap-southeast-1|ap-southeast-2",
+            "tagKey": "Region"
+          }
+        ]
+      },
+      {
+        "type": "Chain",
+        "op": "OR",
+        "filters": [
+          {
+            "type": "TagValueLiteralOr",
+            "filter": "proc.den.opentsdb.net",
+            "tagKey": "host"
+          }
+        ]
+      },
+      {
+        "type": "Chain",
+        "op": "OR",
+        "filters": [
+          {
+            "type": "TagValueLiteralOr",
+            "filter": "01|02|03|04",
+            "tagKey": "AwsId"
+          }
+        ]
+      }
+    ]
+  },
+  "reason" : null
+}

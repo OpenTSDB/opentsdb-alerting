@@ -1,0 +1,20 @@
+{
+  "alertIds" : [],
+  "createdBy" : "user.bob",
+  "createdTime" : 1611346751037,
+  "endTime" : 1611353950795,
+  "filter" : {
+    "filter" : "qux",
+    "tagKey" : "host",
+    "type" : "TagValueLiteralOr"
+  },
+  "id" : 23017,
+  "labels" : [
+    "foobar"
+  ],
+  "namespace" : "NS",
+  "reason" : "testing",
+  "startTime" : 1611346750795,
+  "updatedBy" : "user.bob",
+  "updatedTime" : 1611346751037
+}

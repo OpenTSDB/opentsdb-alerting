@@ -1,0 +1,174 @@
+{
+  "start": "1553137440",
+  "end": "1553137740",
+  "filters": [
+    {
+      "id": "filter",
+      "filter": {
+        "filters": [
+          {
+            "filter": "raw",
+            "type": "TagValueLiteralOr",
+            "tagKey": "_aggregate"
+          },
+          {
+            "filters": [
+              {
+                "filter": "eu-bannercache001c.us-east-1.prod.adtech.aolcloud.net",
+                "type": "TagValueLiteralOr",
+                "tagKey": "host"
+              },
+              {
+                "filter": "eu-bannercache001a.us-east-1.prod.adtech.aolcloud.net",
+                "type": "TagValueLiteralOr",
+                "tagKey": "host"
+              }
+            ],
+            "op": "OR",
+            "type": "Chain"
+          },
+          {
+            "filter": ".*",
+            "type": "TagValueRegex",
+            "tagKey": "device"
+          }
+        ],
+        "op": "AND",
+        "type": "Chain"
+      }
+    }
+  ],
+  "mode": "SINGLE",
+  "executionGraph": [
+    {
+      "id": "m0",
+      "type": "TimeSeriesDataSource",
+      "metric": {
+        "metric": "NS.system.disk.in_use",
+        "type": "MetricLiteral"
+      },
+      "filterId": "filter"
+    },
+    {
+      "id": "m0-avg-downsample",
+      "type": "Downsample",
+      "sources": [
+        "m0"
+      ],
+      "interval": "1m",
+      "timezone": "UTC",
+      "aggregator": "avg",
+      "fill": true,
+      "infectiousNan": false,
+      "runAll": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "nan",
+          "realFillPolicy": "NONE",
+          "dataType": "numeric"
+        }
+      ]
+    },
+    {
+      "id": "m0-avg-groupby",
+      "type": "GroupBy",
+      "sources": [
+        "m0-avg-downsample"
+      ],
+      "aggregator": "sum",
+      "infectiousNan": false,
+      "tagKeys": [
+        "_aggregate",
+        "host",
+        "device"
+      ],
+      "mergeIds": false,
+      "fullMerge": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "nan",
+          "realFillPolicy": "NONE",
+          "dataType": "numeric"
+        }
+      ]
+    },
+    {
+      "id": "summarizer",
+      "type": "Summarizer",
+      "sources": [
+        "m0-avg-groupby"
+      ],
+      "summaries": [
+        "avg",
+        "max",
+        "min",
+        "count",
+        "sum",
+        "first",
+        "last"
+      ],
+      "infectiousNan": false
+    },
+    {
+      "id": "badtld",
+      "type": "MetricThreshold",
+      "sources": [
+        "m0-avg-groupby"
+      ],
+      "metric": "m0 ",
+      "bad_threshold"
+      "as": "badtld",
+      "infectiousNan": false,
+      "join": {
+        "id": "Join",
+        "type": "Join",
+        "sources": [],
+        "joins": {},
+        "explicitTags": false,
+        "joinType": "NATURAL"
+      },
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "nan",
+          "realFillPolicy": "NONE",
+          "dataType": "net.opentsdb.data.types.numeric.NumericType"
+        }
+      ]
+    },
+    {
+      "id": "badalert",
+      "type": "SimpleSlidingAlert",
+
+      "sliding_window" : "",
+
+      "sources": [
+        "badtld"
+      ],
+      "summaries": [
+        "sum"
+      ],
+      "infectiousNan": false
+    }
+  ],
+  "serdesConfigs": [
+    {
+      "id": "JsonV3QuerySerdes",
+      "type": "JsonV3QuerySerdes",
+      "filter": [
+        "badtld",
+        "badalert",
+        "m0-avg-groupby"
+      ],
+      "msResolution": false,
+      "showTsuids": false,
+      "showQuery": false,
+      "showStats": false,
+      "showSummary": false,
+      "parallelThreshold": 0
+    }
+  ],
+  "traceEnabled": false,
+  "debugEnabled": false,
+  "warnEnabled": false,
+  "logLevel": "ERROR"
+}

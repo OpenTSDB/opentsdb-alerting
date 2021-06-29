@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "source": "data_node:data_node",
+      "data": [
+        {
+          "EventsGroupType": {
+            "group": {
+              "type": "chihuahua"
+            }
+          },
+          "metric": "ignored",
+          "hits": 5
+        }
+      ]
+    }
+  ],
+  "log": []
+}

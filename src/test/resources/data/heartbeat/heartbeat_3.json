@@ -1,0 +1,280 @@
+{
+  "name": "suppress-metric",
+  "type": "simple",
+  "enabled": true,
+  "alertGroupingRules": [],
+  "labels": [],
+  "deleted": false,
+  "updatedTime": 1596681995683,
+  "namespace": "NS1",
+  "threshold": {
+    "subType": "singleMetric",
+    "nagInterval": "0",
+    "notifyOnMissing": "false",
+    "autoRecoveryInterval": null,
+    "delayEvaluation": "0",
+    "singleMetric": {
+      "queryIndex": 0,
+      "queryType": "tsdb",
+      "metricId": "q1_m1_groupby",
+      "badThreshold": 1000,
+      "warnThreshold": null,
+      "requiresFullWindow": false,
+      "reportingInterval": null,
+      "recoveryThreshold": null,
+      "recoveryType": "minimum",
+      "slidingWindow": "300",
+      "comparisonOperator": "above",
+      "timeSampler": "at_least_once"
+    },
+    "isNagEnabled": false,
+    "suppress": {
+      "comparisonOperator": "below_or_equal_to",
+      "threshold": 5000,
+      "reportingInterval": 120,
+      "metricId": "q2_m1_groupby",
+      "timeSampler": "in_avg"
+    }
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "BadToGood",
+      "GoodToBad",
+      "goodToBad",
+      "badToGood"
+    ],
+    "recipients": {
+      "email": [
+        {
+          "id": 23,
+          "name": "user1",
+          "email": "user1",
+          "admin": false
+        }
+      ]
+    },
+    "subject": "test",
+    "body": "test",
+    "opsgeniePriority": "P5",
+    "runbookId": "",
+    "ocSeverity": "5",
+    "ocTier": "1"
+  },
+  "id": 109,
+  "queries": {
+    "raw": [
+      {
+        "id": "hk1x9w",
+        "namespace": "NS1",
+        "metrics": [
+          {
+            "id": "73b",
+            "name": "alertengine.alertEvaluationDelay.count",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": ""
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "summarizer": "",
+            "groupByTags": [
+              "host",
+              "container_name"
+            ]
+          }
+        ],
+        "filters": [],
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        }
+      },
+      {
+        "id": "sq",
+        "namespace": "NS1",
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        },
+        "metrics": [
+          {
+            "name": "system.cpu.cpu.idle",
+            "tagAggregator": "",
+            "groupByTags": [
+              "host"
+            ],
+            "id": "m1",
+            "settings": {
+              "visual": {
+                "visible": true
+              }
+            }
+          }
+        ],
+        "filters": []
+      }
+    ],
+    "tsdb": [
+      {
+        "start": "1h-ago",
+        "executionGraph": [
+          {
+            "id": "q1_m1",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS1.alertengine.alertEvaluationDelay.count"
+            },
+            "sourceId": null,
+            "fetchLast": false,
+            "filter": {
+              "type": "Chain",
+              "op": "AND",
+              "filters": [
+                {
+                  "type": "TagValueRegex",
+                  "filter": ".*",
+                  "tagKey": "host"
+                },
+                {
+                  "type": "TagValueRegex",
+                  "filter": ".*",
+                  "tagKey": "container_name"
+                }
+              ]
+            }
+          },
+          {
+            "id": "q1_m1_downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1"
+            ]
+          },
+          {
+            "id": "q1_m1_groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [
+              "host",
+              "container_name"
+            ],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1_downsample"
+            ]
+          },
+          {
+            "id": "q2_m1",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS1.system.cpu.cpu.idle"
+            },
+            "sourceId": null,
+            "fetchLast": false,
+            "filter": {
+              "type": "Chain",
+              "op": "AND",
+              "filters": [
+                {
+                  "type": "TagValueRegex",
+                  "filter": ".*",
+                  "tagKey": "host"
+                }
+              ]
+            }
+          },
+          {
+            "id": "q2_m1_downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q2_m1"
+            ]
+          },
+          {
+            "id": "q2_m1_groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [
+              "host"
+            ],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q2_m1_downsample"
+            ]
+          },
+          {
+            "id": "summarizer",
+            "sources": [
+              "q1_m1_groupby",
+              "q2_m1_groupby"
+            ],
+            "summaries": [
+              "avg",
+              "max",
+              "min",
+              "count",
+              "sum",
+              "first",
+              "last"
+            ]
+          }
+        ],
+        "serdesConfigs": [
+          {
+            "id": "JsonV3QuerySerdes",
+            "filter": [
+              "q1_m1_groupby",
+              "q2_m1_groupby",
+              "summarizer"
+            ]
+          }
+        ],
+        "logLevel": "ERROR",
+        "cacheMode": null
+      }
+    ]
+  },
+  "version": 1
+}

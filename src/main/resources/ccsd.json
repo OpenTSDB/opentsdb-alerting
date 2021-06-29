@@ -1,0 +1,696 @@
+{
+  "results": [
+    {
+      "source": "badalert:badtld",
+      "data": [
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/var"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/var"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/sys/fs/cgroup"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/run"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/run"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/sys/fs/cgroup"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev/shm"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericSummaryType": {
+            "aggregations": [
+              "sum"
+            ],
+            "data": [
+              {
+                "1553137440": [
+                  0
+                ]
+              }
+            ]
+          },
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev/shm"
+          },
+          "aggregateTags": []
+        }
+      ]
+    },
+    {
+      "source": "badtld:badtld",
+      "timeSpecification": {
+        "start": 1553137440,
+        "end": 1553137740,
+        "intervalISO": "PT1M",
+        "interval": "1m",
+        "timeZone": "UTC",
+        "units": "Minutes"
+      },
+      "data": [
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/var"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/var"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/sys/fs/cgroup"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/run"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/run"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/sys/fs/cgroup"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev/shm"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "badtld",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev/shm"
+          },
+          "aggregateTags": []
+        }
+      ]
+    },
+    {
+      "source": "m0:m0",
+      "timeSpecification": {
+        "start": 1553137440,
+        "end": 1553137740,
+        "intervalISO": "PT1M",
+        "interval": "1m",
+        "timeZone": "UTC",
+        "units": "Minutes"
+      },
+      "data": [
+        {
+          "NumericType": [
+            0.18333333730697632,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0.20625000447034836,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0.18333333730697632,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/var"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0.20625000447034836,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645,
+            0.2750000059604645
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/var"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/sys/fs/cgroup"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0.07949999906122684,
+            0.10599999874830246,
+            0.10599999874830246,
+            0.10599999874830246,
+            0.10599999874830246,
+            0.10599999874830246
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/run"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0.07066666583220164,
+            0.10599999874830246,
+            0.10599999874830246,
+            0.10599999874830246,
+            0.10599999874830246,
+            0.10599999874830246
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/run"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/sys/fs/cgroup"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev/shm"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "metric": "proc.system.disk.in_use",
+          "tags": {
+            "_aggregate": "raw",
+            "host": "proc.den.opentsdb.net",
+            "device": "/dev/shm"
+          },
+          "aggregateTags": []
+        }
+      ]
+    }
+  ],
+  "log": []
+}

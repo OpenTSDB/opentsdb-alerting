@@ -1,0 +1,437 @@
+{
+  "createdTime": 1614651085668,
+  "createdBy": "user.bob",
+  "updatedTime": 1614736067043,
+  "updatedBy": "user.bob",
+  "id": 9091,
+  "name": "Alert from widget Pulsar.averageMsgSize",
+  "slug": "alert-from-widget-Pulsar-averagemsgsize",
+  "namespace": "NS",
+  "type": "simple",
+  "enabled": true,
+  "deleted": false,
+  "version": 1,
+  "labels": [],
+  "queries": {
+    "raw": [
+      {
+        "namespace": "NS",
+        "metrics": [
+          {
+            "id": "sr6",
+            "name": "Pulsar.averageMsgSize",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "summarizer": "",
+            "groupByTags": [
+              "pulsarCluster",
+              "level",
+              "ns",
+              "persistent",
+              "prop"
+            ]
+          },
+          {
+            "id": "x2d",
+            "name": "Pulsar.msgRateIn",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "summarizer": "",
+            "groupByTags": [
+              "pulsarCluster",
+              "level",
+              "ns",
+              "persistent",
+              "prop"
+            ]
+          },
+          {
+            "id": "9bh",
+            "expression": "{{sr6}} * {{x2d}}",
+            "originalExpression": "m1 * m2",
+            "settings": {
+              "visual": {
+                "visible": true,
+                "label": "Avg msg size in rate"
+              }
+            },
+            "summarizer": "",
+            "groupByTags": [
+              "pulsarCluster",
+              "level",
+              "ns",
+              "persistent",
+              "prop"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "tagk": "pulsarCluster",
+            "filter": [
+              "global(den)",
+              "global(lga)",
+              "global(phx)",
+              "den",
+              "lga",
+              "phx"
+            ],
+            "customFilter": [],
+            "groupBy": false
+          },
+          {
+            "tagk": "host",
+            "customFilter": [],
+            "filter": [
+              "monitor1.opentsdb.net"
+            ],
+            "groupBy": false
+          },
+          {
+            "tagk": "level",
+            "customFilter": [],
+            "filter": [
+              "persistent"
+            ],
+            "groupBy": false
+          },
+          {
+            "tagk": "ns",
+            "customFilter": [],
+            "filter": [
+              "regexp(data-.*)"
+            ],
+            "groupBy": false
+          },
+          {
+            "tagk": "persistent",
+            "customFilter": [],
+            "filter": [
+              "regexp(.*)"
+            ],
+            "groupBy": false
+          }
+        ],
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        },
+        "id": "ryz"
+      }
+    ],
+    "tsdb": [
+      {
+        "start": "1h-ago",
+        "executionGraph": [
+          {
+            "id": "q1_m1",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS.Pulsar.averageMsgSize"
+            },
+            "sourceId": null,
+            "fetchLast": false,
+            "filter": {
+              "type": "Chain",
+              "op": "AND",
+              "filters": [
+                {
+                  "type": "Chain",
+                  "op": "OR",
+                  "filters": [
+                    {
+                      "type": "TagValueLiteralOr",
+                      "filter": "global(den)|global(lga)|global(phx)|den|lga|phx",
+                      "tagKey": "pulsarCluster"
+                    }
+                  ]
+                },
+                {
+                  "type": "TagValueLiteralOr",
+                  "filter": "monitor1.opentsdb.net",
+                  "tagKey": "host"
+                },
+                {
+                  "type": "TagValueLiteralOr",
+                  "filter": "persistent",
+                  "tagKey": "level"
+                },
+                {
+                  "type": "TagValueRegex",
+                  "filter": "data-.*",
+                  "tagKey": "ns"
+                },
+                {
+                  "type": "TagValueRegex",
+                  "filter": ".*",
+                  "tagKey": "persistent"
+                },
+                {
+                  "type": "TagValueRegex",
+                  "filter": ".*",
+                  "tagKey": "prop"
+                }
+              ]
+            }
+          },
+          {
+            "id": "q1_m1_downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1"
+            ]
+          },
+          {
+            "id": "q1_m1_groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [
+              "pulsarCluster",
+              "level",
+              "ns",
+              "persistent",
+              "prop"
+            ],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1_downsample"
+            ]
+          },
+          {
+            "id": "q1_m2",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS.Pulsar.msgRateIn"
+            },
+            "sourceId": null,
+            "fetchLast": false,
+            "filter": {
+              "type": "Chain",
+              "op": "AND",
+              "filters": [
+                {
+                  "type": "Chain",
+                  "op": "OR",
+                  "filters": [
+                    {
+                      "type": "TagValueLiteralOr",
+                      "filter": "global(den)|global(lga)|global(phx)|den|lga|phx",
+                      "tagKey": "pulsarCluster"
+                    }
+                  ]
+                },
+                {
+                  "type": "TagValueLiteralOr",
+                  "filter": "monitor1.opentsdb.net",
+                  "tagKey": "host"
+                },
+                {
+                  "type": "TagValueLiteralOr",
+                  "filter": "persistent",
+                  "tagKey": "level"
+                },
+                {
+                  "type": "TagValueRegex",
+                  "filter": "data-.*",
+                  "tagKey": "ns"
+                },
+                {
+                  "type": "TagValueRegex",
+                  "filter": ".*",
+                  "tagKey": "persistent"
+                },
+                {
+                  "type": "TagValueRegex",
+                  "filter": ".*",
+                  "tagKey": "prop"
+                }
+              ]
+            }
+          },
+          {
+            "id": "q1_m2_downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m2"
+            ]
+          },
+          {
+            "id": "q1_m2_groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [
+              "pulsarCluster",
+              "level",
+              "ns",
+              "persistent",
+              "prop"
+            ],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m2_downsample"
+            ]
+          },
+          {
+            "id": "q1_e1",
+            "type": "expression",
+            "expression": " q1_m1  *  q1_m2 ",
+            "join": {
+              "type": "Join",
+              "joinType": "NATURAL_OUTER",
+              "joins": {
+                "pulsarCluster": "pulsarCluster",
+                "level": "level",
+                "ns": "ns",
+                "persistent": "persistent",
+                "prop": "prop"
+              }
+            },
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "infectiousNan": false,
+            "substituteMissing": true,
+            "variableInterpolators": {},
+            "sources": [
+              "q1_m1_groupby",
+              "q1_m2_groupby"
+            ]
+          },
+          {
+            "id": "summarizer",
+            "sources": [
+              "q1_e1"
+            ],
+            "summaries": [
+              "avg",
+              "max",
+              "min",
+              "count",
+              "sum",
+              "first",
+              "last"
+            ]
+          }
+        ],
+        "serdesConfigs": [
+          {
+            "id": "JsonV3QuerySerdes",
+            "filter": [
+              "q1_e1",
+              "summarizer"
+            ]
+          }
+        ],
+        "logLevel": "ERROR",
+        "cacheMode": null
+      }
+    ]
+  },
+  "threshold": {
+    "subType": "singleMetric",
+    "nagInterval": "0",
+    "notifyOnMissing": "false",
+    "autoRecoveryInterval": null,
+    "delayEvaluation": 0,
+    "singleMetric": {
+      "queryIndex": 0,
+      "queryType": "tsdb",
+      "metricId": "q1_e1",
+      "badThreshold": 100000000,
+      "warnThreshold": 50000000,
+      "requiresFullWindow": false,
+      "reportingInterval": null,
+      "recoveryThreshold": null,
+      "recoveryType": "minimum",
+      "slidingWindow": "300",
+      "comparisonOperator": "above",
+      "timeSampler": "on_avg"
+    },
+    "isNagEnabled": false
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "goodToBad",
+      "badToGood",
+      "warnToBad",
+      "badToWarn",
+      "warnToGood",
+      "goodToWarn"
+    ],
+    "subject": "Error, msg rate too high for Pulsar",
+    "body": "Created from dashboard: https://opentsdb.net/d/42",
+    "opsgeniePriority": "P3",
+    "opsgenieAutoClose": true,
+    "runbookId": "",
+    "ocSeverity": "5",
+    "ocTier": "1",
+    "recipients": {
+      "opsgenie": [
+        {
+          "id": 2432,
+          "name": "NS_a",
+          "apikey": "abracadabra"
+        }
+      ]
+    }
+  },
+  "alertGroupingRules": [],
+  "createdFrom": {
+    "widgetId": "s7rjwq",
+    "dashboardId": 42
+  },
+  "namespaceId": 658
+}

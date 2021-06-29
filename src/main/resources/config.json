@@ -1,0 +1,163 @@
+{
+  "id": 12345678786316318,
+  "name": "Disk Alert",
+  "namespace": "NS",
+  "last_modified": 1551913391000,
+  "type": "simple",
+  "enabled": true,
+  "queries": {
+    "Q1": {
+      "start": 1552499661928,
+      "end": 1552503261928,
+      "executionGraph": [
+        {
+          "id": "m0",
+          "type": "TimeSeriesDataSource",
+          "metric": {
+            "type": "MetricLiteral",
+            "metric": "proc.system.disk.in_use"
+          },
+          "fetchLast": false,
+          "filterId": "filter"
+        },
+        {
+          "id": "m0-avg-downsample",
+          "type": "downsample",
+          "aggregator": "avg",
+          "interval": "auto",
+          "runAll": false,
+          "fill": true,
+          "interpolatorConfigs": [
+            {
+              "dataType": "numeric",
+              "fillPolicy": "NAN",
+              "realFillPolicy": "NONE"
+            }
+          ],
+          "sources": [
+            "m0"
+          ]
+        },
+        {
+          "id": "m0-avg-groupby",
+          "type": "groupby",
+          "aggregator": "sum",
+          "tagKeys": [
+            "_aggregate",
+            "host",
+            "device"
+          ],
+          "interpolatorConfigs": [
+            {
+              "dataType": "numeric",
+              "fillPolicy": "NAN",
+              "realFillPolicy": "NONE"
+            }
+          ],
+          "sources": [
+            "m0-avg-downsample"
+          ]
+        },
+        {
+          "id": "summarizer",
+          "sources": [
+            "m0-avg-groupby"
+          ],
+          "summaries": [
+            "avg",
+            "max",
+            "min",
+            "count",
+            "sum",
+            "first",
+            "last"
+          ]
+        }
+      ],
+      "filters": [
+        {
+          "filter": {
+            "type": "Chain",
+            "op": "AND",
+            "filters": [
+              {
+                "type": "TagValueLiteralOr",
+                "filter": "raw",
+                "tagKey": "_aggregate"
+              },
+              {
+                "type": "Chain",
+                "op": "OR",
+                "filters": [
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc1.den.opentsdb.net",
+                    "tagKey": "host"
+                  },
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc2.den.opentsdb.net",
+                    "tagKey": "host"
+                  }
+                ]
+              },
+              {
+                "type": "TagValueRegex",
+                "filter": ".*",
+                "tagKey": "device"
+              }
+            ]
+          },
+          "id": "filter"
+        }
+      ],
+      "serdesConfigs": [
+        {
+          "id": "JsonV3QuerySerdes",
+          "filter": [
+            "m0-avg-groupby",
+            "summarizer"
+          ]
+        }
+      ]
+    }
+  },
+  "threshold": {
+    "sub_type": "metric",
+    "metric": {
+      "query": "Q1",
+      "metric_group": "m0-avg-groupby",
+      "metric_key": "m0",
+      "metric_name": "proc.system.disk.in_use",
+      "bad_threshold": 0.275,
+      "recovery_threshold": 2.5,
+      "sliding_window": 300,
+      "comparison_operator": "above"
+    },
+    "isNagEnabled": false,
+    "nag_interval": 300,
+    "notify_on_missing": false
+  },
+  "notification": {
+    "subject": "Disk usage is high for $host and $device",
+    "body": "Disk usage is high for $host and $device",
+    "recipients": {
+      "slack": [
+        "slack_channel1",
+        "slack_channel2"
+      ],
+      "email": [
+        "bar@opentsdb.net.com",
+        "bob@opentsdb.net.com"
+      ]
+    }
+  },
+  "grouping_rules": [
+    "host"
+  ],
+  "labels": [
+    "prod",
+    "mysql"
+  ],
+  "runbookid": "12345"
+}

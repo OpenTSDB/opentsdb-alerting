@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "source": "egads-alerts:q1_m1",
+      "timeSpecification": {
+        "start": 1574372040,
+        "end": 1574372280,
+        "intervalISO": "PT1M",
+        "interval": "1m",
+        "timeZone": "UTC",
+        "units": "null"
+      },
+      "data": []
+    }
+  ],
+  "log": [
+    "02:31:14,759  TRACE  CTX:321183189 Q:-972676580823009480  [None] - Query serialization complete."
+  ]
+}

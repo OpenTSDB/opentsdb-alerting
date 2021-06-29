@@ -1,0 +1,49 @@
+{
+  "start": "",
+  "end": "",
+  "filters": [],
+  "mode": "SINGLE",
+  "traceEnabled": false,
+  "debugEnabled": false,
+  "warnEnabled": false,
+  "timezone": null,
+  "executionGraph": [
+    {
+      "id": "data_node",
+      "type": "TimeSeriesDataSource",
+      "types": ["events"],
+      "from": 0,
+      "size": -1,
+      "fetchLast": true,
+      "namespace": "",
+      "filter": {
+        "filters": [
+          {
+            "filter": "",
+            "type": "PassThrough"
+          }
+        ],
+        "op": "AND",
+        "type": "Chain"
+      }
+    },
+    {
+      "id": "groupby_node",
+      "type": "groupby",
+      "aggregator": "sum",
+      "tagKeys": [],
+      "interpolatorConfigs": [
+        {
+          "dataType": "numeric",
+          "fillPolicy": "NAN",
+          "realFillPolicy": "NONE"
+        }
+      ],
+      "sources": [
+        "data_node"
+      ]
+    }
+  ],
+  "serdesConfigs": [],
+  "logLevel": "ERROR"
+}

@@ -1,0 +1,160 @@
+{
+    "start": "1h-ago",
+    "executionGraph": [{
+            "id": "idle",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.idle"
+            },
+            "fetchLast": false,
+            "filter": {
+                "type": "Chain",
+                "filters": [{
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc.den.opentsdb.net",
+                    "tagKey": "host"
+                }]
+            }
+        },
+        {
+            "id": "steal",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.steal"
+            },
+            "fetchLast": false,
+            "filter": {
+                "type": "Chain",
+                "filters": [{
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc.den.opentsdb.net",
+                    "tagKey": "host"
+                }]
+            }
+        },
+        {
+            "id": "user",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.user"
+            },
+            "fetchLast": false,
+            "filter": {
+                "type": "Chain",
+                "filters": [{
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc.den.opentsdb.net",
+                    "tagKey": "host"
+                }]
+            }
+        },
+        {
+            "id": "sys",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.sys"
+            },
+            "fetchLast": false,
+            "filter": {
+                "type": "Chain",
+                "filters": [{
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc.den.opentsdb.net",
+                    "tagKey": "host"
+                }]
+            }
+        },
+        {
+            "id": "irq",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.irq"
+            },
+            "fetchLast": false,
+            "filter": {
+                "type": "Chain",
+                "filters": [{
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc.den.opentsdb.net",
+                    "tagKey": "host"
+                }]
+            }
+        }, {
+            "id": "softirq",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.softirq"
+            },
+            "fetchLast": false,
+            "filter": {
+                "type": "Chain",
+                "filters": [{
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc.den.opentsdb.net",
+                    "tagKey": "host"
+                }]
+            }
+        }, {
+            "id": "iowait",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.iowait"
+            },
+            "fetchLast": false,
+            "filter": {
+                "type": "Chain",
+                "filters": [{
+                    "type": "TagValueLiteralOr",
+                    "filter": "proc.den.opentsdb.net",
+                    "tagKey": "host"
+                }]
+            }
+        }, {
+            "id": "downsample",
+            "aggregator": "sum",
+            "interval": "1m",
+            "fill": true,
+            "interpolatorConfigs": [{
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+            }],
+            "sources": ["idle", "sys", "steal", "user", "irq", "softirq", "iowait"]
+        },
+        {
+            "id": "groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": ["host"],
+            "interpolatorConfigs": [{
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+            }],
+            "sources": ["downsample"]
+        },
+        {
+                    "id": "busy",
+                    "type":"expression",
+                    "expression": "((sys + steal + user + irq + softirq + iowait) / (sys + steal + user + irq + softirq + iowait + idle)) * 100",
+                    "join": {
+                        "type": "Join",
+                        "joinType": "NATURAL"
+                    },
+                    "interpolatorConfigs": [{
+                        "dataType": "numeric",
+                        "fillPolicy": "NAN",
+                        "realFillPolicy": "NONE"
+                    }],
+                    "variableInterpolators":{},
+                    "sources": ["groupby"]
+                }
+    ]
+}

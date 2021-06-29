@@ -1,0 +1,34 @@
+{
+  "start": "7w-ago",
+  "executionGraph": [
+    {
+      "id": "status1",
+      "namespace": "NS",
+      "type": "TimeSeriesDataSource",
+      "types": [
+        "status"
+      ],
+      "filterId": "f1",
+      "metric": {
+        "metric": "sys.if.in",
+        "type": "MetricLiteral"
+      }
+    }
+  ],
+  "filters": [
+    {
+      "id": "f1",
+      "filter": {
+        "filters": [
+          {
+            "type": "FieldLiteralOr",
+            "key": "application",
+            "filter": "system"
+          }
+        ],
+        "op": "AND",
+        "type": "Chain"
+      }
+    }
+  ]
+}

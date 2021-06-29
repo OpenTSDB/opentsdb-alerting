@@ -1,0 +1,115 @@
+{
+  "start": 1552499661928,
+  "end": 1552503261928,
+  "executionGraph": [
+    {
+      "id": "m0",
+      "type": "TimeSeriesDataSource",
+      "metric": {
+        "type": "MetricLiteral",
+        "metric": "NS.system.disk.in_use"
+      },
+      "fetchLast": false,
+      "filterId": "filter"
+    },
+    {
+      "id": "m0-avg-downsample",
+      "type": "downsample",
+      "aggregator": "avg",
+      "interval": "auto",
+      "runAll": false,
+      "fill": true,
+      "interpolatorConfigs": [
+        {
+          "dataType": "numeric",
+          "fillPolicy": "NAN",
+          "realFillPolicy": "NONE"
+        }
+      ],
+      "sources": [
+        "m0"
+      ]
+    },
+    {
+      "id": "m0-avg-groupby",
+      "type": "groupby",
+      "aggregator": "sum",
+      "tagKeys": [
+        "_aggregate",
+        "host",
+        "device"
+      ],
+      "interpolatorConfigs": [
+        {
+          "dataType": "numeric",
+          "fillPolicy": "NAN",
+          "realFillPolicy": "NONE"
+        }
+      ],
+      "sources": [
+        "m0-avg-downsample"
+      ]
+    },
+    {
+      "id": "summarizer",
+      "sources": [
+        "m0-avg-groupby"
+      ],
+      "summaries": [
+        "avg",
+        "max",
+        "min",
+        "count",
+        "sum",
+        "first",
+        "last"
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "filter": {
+        "type": "Chain",
+        "op": "AND",
+        "filters": [
+          {
+            "type": "TagValueLiteralOr",
+            "filter": "raw",
+            "tagKey": "_aggregate"
+          },
+          {
+            "type": "Chain",
+            "op": "OR",
+            "filters": [
+              {
+                "type": "TagValueLiteralOr",
+                "filter": "proc1.den.opentsdb.net",
+                "tagKey": "host"
+              },
+              {
+                "type": "TagValueLiteralOr",
+                "filter": "proc2.den.opentsdb.net",
+                "tagKey": "host"
+              }
+            ]
+          },
+          {
+            "type": "TagValueRegex",
+            "filter": ".*",
+            "tagKey": "device"
+          }
+        ]
+      },
+      "id": "filter"
+    }
+  ],
+  "serdesConfigs": [
+    {
+      "id": "JsonV3QuerySerdes",
+      "filter": [
+        "m0-avg-groupby",
+        "summarizer"
+      ]
+    }
+  ]
+}

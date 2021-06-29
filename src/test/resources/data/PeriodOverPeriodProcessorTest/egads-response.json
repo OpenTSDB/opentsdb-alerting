@@ -1,0 +1,445 @@
+{
+  "results": [
+    {
+      "source": "egads-alerts:q1_m1",
+      "timeSpecification": {
+        "start": 1574372040,
+        "end": 1574372280,
+        "intervalISO": "PT1M",
+        "interval": "1m",
+        "timeZone": "UTC",
+        "units": "null"
+      },
+      "data": [
+        {
+          "NumericType": [
+            15608.7998046875,
+            15532.9599609375,
+            7551.52001953125,
+            7612.60009765625
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperWarn",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "EMAIL"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            11349,
+            11315.16015625,
+            11844.1201171875,
+            11726.8798828125
+          ],
+          "AlertType": {
+            "1574372160": {
+              "level": "WARN",
+              "message": "** TEMP 13638.0 is > 11944.1201171875",
+              "value": 13638,
+              "threshold": 11944.1201171875,
+              "type": "upperWarn"
+            },
+            "1574372220": {
+              "level": "WARN",
+              "message": "** TEMP 14109.75 is > 11826.8798828125",
+              "value": 14109.75,
+              "threshold": 11826.8798828125,
+              "type": "upperWarn"
+            }
+          },
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.prediction",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "OC"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            21438.6396484375,
+            21355.48046875,
+            21327.0400390625,
+            21848.080078125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "OPSGENIE"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            11438.6396484375,
+            11355.48046875,
+            11327.0400390625,
+            11848.080078125
+          ],
+          "AlertType": {
+            "1574372220": {
+              "level": "WARN",
+              "message": "** TEMP 12324.75 is > 11948.080078125",
+              "value": 12324.75,
+              "threshold": 11948.080078125,
+              "type": "upperWarn"
+            }
+          },
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.prediction",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "OPSGENIE"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            5508.7998046875,
+            5432.9599609375,
+            -2548.47998046875,
+            -2487.39990234375
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.lowerBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "EMAIL"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            11348.8798828125,
+            11315.3994140625,
+            11844.240234375,
+            11726.8798828125
+          ],
+          "AlertType": {
+            "1574372160": {
+              "level": "WARN",
+              "message": "** TEMP 13639.0 is > 11944.240234375",
+              "value": 13639,
+              "threshold": 11944.240234375,
+              "type": "upperWarn"
+            },
+            "1574372220": {
+              "level": "WARN",
+              "message": "** TEMP 14110.5 is > 11826.8798828125",
+              "value": 14110.5,
+              "threshold": 11826.8798828125,
+              "type": "upperWarn"
+            }
+          },
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.prediction",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "HTTP"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            21348.8798828125,
+            21315.3994140625,
+            21844.240234375,
+            21726.8798828125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "HTTP"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            1348.8798828125,
+            1315.3994140625,
+            1844.240234375,
+            1726.8798828125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.lowerBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "HTTP"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            11449,
+            11415.16015625,
+            11944.1201171875,
+            11826.8798828125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperWarn",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "OC"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            1349,
+            1315.16015625,
+            1844.1201171875,
+            1726.8798828125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.lowerBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "OC"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            21349,
+            21315.16015625,
+            21844.1201171875,
+            21726.8798828125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "OC"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            11438.400390625,
+            11355.83984375,
+            11328.3603515625,
+            11848.2001953125
+          ],
+          "AlertType": {
+            "1574372220": {
+              "level": "WARN",
+              "message": "** TEMP 12324.0 is > 11948.2001953125",
+              "value": 12324,
+              "threshold": 11948.2001953125,
+              "type": "upperWarn"
+            }
+          },
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.prediction",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "SLACK"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            15508.7998046875,
+            15432.9599609375,
+            7451.52001953125,
+            7512.60009765625
+          ],
+          "AlertType": {
+            "1574372040": {
+              "level": "BAD",
+              "message": "** TEMP 5289.0 is < 5508.7998046875",
+              "value": 5289,
+              "threshold": 5508.7998046875,
+              "type": "lowerBad"
+            },
+            "1574372100": {
+              "level": "BAD",
+              "message": "** TEMP 4519.5 is < 5432.9599609375",
+              "value": 4519.5,
+              "threshold": 5432.9599609375,
+              "type": "lowerBad"
+            },
+            "1574372160": {
+              "level": "WARN",
+              "message": "** TEMP 8077.0 is > 7551.52001953125",
+              "value": 8077,
+              "threshold": 7551.52001953125,
+              "type": "upperWarn"
+            },
+            "1574372220": {
+              "level": "WARN",
+              "message": "** TEMP 9475.5 is > 7612.60009765625",
+              "value": 9475.5,
+              "threshold": 7612.60009765625,
+              "type": "upperWarn"
+            }
+          },
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.prediction",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "EMAIL"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            8364,
+            9492,
+            8856,
+            12324.75
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum",
+          "tags": {
+            "notify": "OPSGENIE"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            5289,
+            4519.5,
+            8077,
+            9475.5
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum",
+          "tags": {
+            "notify": "EMAIL"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            10596,
+            9090,
+            13638,
+            14109.75
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum",
+          "tags": {
+            "notify": "OC"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            11448.8798828125,
+            11415.3994140625,
+            11944.240234375,
+            11826.8798828125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperWarn",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "HTTP"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            11538.400390625,
+            11455.83984375,
+            11428.3603515625,
+            11948.2001953125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperWarn",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "SLACK"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            8361,
+            9484.5,
+            8855,
+            12324
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum",
+          "tags": {
+            "notify": "SLACK"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            21438.400390625,
+            21355.83984375,
+            21328.3603515625,
+            21848.2001953125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "SLACK"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            1438.6396484375,
+            1355.48046875,
+            1327.0400390625,
+            1848.080078125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.lowerBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "OPSGENIE"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            25508.7998046875,
+            25432.9599609375,
+            17451.52001953125,
+            17512.60009765625
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "EMAIL"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            1438.400390625,
+            1355.83984375,
+            1328.3603515625,
+            1848.2001953125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.lowerBad",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "SLACK"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            11538.6396484375,
+            11455.48046875,
+            11427.0400390625,
+            11948.080078125
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum.upperWarn",
+          "tags": {
+            "_anomalyModel": "OlympicScoring",
+            "notify": "OPSGENIE"
+          },
+          "aggregateTags": []
+        },
+        {
+          "NumericType": [
+            10596,
+            9088.5,
+            13639,
+            14110.5
+          ],
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum",
+          "tags": {
+            "notify": "HTTP"
+          },
+          "aggregateTags": []
+        }
+      ]
+    }
+  ],
+  "log": [
+    "02:31:14,759  TRACE  CTX:321183189 Q:-972676580823009480  [None] - Query serialization complete."
+  ]
+}

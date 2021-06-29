@@ -1,0 +1,919 @@
+[
+  {
+    "createdTime": 1554253227853,
+    "createdBy": "user.bob",
+    "updatedTime": 1554327813717,
+    "updatedBy": "user.bob",
+    "id": 19,
+    "name": "lga high cpu alert",
+    "namespace": "NS",
+    "type": "SIMPLE",
+    "enabled": true,
+    "labels": [
+      "cpu"
+    ],
+    "queries": {
+      "raw": [
+        {
+          "id": "zjcs0r",
+          "namespace": "NS",
+          "metrics": [
+            {
+              "id": "4l0",
+              "name": "system.cpu.busy.pct",
+              "filters": [],
+              "settings": {
+                "visual": {
+                  "visible": true,
+                  "color": "auto",
+                  "label": ""
+                }
+              },
+              "tagAggregator": "sum",
+              "functions": [],
+              "groupByTags": [
+                "host",
+                "hostgroup"
+              ]
+            }
+          ],
+          "filters": [
+            {
+              "tagk": "colo",
+              "filter": [
+                "den"
+              ],
+              "groupBy": false
+            }
+          ],
+          "settings": {
+            "visual": {
+              "visible": true
+            }
+          }
+        }
+      ],
+      "tsdb": [
+        {
+          "start": "1h-ago",
+          "executionGraph": [
+            {
+              "id": "m0",
+              "type": "TimeSeriesDataSource",
+              "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.busy.pct"
+              },
+              "fetchLast": false,
+              "filter": {
+                "type": "Chain",
+                "op": "AND",
+                "filters": [
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "den",
+                    "tagKey": "colo"
+                  },
+                  {
+                    "type": "TagValueRegex",
+                    "filter": ".*",
+                    "tagKey": "host"
+                  },
+                  {
+                    "type": "TagValueRegex",
+                    "filter": ".*",
+                    "tagKey": "hostgroup"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "m0-avg-downsample",
+              "type": "downsample",
+              "aggregator": "avg",
+              "interval": "auto",
+              "runAll": false,
+              "fill": true,
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m0"
+              ]
+            },
+            {
+              "id": "m0-avg-groupby",
+              "type": "groupby",
+              "aggregator": "sum",
+              "tagKeys": [
+                "host",
+                "hostgroup"
+              ],
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m0-avg-downsample"
+              ]
+            },
+            {
+              "id": "summarizer",
+              "sources": [
+                "m0-avg-groupby"
+              ],
+              "summaries": [
+                "avg",
+                "max",
+                "min",
+                "count",
+                "sum",
+                "first",
+                "last"
+              ]
+            }
+          ],
+          "serdesConfigs": [
+            {
+              "id": "JsonV3QuerySerdes",
+              "filter": [
+                "m0-avg-groupby",
+                "summarizer"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "threshold": {
+      "subType": "singleMetric",
+      "isNagEnabled": true,
+      "nagInterval": "0",
+      "notifyOnMissing": "false",
+      "singleMetric": {
+        "queryIndex": "0",
+        "queryType": "tsdb",
+        "metricId": "m0-avg-groupby",
+        "badThreshold": 60,
+        "warnThreshold": 50,
+        "recoveryThreshold": "",
+        "recoveryType": "minimum",
+        "slidingWindow": "300",
+        "comparisonOperator": "above",
+        "timeSampler": "at_least_once"
+      }
+    },
+    "notification": {
+      "transitionsToNotify": [
+        "goodToBad",
+        "goodToWarn"
+      ],
+      "recipients": {
+        "email": [
+          {
+            "name": "bob@opentsdb.net.com"
+          }
+        ]
+      },
+      "subject": "CPU is high",
+      "body": "CPU is high",
+      "opsgeniePriority": "",
+      "runbookId": "",
+      "ocSeverity": "5"
+    },
+    "alertGroupingRules": [
+      "hostgroup"
+    ]
+  },
+  {
+    "createdTime": 1554252003542,
+    "createdBy": "user.hilln",
+    "updatedTime": 1554327775879,
+    "updatedBy": "user.bob",
+    "id": 18,
+    "name": "my fouth try",
+    "namespace": "NS",
+    "type": "SIMPLE",
+    "enabled": true,
+    "labels": [],
+    "queries": {
+      "raw": [
+        {
+          "id": "hrlwm6",
+          "namespace": "UDB",
+          "metrics": [
+            {
+              "id": "rut",
+              "name": "system.cpu.guest_nice",
+              "filters": [],
+              "settings": {
+                "visual": {
+                  "visible": true,
+                  "color": "auto",
+                  "label": ""
+                }
+              },
+              "tagAggregator": "sum",
+              "functions": [
+                {
+                  "id": "c69",
+                  "fxCall": "RateOfChange",
+                  "val": "1m"
+                },
+                {
+                  "id": "cp2",
+                  "fxCall": "CounterToRate",
+                  "val": "1m"
+                }
+              ]
+            },
+            {
+              "id": "svq",
+              "name": "system.cpu.guest",
+              "filters": [],
+              "settings": {
+                "visual": {
+                  "visible": true,
+                  "color": "auto",
+                  "label": ""
+                }
+              },
+              "tagAggregator": "sum",
+              "functions": [],
+              "groupByTags": [
+                "colo",
+                "host"
+              ]
+            },
+            {
+              "id": "wrd",
+              "name": "system.cpu.busy.pct",
+              "filters": [],
+              "settings": {
+                "visual": {
+                  "visible": true,
+                  "color": "auto",
+                  "label": ""
+                }
+              },
+              "tagAggregator": "sum",
+              "functions": []
+            },
+            {
+              "id": "tee",
+              "expression": "{{rut}} + {{wrd}}",
+              "originalExpression": "m1 + m3",
+              "settings": {
+                "visual": {
+                  "visible": true
+                }
+              }
+            }
+          ],
+          "filters": [
+            {
+              "tagk": "colo",
+              "filter": [
+                "lga",
+                "den"
+              ],
+              "groupBy": false
+            }
+          ],
+          "settings": {
+            "visual": {
+              "visible": true
+            }
+          }
+        }
+      ],
+      "tsdb": [
+        {
+          "start": "1h-ago",
+          "executionGraph": [
+            {
+              "id": "m0",
+              "type": "TimeSeriesDataSource",
+              "metric": {
+                "type": "MetricLiteral",
+                "metric": "UDB.system.cpu.guest_nice"
+              },
+              "fetchLast": false,
+              "filterId": "filter"
+            },
+            {
+              "id": "m0-avg-downsample",
+              "type": "downsample",
+              "aggregator": "avg",
+              "interval": "auto",
+              "runAll": false,
+              "fill": true,
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m0"
+              ]
+            },
+            {
+              "id": "m0-avg-groupby",
+              "type": "groupby",
+              "aggregator": "sum",
+              "tagKeys": [],
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m0-avg-downsample"
+              ]
+            },
+            {
+              "id": "m1",
+              "type": "TimeSeriesDataSource",
+              "metric": {
+                "type": "MetricLiteral",
+                "metric": "UDB.system.cpu.guest"
+              },
+              "fetchLast": false,
+              "filter": {
+                "type": "Chain",
+                "op": "AND",
+                "filters": [
+                  {
+                    "type": "Chain",
+                    "op": "OR",
+                    "filters": [
+                      {
+                        "type": "TagValueLiteralOr",
+                        "filter": "lga",
+                        "tagKey": "colo"
+                      },
+                      {
+                        "type": "TagValueLiteralOr",
+                        "filter": "den",
+                        "tagKey": "colo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TagValueRegex",
+                    "filter": ".*",
+                    "tagKey": "host"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "m1-avg-downsample",
+              "type": "downsample",
+              "aggregator": "avg",
+              "interval": "auto",
+              "runAll": false,
+              "fill": true,
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m1"
+              ]
+            },
+            {
+              "id": "m1-avg-groupby",
+              "type": "groupby",
+              "aggregator": "sum",
+              "tagKeys": [
+                "colo",
+                "host"
+              ],
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m1-avg-downsample"
+              ]
+            },
+            {
+              "id": "m2",
+              "type": "TimeSeriesDataSource",
+              "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.busy.pct"
+              },
+              "fetchLast": false,
+              "filterId": "filter"
+            },
+            {
+              "id": "m2-avg-downsample",
+              "type": "downsample",
+              "aggregator": "avg",
+              "interval": "auto",
+              "runAll": false,
+              "fill": true,
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m2"
+              ]
+            },
+            {
+              "id": "m2-avg-groupby",
+              "type": "groupby",
+              "aggregator": "sum",
+              "tagKeys": [],
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m2-avg-downsample"
+              ]
+            },
+            {
+              "id": "m3",
+              "type": "expression",
+              "expression": "m0 + m2",
+              "join": {
+                "type": "Join",
+                "joinType": "NATURAL_OUTER",
+                "joins": {}
+              },
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "variableInterpolators": {},
+              "sources": [
+                "m0-avg-groupby",
+                "m2-avg-groupby"
+              ]
+            },
+            {
+              "id": "summarizer",
+              "sources": [
+                "m0-avg-groupby",
+                "m1-avg-groupby",
+                "m2-avg-groupby",
+                "m3"
+              ],
+              "summaries": [
+                "avg",
+                "max",
+                "min",
+                "count",
+                "sum",
+                "first",
+                "last"
+              ]
+            }
+          ],
+          "filters": [
+            {
+              "filter": {
+                "type": "Chain",
+                "op": "AND",
+                "filters": [
+                  {
+                    "type": "Chain",
+                    "op": "OR",
+                    "filters": [
+                      {
+                        "type": "TagValueLiteralOr",
+                        "filter": "lga",
+                        "tagKey": "colo"
+                      },
+                      {
+                        "type": "TagValueLiteralOr",
+                        "filter": "den",
+                        "tagKey": "colo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "id": "filter"
+            }
+          ],
+          "serdesConfigs": [
+            {
+              "id": "JsonV3QuerySerdes",
+              "filter": [
+                "m0-avg-groupby",
+                "m1-avg-groupby",
+                "m2-avg-groupby",
+                "m3",
+                "summarizer"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "threshold": {
+      "subType": "singleMetric",
+      "isNagEnabled": true,
+      "nagInterval": "0",
+      "notifyOnMissing": "false",
+      "singleMetric": {
+        "queryIndex": "0",
+        "queryType": "tsdb",
+        "metricId": "m1-avg-groupby",
+        "badThreshold": 16000,
+        "warnThreshold": "",
+        "recoveryThreshold": "",
+        "recoveryType": "minimum",
+        "slidingWindow": "300",
+        "comparisonOperator": "above",
+        "timeSampler": "at_least_once"
+      }
+    },
+    "notification": {
+      "transitionsToNotify": [
+        "goodToBad"
+      ],
+      "recipients": {
+        "email": [
+          {
+            "name": "bob@opentsdb.net.com"
+          }
+        ],
+        "opsgenie": [
+          {
+            "name": "dev"
+          }
+        ]
+      },
+      "subject": "my test",
+      "body": "my test",
+      "opsgeniePriority": "P5",
+      "runbookId": "",
+      "ocSeverity": "5"
+    },
+    "alertGroupingRules": [
+      "colo"
+    ]
+  },
+  {
+    "createdTime": 1554327170362,
+    "createdBy": "user.bob",
+    "updatedTime": 1554327783046,
+    "updatedBy": "user.bob",
+    "id": 20,
+    "name": "Sample test alert",
+    "namespace": "NS",
+    "type": "SIMPLE",
+    "enabled": true,
+    "labels": [],
+    "queries": {
+      "raw": [
+        {
+          "id": "f8lr2m",
+          "namespace": "NS",
+          "metrics": [
+            {
+              "id": "yvz",
+              "name": "system.cpu.busy.pct",
+              "filters": [],
+              "settings": {
+                "visual": {
+                  "visible": true,
+                  "color": "auto",
+                  "label": ""
+                }
+              },
+              "tagAggregator": "sum",
+              "functions": [],
+              "groupByTags": [
+                "host",
+                "hostgroup"
+              ]
+            },
+            {
+              "id": "4s4",
+              "name": "system.cpu.idle",
+              "filters": [],
+              "settings": {
+                "visual": {
+                  "visible": true,
+                  "color": "auto",
+                  "label": ""
+                }
+              },
+              "tagAggregator": "sum",
+              "functions": [],
+              "groupByTags": [
+                "host",
+                "hostgroup"
+              ]
+            },
+            {
+              "id": "v2u",
+              "expression": "{{4s4}}/{{yvz}}",
+              "originalExpression": "m2/m1",
+              "settings": {
+                "visual": {
+                  "visible": true
+                }
+              }
+            }
+          ],
+          "filters": [
+            {
+              "tagk": "colo",
+              "filter": [
+                "den"
+              ],
+              "groupBy": false
+            },
+            {
+              "tagk": "_aggregate",
+              "filter": [
+                "raw"
+              ],
+              "groupBy": false
+            }
+          ],
+          "settings": {
+            "visual": {
+              "visible": true
+            }
+          }
+        }
+      ],
+      "tsdb": [
+        {
+          "start": "1h-ago",
+          "executionGraph": [
+            {
+              "id": "m0",
+              "type": "TimeSeriesDataSource",
+              "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.busy.pct"
+              },
+              "fetchLast": false,
+              "filter": {
+                "type": "Chain",
+                "op": "AND",
+                "filters": [
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "den",
+                    "tagKey": "colo"
+                  },
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "raw",
+                    "tagKey": "_aggregate"
+                  },
+                  {
+                    "type": "TagValueRegex",
+                    "filter": ".*",
+                    "tagKey": "host"
+                  },
+                  {
+                    "type": "TagValueRegex",
+                    "filter": ".*",
+                    "tagKey": "hostgroup"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "m0-avg-downsample",
+              "type": "downsample",
+              "aggregator": "avg",
+              "interval": "auto",
+              "runAll": false,
+              "fill": true,
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m0"
+              ]
+            },
+            {
+              "id": "m0-avg-groupby",
+              "type": "groupby",
+              "aggregator": "sum",
+              "tagKeys": [
+                "host",
+                "hostgroup"
+              ],
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m0-avg-downsample"
+              ]
+            },
+            {
+              "id": "m1",
+              "type": "TimeSeriesDataSource",
+              "metric": {
+                "type": "MetricLiteral",
+                "metric": "NS.system.cpu.idle"
+              },
+              "fetchLast": false,
+              "filter": {
+                "type": "Chain",
+                "op": "AND",
+                "filters": [
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "den",
+                    "tagKey": "colo"
+                  },
+                  {
+                    "type": "TagValueLiteralOr",
+                    "filter": "raw",
+                    "tagKey": "_aggregate"
+                  },
+                  {
+                    "type": "TagValueRegex",
+                    "filter": ".*",
+                    "tagKey": "host"
+                  },
+                  {
+                    "type": "TagValueRegex",
+                    "filter": ".*",
+                    "tagKey": "hostgroup"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "m1-avg-downsample",
+              "type": "downsample",
+              "aggregator": "avg",
+              "interval": "auto",
+              "runAll": false,
+              "fill": true,
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m1"
+              ]
+            },
+            {
+              "id": "m1-avg-groupby",
+              "type": "groupby",
+              "aggregator": "sum",
+              "tagKeys": [
+                "host",
+                "hostgroup"
+              ],
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "sources": [
+                "m1-avg-downsample"
+              ]
+            },
+            {
+              "id": "m2",
+              "type": "expression",
+              "expression": "m1/m0",
+              "join": {
+                "type": "Join",
+                "joinType": "INNER",
+                "joins": {
+                  "host": "host",
+                  "hostgroup": "hostgroup"
+                }
+              },
+              "interpolatorConfigs": [
+                {
+                  "dataType": "numeric",
+                  "fillPolicy": "NAN",
+                  "realFillPolicy": "NONE"
+                }
+              ],
+              "variableInterpolators": {},
+              "sources": [
+                "m1-avg-groupby",
+                "m0-avg-groupby"
+              ]
+            },
+            {
+              "id": "summarizer",
+              "sources": [
+                "m0-avg-groupby",
+                "m1-avg-groupby",
+                "m2"
+              ],
+              "summaries": [
+                "avg",
+                "max",
+                "min",
+                "count",
+                "sum",
+                "first",
+                "last"
+              ]
+            }
+          ],
+          "serdesConfigs": [
+            {
+              "id": "JsonV3QuerySerdes",
+              "filter": [
+                "m0-avg-groupby",
+                "m1-avg-groupby",
+                "m2",
+                "summarizer"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "threshold": {
+      "subType": "singleMetric",
+      "isNagEnabled": true,
+      "nagInterval": "0",
+      "notifyOnMissing": "false",
+      "singleMetric": {
+        "queryIndex": "0",
+        "queryType": "tsdb",
+        "metricId": "m2",
+        "badThreshold": 5400,
+        "warnThreshold": 5300,
+        "recoveryThreshold": "",
+        "recoveryType": "minimum",
+        "slidingWindow": "300",
+        "comparisonOperator": "above",
+        "timeSampler": "at_least_once"
+      }
+    },
+    "notification": {
+      "transitionsToNotify": [
+        "goodToBad",
+        "goodToWarn"
+      ],
+      "recipients": {
+        "email": [
+          {
+            "name": "bob@opentsdb.net.com"
+          }
+        ]
+      },
+      "subject": "Cpu is skewed",
+      "body": "Cpu is skewed",
+      "opsgeniePriority": "",
+      "runbookId": "",
+      "ocSeverity": "5"
+    },
+    "alertGroupingRules": []
+  }
+]

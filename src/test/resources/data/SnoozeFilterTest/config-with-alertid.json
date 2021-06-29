@@ -1,0 +1,16 @@
+{
+  "createdTime": 1563920715542,
+  "createdBy": "user.bob",
+  "updatedTime": 1563920715542,
+  "updatedBy": "user.bob",
+  "id": 1,
+  "namespace": "NS",
+  "alertIds": [
+    179
+  ],
+  "labels": [],
+  "startTime": 1563865200000,
+  "endTime": 1564077600000,
+  "filter": {},
+  "reason" : null
+}

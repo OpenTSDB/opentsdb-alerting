@@ -1,0 +1,193 @@
+/*
+ * This file is part of OpenTSDB.
+ * Copyright (C) 2021 Yahoo.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+buildscript {
+    dependencies {
+        classpath group: 'com.bmuschko', name: 'gradle-clover-plugin', version: '2.2.1'
+    }
+}
+
+plugins {
+    id 'idea'
+    id 'java'
+    id 'maven'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'org.ajoberstar.reckon' version '0.9.0'
+    id 'io.freefair.lombok' version '3.7.5' apply false
+}
+
+allprojects {
+    group = 'net.opentsdb.horizon'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+    apply plugin: 'io.freefair.lombok'
+
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        mavenLocal()
+    }
+
+    dependencies {
+        implementation ('net.opentsdb:opentsdb-core:3.0.90-SNAPSHOT') 
+        implementation 'net.opentsdb:opentsdb-common:3.0.90-SNAPSHOT'
+        implementation 'org.projectlombok:lombok:1.18.8'
+        compileOnly 'com.intellij:annotations:12.0'
+
+        testImplementation 'org.jmockit:jmockit:1.44'
+        testImplementation 'org.powermock:powermock-api-mockito:1.6.2'
+        testImplementation 'org.testng:testng:6.10'
+
+        archives('org.apache.maven.wagon:wagon-ssh-external:3.3.2')
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    implementation 'org.apache.httpcomponents:httpclient:4.5.5'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.guava:guava:23.6.1-jre'
+    implementation 'io.undertow:undertow-core:2.0.4.Final'
+    implementation 'io.undertow:undertow-servlet:2.0.4.Final'
+    implementation 'com.esotericsoftware.kryo:kryo:2.21'
+    implementation 'org.slf4j:slf4j-api:1.7.12'
+    implementation 'org.apache.logging.log4j:log4j-1.2-api:2.11.2'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.11.2'
+    implementation 'org.apache.logging.log4j:log4j-api:2.11.2'
+    implementation 'org.apache.logging.log4j:log4j-core:2.11.2'
+    implementation('it.unimi.dsi:dsiutils:2.3.6') {
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
+    implementation 'io.ultrabrew.metrics:metrics-core:0.8.0'
+    implementation 'com.yahoo.athenz:athenz-cert-refresher:1.10.15'
+    implementation 'com.yahoo.athenz:athenz-auth-core:1.10.15'
+    implementation 'io.ultrabrew.metrics:metrics-core:0.8.0'
+    implementation 'org.apache.pulsar:pulsar-client:2.7.2'
+    implementation 'org.apache.pulsar:pulsar-client-auth-athenz:2.7.2'
+    implementation('org.apache.kafka:kafka_2.9.2:0.8.2.1') {
+        exclude group: 'org.apache.zookeeper', module: 'zookeeper'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    implementation 'org.apache.commons:commons-email:1.4'
+    implementation 'org.jsoup:jsoup:1.8.3'
+    implementation 'org.mockito:mockito-core:1.10.19'
+    implementation 'org.powermock:powermock-module-junit4:1.6.2'
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'signing'
+
+    archivesBaseName = rootProject.name + '-' + name
+
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    group = 'net.opentsdb.horizon'
+    description = 'OpenTSDB Alerting Libraries'
+
+    publishing {
+        repositories {
+            maven {
+                def releaseRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
+                afterEvaluate {
+                    url = version.toString().endsWith('-SNAPSHOT') ? snapshotRepo : releaseRepo
+                }
+                credentials {
+                    username = System.getenv('CI_DEPLOY_USERNAME') ? System.getenv('CI_DEPLOY_USERNAME') : "Unknown user"
+                    password = System.getenv('CI_DEPLOY_PASSWORD') ? System.getenv('CI_DEPLOY_PASSWORD') : "Unknown password"
+                }
+            }
+        }
+
+        publications {
+            maven(MavenPublication) {
+                artifactId = archivesBaseName
+                from components.java
+                pom {
+                    groupId = 'net.opentsdb.horizon'
+                    name = 'OpenTSDB Horizon Alerting Libraries'
+                    description = 'OpenTSDB Horizon Alerting Libraries'
+                    url = 'https://github.com/OpenTSDB/opentsdb-alerting'
+                    //from components.java
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git@github.com:OpenTSDB/opentsdb-alerting'
+                        developerConnection = 'scm:git:git@github.com:OpenTSDB/opentsdb-alerting'
+                        url = 'https://github.com/OpenTSDB/opentsdb-alerting/'
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.maven
+    }
+    tasks.withType(Sign) {
+        onlyIf { !version.toString().endsWith('-SNAPSHOT') }
+    }
+}
+
+test {
+    useTestNG()
+    doFirst {
+        jvmArgs "-javaagent:${classpath.find { it.name.contains('jmockit') }.absolutePath}"
+    }
+    options {
+        systemProperties(System.getProperties())
+    }
+}
+
+shadowJar {
+    dependsOn build
+    zip64 true
+}
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from(sourceSets.main.allJava)
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+
+reckon {
+    scopeFromProp()
+    snapshotFromProp()
+}
+

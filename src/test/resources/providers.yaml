@@ -1,0 +1,43 @@
+tsd.network.port: 4242
+config.http.cache.directory: /tmp/
+tsd.storage.rollups.enable: false
+tsd.query.rollups.default_usage: rollup_nofallback
+
+tsd.storage:
+
+  uid:
+    cache:
+    type:
+      metric: net.opentsdb.uid.LRUUniqueIdFactory
+      tagk: net.opentsdb.uid.LRUUniqueIdFactory
+      tagv: net.opentsdb.uid.LRUUniqueIdFactory
+
+tsd.uid:
+  metric.lru.name.size: 42
+  metric.lru.id.size: 1024
+  tagk.lru.name.size: 1024
+  tagk.lru.id.size: 1024
+  tagv.lru.name.size: 1024
+  tagv.lru.id.size: 1024
+
+tsd.plugin.config:
+  configs:
+    -
+      plugin: net.opentsdb.storage.MockDataStoreFactory
+      isDefault: true
+      type: net.opentsdb.data.TimeSeriesDataSourceFactory
+    -
+      plugin: net.opentsdb.storage.MockDataStoreFactory
+      id: mock2
+      type: net.opentsdb.data.TimeSeriesDataSourceFactory
+  pluginLocations:
+
+  continueOnError: true
+  loadDefaultInstances: true
+
+redis.query.cache.hosts: 127.0.0.1:6379
+
+objectpool.allocator: MockAlloc
+objectpool.itpool.allocator: ItAlloc
+MockDataStore.push: false
+MockDataStore.threadpool.enable: false

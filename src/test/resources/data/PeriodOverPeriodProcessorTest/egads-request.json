@@ -1,0 +1,155 @@
+{
+  "start": 1574372025,
+  "end":   1574372325,
+  "executionGraph": [{
+    "id": "q1_m1",
+    "type": "TimeSeriesDataSource",
+    "metric": {
+      "type": "MetricLiteral",
+      "metric": "NS.alerts.consumer.AlertsConsumed.c.sum"
+    },
+    "sourceId": null,
+    "fetchLast": false,
+    "filter": {
+      "type": "Chain",
+      "op": "AND",
+      "filters": [{
+        "type": "TagValueRegex",
+        "filter": ".*",
+        "tagKey": "notify"
+      }]
+    }
+  }, {
+    "id": "q1_m1_downsample",
+    "type": "downsample",
+    "aggregator": "avg",
+    "interval": "auto",
+    "runAll": false,
+    "fill": true,
+    "interpolatorConfigs": [{
+      "dataType": "numeric",
+      "fillPolicy": "NAN",
+      "realFillPolicy": "NONE"
+    }],
+    "sources": ["q1_m1"]
+  }, {
+    "id": "q1_m1_groupby",
+    "type": "groupby",
+    "aggregator": "sum",
+    "tagKeys": ["notify"],
+    "interpolatorConfigs": [{
+      "dataType": "numeric",
+      "fillPolicy": "NAN",
+      "realFillPolicy": "NONE"
+    }],
+    "sources": ["q1_m1_downsample"]
+  }, {
+    "id": "PoP-sliding-window-q1_m1_groupby",
+    "type": "MovingAverage",
+    "sources": ["q1_m1_groupby"],
+    "samples": 0,
+    "interval": "300s",
+    "alpha": 0,
+    "median": false,
+    "weighted": false,
+    "exponential": false,
+    "averageInitial": true,
+    "infectiousNan": false
+  }, {
+    "id": "egads-q1_m1",
+    "type": "OlympicScoring",
+    "sources": ["PoP-sliding-window-q1_m1_groupby"],
+    "mode": "EVALUATE",
+    "baselineQuery": {
+      "start": 1574371967253,
+      "filters": [],
+      "mode": "SINGLE",
+      "timezone": null,
+      "cacheMode": null,
+      "executionGraph": [{
+        "id": "q1_m1",
+        "type": "TimeSeriesDataSource",
+        "metric": {
+          "type": "MetricLiteral",
+          "metric": "NS.alerts.consumer.AlertsConsumed.c.sum"
+        },
+        "sourceId": null,
+        "fetchLast": false,
+        "filter": {
+          "type": "Chain",
+          "op": "AND",
+          "filters": [{
+            "type": "TagValueRegex",
+            "filter": ".*",
+            "tagKey": "notify"
+          }]
+        }
+      }, {
+        "id": "q1_m1_downsample",
+        "type": "downsample",
+        "aggregator": "avg",
+        "interval": "auto",
+        "runAll": false,
+        "fill": true,
+        "interpolatorConfigs": [{
+          "dataType": "numeric",
+          "fillPolicy": "NAN",
+          "realFillPolicy": "NONE"
+        }],
+        "sources": ["q1_m1"]
+      }, {
+        "id": "q1_m1_groupby",
+        "type": "groupby",
+        "aggregator": "sum",
+        "tagKeys": ["notify"],
+        "interpolatorConfigs": [{
+          "dataType": "numeric",
+          "fillPolicy": "NAN",
+          "realFillPolicy": "NONE"
+        }],
+        "sources": ["q1_m1_downsample"]
+      }, {
+        "id": "PoP-sliding-window-q1_m1_groupby",
+        "type": "MovingAverage",
+        "sources": ["q1_m1_groupby"],
+        "samples": 0,
+        "interval": "300s",
+        "alpha": 0,
+        "median": false,
+        "weighted": false,
+        "exponential": false,
+        "averageInitial": true,
+        "infectiousNan": false
+      }],
+      "serdesConfigs": [],
+      "logLevel": "ERROR",
+      "traceEnabled": false,
+      "debugEnabled": false,
+      "warnEnabled": false
+    },
+    "baselinePeriod": "3600s",
+    "baselineNumPeriods": 6,
+    "baselineAggregator": "avg",
+    "excludeMax": null,
+    "excludeMin": 1,
+    "upperThresholdBad": 10000,
+    "upperThresholdWarn": 100,
+    "upperIsScalar": true,
+    "lowerThresholdBad": 10000,
+    "lowerThresholdWarn": 100,
+    "lowerIsScalar": true,
+    "serializeObserved": true,
+    "serializeThresholds": true,
+    "interpolatorConfigs": [{
+      "fillPolicy": "nan",
+      "realFillPolicy": "PREFER_NEXT",
+      "dataType": "net.opentsdb.data.types.numeric.NumericType"
+    }]
+  }],
+  "serdesConfigs": [{
+    "id": "JsonV3QuerySerdes",
+    "filter": ["egads-q1_m1"]
+  }],
+  "logLevel": "TRACE",
+  "cacheMode": null
+}

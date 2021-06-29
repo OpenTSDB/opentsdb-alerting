@@ -1,0 +1,36 @@
+{
+  "results": [
+    {
+      "source": "data_node:data_node",
+      "data": [
+        {
+          "EventsType": {
+            "namespace": "NS",
+            "source": "jenkins",
+            "title": "Job A build #1 started on JenkinsRealtime-Prod",
+            "message": "%%% \n [Follow build #1 progress] \n %%%",
+            "priority": "low",
+            "timestamp": "1567659432",
+            "endTimestamp": "0",
+            "userId": null,
+            "ongoing": false,
+            "eventId": "2019-09-05_2112433050653914827",
+            "parentIds": [],
+            "childIds": [],
+            "additionalProps": {
+              "aggregation_key": "eventA",
+              "alert_type": "info"
+            }
+          },
+          "tags": {
+            "presto-athena": "1",
+            "host": "JenkinsRealtime-Prod",
+            "job": "A"
+          },
+          "hits": 600
+        }
+      ]
+    }
+  ],
+  "log": []
+}

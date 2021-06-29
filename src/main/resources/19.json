@@ -1,0 +1,230 @@
+{
+  "start": "1554406200",
+  "end": "1554406500",
+  "filters": [],
+  "mode": "SINGLE",
+  "executionGraph": [
+    {
+      "id": "m0",
+      "type": "TimeSeriesDataSource",
+      "metric": {
+        "metric": "NS.system.cpu.busy.pct",
+        "type": "MetricLiteral"
+      },
+      "filter": {
+        "filters": [
+          {
+            "filter": "den",
+            "type": "TagValueLiteralOr",
+            "tagKey": "colo"
+          },
+          {
+            "filter": ".*",
+            "type": "TagValueRegex",
+            "tagKey": "host"
+          },
+          {
+            "filter": ".*",
+            "type": "TagValueRegex",
+            "tagKey": "hostgroup"
+          }
+        ],
+        "op": "AND",
+        "type": "Chain"
+      },
+      "filterId":null
+    },
+    {
+      "id": "m0-avg-downsample",
+      "type": "Downsample",
+      "sources": [
+        "m0"
+      ],
+      "interval": "1m",
+      "timezone": "UTC",
+      "aggregator": "avg",
+      "fill": true,
+      "infectiousNan": false,
+      "runAll": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "nan",
+          "realFillPolicy": "NONE",
+          "dataType": "numeric"
+        }
+      ]
+    },
+    {
+      "id": "m0-avg-groupby",
+      "type": "GroupBy",
+      "sources": [
+        "m0-avg-downsample"
+      ],
+      "aggregator": "sum",
+      "infectiousNan": false,
+      "fullMerge": false,
+      "mergeIds": false,
+      "tagKeys": [
+        "host",
+        "hostgroup"
+      ],
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "nan",
+          "realFillPolicy": "NONE",
+          "dataType": "numeric"
+        }
+      ]
+    },
+    {
+      "id": "summarizer",
+      "type": "Summarizer",
+      "sources": [
+        "m0-avg-groupby"
+      ],
+      "summaries": [
+        "avg",
+        "max",
+        "min",
+        "count",
+        "sum",
+        "first",
+        "last"
+      ],
+      "infectiousNan": false
+    },
+    {
+      "id": "badtld",
+      "type": "Expression",
+      "sources": [
+        "m0-avg-groupby"
+      ],
+      "expression": "m0 \u003e 60.0",
+      "as": "badtld",
+      "join": {
+        "id": "Join",
+        "type": "Join",
+        "sources": [],
+        "joins": {},
+        "joinType": "NATURAL",
+        "explicitTags": false
+      },
+      "infectiousNan": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "nan",
+          "realFillPolicy": "NONE",
+          "dataType": "net.opentsdb.data.types.numeric.NumericType"
+        }
+      ]
+    },
+    {
+      "id": "badalert",
+      "type": "Summarizer",
+      "sources": [
+        "badtld"
+      ],
+      "summaries": [
+        "sum"
+      ],
+      "infectiousNan": false
+    },
+    {
+      "id": "warntld",
+      "type": "Expression",
+      "sources": [
+        "m0-avg-groupby"
+      ],
+      "expression": "m0 \u003e 50.0",
+      "as": "warntld",
+      "join": {
+        "id": "Join",
+        "type": "Join",
+        "sources": [],
+        "joins": {},
+        "joinType": "NATURAL",
+        "explicitTags": false
+      },
+      "infectiousNan": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "nan",
+          "realFillPolicy": "NONE",
+          "dataType": "net.opentsdb.data.types.numeric.NumericType"
+        }
+      ]
+    },
+    {
+      "id": "warnalert",
+      "type": "Summarizer",
+      "sources": [
+        "warntld"
+      ],
+      "summaries": [
+        "sum"
+      ],
+      "infectiousNan": false
+    },
+    {
+      "id": "recoverytld",
+      "type": "Expression",
+      "sources": [
+        "m0-avg-groupby"
+      ],
+      "expression": "m0 \u003c\u003d 49.99995",
+      "as": "recoverytld",
+      "join": {
+        "id": "Join",
+        "type": "Join",
+        "sources": [],
+        "joins": {},
+        "joinType": "NATURAL",
+        "explicitTags": false
+      },
+      "infectiousNan": false,
+      "interpolatorConfigs": [
+        {
+          "fillPolicy": "nan",
+          "realFillPolicy": "NONE",
+          "dataType": "net.opentsdb.data.types.numeric.NumericType"
+        }
+      ]
+    },
+    {
+      "id": "recoveryalert",
+      "type": "Summarizer",
+      "sources": [
+        "recoverytld"
+      ],
+      "summaries": [
+        "sum"
+      ],
+      "infectiousNan": false
+    }
+  ],
+  "traceEnabled": false,
+  "debugEnabled": false,
+  "warnEnabled": false,
+  "logLevel": "ERROR",
+  "serdesConfigs": [
+    {
+      "id": "JsonV3QuerySerdes",
+      "type": "JsonV3QuerySerdes",
+      "filter": [
+        "badtld",
+        "badalert",
+        "warntld",
+        "warnalert",
+        "recoverytld",
+        "recoveryalert",
+        "m0-avg-groupby"
+      ],
+      "msResolution": false,
+      "showTsuids": false,
+      "showQuery": false,
+      "showStats": false,
+      "showSummary": false,
+      "parallelThreshold": 0
+    }
+  ]
+}

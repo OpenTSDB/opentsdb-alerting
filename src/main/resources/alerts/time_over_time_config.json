@@ -1,0 +1,315 @@
+{
+  "createdTime": 1574915306982,
+  "createdBy": "user.bob",
+  "updatedTime": 1574915380182,
+  "updatedBy": "user.bob",
+  "id": 1722,
+  "name": "PoP test",
+  "slug": "pop-test",
+  "namespace": "NS",
+  "type": "simple",
+  "enabled": true,
+  "deleted": false,
+  "version": 1,
+  "labels": [],
+  "queries": {
+    "raw": [
+      {
+        "id": "mwgt4x",
+        "namespace": "NS",
+        "metrics": [
+          {
+            "id": "fc3",
+            "name": "Requests",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": ""
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "summarizer": "",
+            "groupByTags": [
+              "id"
+            ]
+          }
+        ],
+        "filters": [],
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        }
+      }
+    ],
+    "tsdb": [
+      {
+        "start": "1h-ago",
+        "executionGraph": [
+          {
+            "id": "q1_m1",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS.Requests"
+            },
+            "sourceId": null,
+            "fetchLast": false,
+            "filter": {
+              "type": "Chain",
+              "op": "AND",
+              "filters": [
+                {
+                  "type": "TagValueRegex",
+                  "filter": ".*",
+                  "tagKey": "id"
+                }
+              ]
+            }
+          },
+          {
+            "id": "q1_m1_downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1"
+            ]
+          },
+          {
+            "id": "q1_m1_groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [
+              "flid"
+            ],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1_downsample"
+            ]
+          },
+          {
+            "id": "egads-sliding-window-q1_m1",
+            "type": "MovingAverage",
+            "sources": [
+              "q1_m1_groupby"
+            ],
+            "samples": 0,
+            "interval": "300s",
+            "alpha": 0,
+            "median": false,
+            "weighted": false,
+            "exponential": false,
+            "averageInitial": true,
+            "infectiousNan": false
+          },
+          {
+            "id": "egads-q1_m1",
+            "type": "OlympicScoring",
+            "sources": [
+              "egads-sliding-window-q1_m1"
+            ],
+            "mode": "CONFIG",
+            "baselineQuery": {
+              "start": "1h-ago",
+              "filters": [],
+              "mode": "SINGLE",
+              "timezone": null,
+              "cacheMode": null,
+              "executionGraph": [
+                {
+                  "id": "q1_m1",
+                  "type": "TimeSeriesDataSource",
+                  "metric": {
+                    "type": "MetricLiteral",
+                    "metric": "NS.Requests"
+                  },
+                  "sourceId": null,
+                  "fetchLast": false,
+                  "filter": {
+                    "type": "Chain",
+                    "op": "AND",
+                    "filters": [
+                      {
+                        "type": "TagValueRegex",
+                        "filter": ".*",
+                        "tagKey": "id"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "q1_m1_downsample",
+                  "type": "downsample",
+                  "aggregator": "avg",
+                  "interval": "auto",
+                  "runAll": false,
+                  "fill": true,
+                  "interpolatorConfigs": [
+                    {
+                      "dataType": "numeric",
+                      "fillPolicy": "NAN",
+                      "realFillPolicy": "NONE"
+                    }
+                  ],
+                  "sources": [
+                    "q1_m1"
+                  ]
+                },
+                {
+                  "id": "q1_m1_groupby",
+                  "type": "groupby",
+                  "aggregator": "sum",
+                  "tagKeys": [
+                    "flid"
+                  ],
+                  "interpolatorConfigs": [
+                    {
+                      "dataType": "numeric",
+                      "fillPolicy": "NAN",
+                      "realFillPolicy": "NONE"
+                    }
+                  ],
+                  "sources": [
+                    "q1_m1_downsample"
+                  ]
+                },
+                {
+                  "id": "egads-sliding-window-q1_m1",
+                  "type": "MovingAverage",
+                  "sources": [
+                    "q1_m1_groupby"
+                  ],
+                  "samples": 0,
+                  "interval": "300s",
+                  "alpha": 0,
+                  "median": false,
+                  "weighted": false,
+                  "exponential": false,
+                  "averageInitial": true,
+                  "infectiousNan": false
+                }
+              ],
+              "serdesConfigs": [],
+              "logLevel": "ERROR",
+              "traceEnabled": false,
+              "debugEnabled": false,
+              "warnEnabled": false
+            },
+            "baselinePeriod": "604800s",
+            "baselineNumPeriods": 6,
+            "baselineAggregator": "avg",
+            "excludeMax": null,
+            "excludeMin": 1,
+            "upperThresholdBad": 15,
+            "upperThresholdWarn": 10,
+            "lowerThresholdBad": 15,
+            "lowerThresholdWarn": 10,
+            "upperIsScalar": false,
+            "lowerIsScalar": false,
+            "serializeObserved": true,
+            "serializeThresholds": false,
+            "interpolatorConfigs": [
+              {
+                "fillPolicy": "nan",
+                "realFillPolicy": "PREFER_NEXT",
+                "dataType": "net.opentsdb.data.types.numeric.NumericType"
+              }
+            ]
+          }
+        ],
+        "serdesConfigs": [
+          {
+            "id": "JsonV3QuerySerdes",
+            "filter": [
+              "egads-q1_m1"
+            ]
+          }
+        ],
+        "logLevel": "ERROR",
+        "cacheMode": null
+      }
+    ]
+  },
+  "threshold": {
+    "subType": "periodOverPeriod",
+    "nagInterval": "0",
+    "notifyOnMissing": "false",
+    "autoRecoveryInterval": null,
+    "delayEvaluation": 0,
+    "singleMetric": {
+      "queryIndex": "0",
+      "queryType": "tsdb",
+      "metricId": "q1_m1_groupby",
+      "badThreshold": null,
+      "warnThreshold": null,
+      "requiresFullWindow": false,
+      "reportingInterval": null,
+      "recoveryThreshold": null,
+      "recoveryType": "minimum",
+      "slidingWindow": "300",
+      "comparisonOperator": "above",
+      "timeSampler": "at_least_once"
+    },
+    "periodOverPeriod": {
+      "queryType": "tsdb",
+      "slidingWindow": "300",
+      "period": "604800",
+      "lookbacks": "6",
+      "badUpperThreshold": "15",
+      "warnUpperThreshold": "10",
+      "badLowerThreshold": "15",
+      "warnLowerThreshold": "10",
+      "upperThresholdType": "percent",
+      "lowerThresholdType": "percent",
+      "highestOutliersToRemove": "1",
+      "lowestOutliersToRemove": "1",
+      "algorithm": "simple-average",
+      "metricId": "0:0",
+      "queryIndex": "0"
+    },
+    "isNagEnabled": false
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "BadToGood",
+      "GoodToBad",
+      "WarnToGood",
+      "GoodToWarn",
+      "BadToWarn",
+      "WarnToBad"
+    ],
+    "recipients": {
+      "email": [
+        {
+          "name": "bob@opentsdb.net.com"
+        }
+      ]
+    },
+    "subject": "PoP test for SSP",
+    "body": "this is a test alert",
+    "opsgeniePriority": "P5",
+    "runbookId": "",
+    "ocSeverity": "5"
+  },
+  "alertGroupingRules": [],
+  "namespaceId": 22
+}

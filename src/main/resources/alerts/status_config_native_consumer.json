@@ -1,0 +1,143 @@
+{
+  "createdTime": 1555710516468,
+  "createdBy": "user.bob",
+  "updatedTime": 1560920578796,
+  "updatedBy": "user.bob",
+  "id": 963,
+  "name": "Status alert sample",
+  "slug": "Status-alert-sample",
+  "namespace": "NS",
+  "type": "healthcheck",
+  "enabled": true,
+  "deleted": false,
+  "version": 1,
+  "labels": [
+    "status"
+  ],
+  "queries": {
+    "raw": [
+      {
+        "id": "s701gl",
+        "namespace": "NS",
+        "metrics": [
+          {
+            "id": "407",
+            "name": "system.cpu.busy.pct",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": ""
+              }
+            },
+            "tagAggregator": "sum",
+            "functions": [],
+            "groupByTags": [
+              "_aggregate",
+              "colo",
+              "host",
+              "hostgroup"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "tagk": "colo",
+            "filter": [
+              "den"
+            ],
+            "groupBy": false
+          },
+          {
+            "tagk": "hostgroup",
+            "filter": [
+              "NS.all"
+            ],
+            "groupBy": false
+          }
+        ],
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        }
+      }
+    ],
+    "aura": [
+      {
+        "id": "id-0",
+        "namespace": "NS",
+        "filter": {
+          "type" : "Chain",
+          "filters": [
+            {
+              "filters": [
+                {
+                  "type": "FieldLiteralOr",
+                  "key": "statusType",
+                  "filter": "check"
+                },
+                {
+                  "type": "FieldLiteralOr",
+                  "key": "application",
+                  "filter": "host_life"
+                },
+                {
+                  "type": "TagValueLiteralOr",
+                  "tagKey": "_threshold_name",
+                  "filter": "host_life"
+                },
+		{
+		  "type": "TagValueLiteralOr",
+                  "tagKey": "host",
+                  "filter": "processor.den.opentsdb.net"
+		}
+              ],
+              "op": "AND",
+              "type": "Chain"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "threshold": {
+    "subType" : "healthCheck",
+    "isNagEnabled": false,
+    "nagInterval": "600",
+    "notifyOnMissing": true,
+    "missingDataInterval" : 180,
+    "missingDataPurgeInterval" : null,
+    "healthCheck": {
+      "queryIndex": "0",
+      "queryType": "aura",
+      "badThreshold": 5,
+      "warnThreshold": null,
+      "recoveryThreshold": 5
+    }
+
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "goodToBad",
+      "badToGood"
+    ],
+    "recipients": {
+      "email": [
+        {
+          "name": "bob@opentsdb.net.com"
+        },
+        {
+          "name": "bar@opentsdb.net.com"
+        }
+      ]
+    },
+    "subject": "Status alert demo",
+    "body": "Status alert demo"
+  },
+  "alertGroupingRules": [
+    "application"
+  ],
+  "namespaceId": 0
+}
