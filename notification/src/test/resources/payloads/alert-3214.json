@@ -1,0 +1,274 @@
+{
+  "createdTime": 1588963965857,
+  "createdBy": "user.bob",
+  "updatedTime": 1614815994870,
+  "updatedBy": "user.bob",
+  "id": 3214,
+  "name": "[3214] OpenTSDB Notification Synthetic Alert",
+  "slug": "3214-opentsdb-notification-synthetic-alert",
+  "namespace": "NS",
+  "type": "simple",
+  "enabled": true,
+  "deleted": false,
+  "version": 1,
+  "labels": [
+    "synthetic",
+    "opentsdb-notification"
+  ],
+  "queries": {
+    "raw": [
+      {
+        "id": "5le63u",
+        "namespace": "NS",
+        "metrics": [
+          {
+            "id": "gv3",
+            "name": "ALERTS.status_ok",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": ""
+              }
+            },
+            "tagAggregator": "max",
+            "functions": [],
+            "summarizer": ""
+          },
+          {
+            "id": "fbf",
+            "expression": "{{gv3}} - {{gv3}} + 5",
+            "originalExpression": "m1 - m1 + 5",
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": "always_equals_to_5"
+              }
+            },
+            "summarizer": "",
+            "groupByTags": []
+          }
+        ],
+        "filters": [
+          {
+            "tagk": "_alert_id",
+            "filter": [
+              "1342",
+              "1456",
+              "1463",
+              "1640",
+              "3152",
+              "3179",
+              "2893",
+              "824"
+            ],
+            "customFilter": [],
+            "groupBy": false
+          }
+        ],
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        }
+      }
+    ],
+    "tsdb": [
+      {
+        "start": "1h-ago",
+        "executionGraph": [
+          {
+            "id": "q1_m1",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS.ALERTS.status_ok"
+            },
+            "sourceId": null,
+            "fetchLast": false,
+            "filterId": "filter-5le63u"
+          },
+          {
+            "id": "q1_m1_downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1"
+            ]
+          },
+          {
+            "id": "q1_m1_groupby",
+            "type": "groupby",
+            "aggregator": "max",
+            "tagKeys": [],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "q1_m1_downsample"
+            ]
+          },
+          {
+            "id": "q1_e1",
+            "type": "expression",
+            "expression": " q1_m1  -  q1_m1  + 5",
+            "join": {
+              "type": "Join",
+              "joinType": "NATURAL_OUTER",
+              "joins": {}
+            },
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "infectiousNan": false,
+            "substituteMissing": true,
+            "variableInterpolators": {},
+            "sources": [
+              "q1_m1_groupby",
+              "q1_m1_groupby"
+            ]
+          },
+          {
+            "id": "summarizer",
+            "sources": [
+              "q1_e1"
+            ],
+            "summaries": [
+              "avg",
+              "max",
+              "min",
+              "count",
+              "sum",
+              "first",
+              "last"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "filter": {
+              "type": "Chain",
+              "op": "AND",
+              "filters": [
+                {
+                  "type": "Chain",
+                  "op": "OR",
+                  "filters": [
+                    {
+                      "type": "TagValueLiteralOr",
+                      "filter": "1342|1456|1463|1640|3152|3179|2893|824",
+                      "tagKey": "_alert_id"
+                    }
+                  ]
+                }
+              ]
+            },
+            "id": "filter-5le63u"
+          }
+        ],
+        "serdesConfigs": [
+          {
+            "id": "JsonV3QuerySerdes",
+            "filter": [
+              "q1_e1",
+              "summarizer"
+            ]
+          }
+        ],
+        "logLevel": "ERROR",
+        "cacheMode": null
+      }
+    ]
+  },
+  "threshold": {
+    "subType": "singleMetric",
+    "nagInterval": "300",
+    "notifyOnMissing": "true",
+    "autoRecoveryInterval": null,
+    "delayEvaluation": 10,
+    "singleMetric": {
+      "queryIndex": 0,
+      "queryType": "tsdb",
+      "metricId": "q1_e1",
+      "badThreshold": 4,
+      "warnThreshold": null,
+      "requiresFullWindow": false,
+      "reportingInterval": null,
+      "recoveryThreshold": null,
+      "recoveryType": "minimum",
+      "slidingWindow": "300",
+      "comparisonOperator": "above",
+      "timeSampler": "at_least_once"
+    },
+    "isNagEnabled": true
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "goodToBad",
+      "badToGood"
+    ],
+    "subject": "OpenTSDB Notification Synthetic Alert",
+    "body": "You should see the alert coming every 5 minutes (as nag)\n",
+    "opsgeniePriority": "P5",
+    "opsgenieAutoClose": false,
+    "opsgenieTags": ["hello", "world"],
+    "runbookId": "",
+    "ocSeverity": "1",
+    "ocTier": "4",
+    "recipients": {
+      "email": [
+        {
+          "id": 183,
+          "name": "no-reply@opentsdb.net",
+          "email": "no-reply@opentsdb.net",
+          "admin": false
+        }
+      ],
+      "slack": [
+        {
+          "id": 151,
+          "name": "NS-test",
+          "webhook": "abracadabra"
+        }
+      ],
+      "http": [
+        {
+          "id": 2902,
+          "name": "test-webook",
+          "endpoint": "http://webhook.opentsdb.net:8080/hello"
+        }
+      ],
+      "oc": [
+        {
+          "id": 35,
+          "name": "oc",
+          "displaycount": "20",
+          "context": "analysis",
+          "opsdbproperty": "ns.us"
+        }
+      ]
+    }
+  },
+  "alertGroupingRules": [],
+  "namespaceId": 22
+}

@@ -1,0 +1,26 @@
+<!--
+  ~  This file is part of OpenTSDB.
+  ~  Copyright (C) 2021 Yahoo.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<h4>{{ type | capitalize }} [{{ count }}]</h4>
+{% for view in views %}
+[{{ loop.index + 1 }}] {{ view.getDescription("<strong>", "</strong>") | raw }} {{ view.stateFrom | upper }}&rarr;{{ view.stateTo | upper }}.<br/>
+<strong>Message</strong>:  {% if view.getStatusMessage() is not empty %}{{ view.getStatusMessage() }}{% else %}<i>none.</i>{% endif %}<br />
+<strong>Tags</strong>:  {% for tag in view.sortedTags %}{{ tag.key }}:<strong>{{ tag.value }}</strong>{% if not loop.last %},  {% endif %}{% endfor %}<br/>
+{{ view.getHumanTimestamp() }}
+{% if not loop.last %}<hr width="33%" align="left"/>{% endif %}
+{% endfor %}
+<hr/>
