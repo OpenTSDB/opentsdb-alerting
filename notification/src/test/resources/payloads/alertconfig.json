@@ -1,0 +1,161 @@
+{
+  "createdTime": 1554741784758,
+  "createdBy": "user.bob",
+  "updatedTime": 1554741784758,
+  "updatedBy": "user.bob",
+  "id": 1,
+  "name": "test 1",
+  "namespace": "NS",
+  "slug": "test-1",
+  "type": "simple",
+  "enabled": true,
+  "labels": [
+    "prod",
+    "us-west-1"
+  ],
+  "queries": {
+    "raw": [
+      {
+        "id": "zatjtd",
+        "namespace": "NS",
+        "metrics": [
+          {
+            "id": "qoz",
+            "name": "system.cpu.busy.pct",
+            "filters": [],
+            "settings": {
+              "visual": {
+                "visible": true,
+                "color": "auto",
+                "label": ""
+              }
+            },
+            "tagAgPgregator": "sum",
+            "functions": []
+          }
+        ],
+        "filters": [],
+        "settings": {
+          "visual": {
+            "visible": true
+          }
+        }
+      }
+    ],
+    "tsdb": [
+      {
+        "start": "1h-ago",
+        "executionGraph": [
+          {
+            "id": "m0",
+            "type": "TimeSeriesDataSource",
+            "metric": {
+              "type": "MetricLiteral",
+              "metric": "NS.system.cpu.busy.pct"
+            },
+            "fetchLast": false
+          },
+          {
+            "id": "m0-avg-downsample",
+            "type": "downsample",
+            "aggregator": "avg",
+            "interval": "auto",
+            "runAll": false,
+            "fill": true,
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "m0"
+            ]
+          },
+          {
+            "id": "m0-avg-groupby",
+            "type": "groupby",
+            "aggregator": "sum",
+            "tagKeys": [],
+            "interpolatorConfigs": [
+              {
+                "dataType": "numeric",
+                "fillPolicy": "NAN",
+                "realFillPolicy": "NONE"
+              }
+            ],
+            "sources": [
+              "m0-avg-downsample"
+            ]
+          },
+          {
+            "id": "summarizer",
+            "sources": [
+              "m0-avg-groupby"
+            ],
+            "summaries": [
+              "avg",
+              "max",
+              "min",
+              "count",
+              "sum",
+              "first",
+              "last"
+            ]
+          }
+        ],
+        "serdesConfigs": [
+          {
+            "id": "JsonV3QuerySerdes",
+            "filter": [
+              "m0-avg-groupby",
+              "summarizer"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "threshold": {
+    "subType": "singleMetric",
+    "isNagEnabled": true,
+    "nagInterval": "0",
+    "notifyOnMissing": "false",
+    "singleMetric": {
+      "queryIndex": "0",
+      "queryType": "tsdb",
+      "metricId": "m0-avg-groupby",
+      "badThreshold": 200,
+      "warnThreshold": "",
+      "recoveryThreshold": "",
+      "recoveryType": "minimum",
+      "slidingWindow": "300",
+      "comparisonOperator": "above",
+      "timeSampler": "at_least_once"
+    }
+  },
+  "notification": {
+    "transitionsToNotify": [
+      "goodToBad"
+    ],
+    "recipients": {
+      "email": [
+        {
+          "name": "bob@opentsdb.net"
+        }
+      ]
+    },
+    "subject": "test subject",
+    "body": "test body",
+    "opsgeniePriority": "P5",
+    "opsgenieAutoClose": true,
+    "runbookId": "RB007",
+    "ocSeverity": "5",
+    "ocTier": "2"
+  },
+  "alertGroupingRules": [
+    "colo",
+    "host"
+  ]
+}

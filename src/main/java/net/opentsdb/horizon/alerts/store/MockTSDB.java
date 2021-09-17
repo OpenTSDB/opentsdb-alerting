@@ -23,6 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import com.google.common.collect.Lists;
+import com.stumbleupon.async.Deferred;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timeout;
 import io.netty.util.Timer;
@@ -104,6 +105,16 @@ public class MockTSDB implements TSDB {
     @Override
     public Timer getQueryTimer() {
         return query_timer;
+    }
+
+    @Override
+    public Deferred<Object> initializeRegistry(boolean b) {
+        return Deferred.fromResult(null);
+    }
+
+    @Override
+    public Deferred<Object> shutdown() {
+        return Deferred.fromResult(null);
     }
 
     @Override

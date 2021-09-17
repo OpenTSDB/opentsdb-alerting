@@ -1,0 +1,370 @@
+<!--
+  ~  This file is part of OpenTSDB.
+  ~  Copyright (C) 2021 Yahoo.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>OpenTSDB Alert Email Template</title>
+    <base href="/">
+    <style type="text/css">
+        /* overall wrapper */
+        div.email-wrapper {
+            font-family: Arial; 
+            font-size: 12px; 
+            font-weight: normal; 
+            width: 100%; 
+            text-align: center;
+        }
+
+        /* header nav - logo and stuff */
+
+        table.nav {
+            width: 640px;
+            margin: 0 auto;
+            background-color: #084B4E;
+            color: #ffffff;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        table.nav td.leftcol {
+            padding: 5px 5px 5px 10px;
+        }
+
+        table.nav td.leftcol img.logo {
+            width: 24px;
+            float: left;
+            margin-right: 5px;
+        }
+
+        table.nav td.leftcol h1.name {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        table.nav td.rightcol {
+            padding: 5px 10px;
+            white-space: nowrap;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        table.nav a.navlink {
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            white-space: nowrap;
+        }
+
+        table.nav a.navlink:hover {
+            background-color: rgba(255, 255, 255, .08);
+        }
+
+        /* summary section - with indicators */
+
+        table.summary {
+            background-color: #F2F3F7;
+            width: 640px;
+            margin: 0 auto;
+        }
+
+        table.summary td.leftcol {
+            padding: 5px 5px 5px 10px;
+            width: 100%;
+        }
+
+        table.summary td.rightcol {
+            padding: 5px 10px;
+            white-space: nowrap;
+        }
+
+        h2.description {
+            font-size: 18px;
+            font-weight: bold;
+            color: #303030;
+            margin: 5px 0;
+        }
+
+        .timestampSec {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #939395;
+        }
+
+        .indicator {
+            white-space: nowrap;
+            color: white;
+            padding: 4px;
+            margin: auto 8px;
+            border-radius: 3px;
+        }
+
+        .indicator.bad {
+            background-color: #E94141;
+        }
+
+        .indicator.warn {
+            background-color: #F17603;
+        }
+
+        .indicator.recovery {
+            background-color: #15C046;
+        }
+
+        /* detail per alert type */
+
+        table.detail {
+            background-color: #F2F3F7;
+            width: 640px;
+            margin: 0 auto;
+        }
+
+        table.detail td {
+            padding: 10px;
+            background-color: #F2F3F7;
+            vertical-align: top;
+        }
+
+        .detail-wrap {
+            background-color: #ffffff;
+            padding: 10px;
+            border-width: 4px 1px 1px 1px;
+            border-style: solid;
+            text-align: left;
+        }
+
+        .detail-wrap.bad {
+            border-color: #E94141;
+        }
+
+        .detail-wrap.warn {
+            border-color: #F17603;
+        }
+
+        .detail-wrap.recovery {
+            border-color: #15C046;
+        }
+
+        h3.type {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .type.bad {
+            color: #E94141 ;
+        }
+
+        .type.warn {
+            color: #F17603;
+        }
+
+        .type.recovery {
+            color: #15C046;
+        }
+
+        td detail .description {
+            margin-bottom: 8px;
+        }
+
+        .visual {
+            margin: 5px auto;
+        }
+
+        .visual .graph {
+            position: relative;
+            width: 100%;
+            min-height: 100px;
+            /* properties below are only for preview */
+            background-color: #F2F3F7;
+            margin-bottom: 6px;
+            height: 150px;
+            text-align: center;
+        }
+
+        .graph .state-indicator {
+            white-space: nowrap;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .state-indicator .indicator {
+            font-size: 8px;
+            text-transform: uppercase;
+            padding: 2px 3px;
+        }
+
+        .tags .tag {
+            white-space: nowrap;
+            border-radius: 3px;
+            padding: 4px 6px;
+            margin: 0 6px 6px 0;
+            background-color: #F2F2F2;
+            display: inline-block;
+        }
+
+        /* footer */
+        table.footer {
+            background-color: #F2F3F7;
+            width: 640px;
+            margin: 0 auto;
+        }
+
+        table.footer td {
+            padding: 10px;
+            background-color: #F2F3F7;
+            vertical-align: top;
+            text-align: left;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- email template -->
+    <div class="email-wrapper">
+        <table cellpadding="0" cellspacing="0" width="640px" class="nav">
+            <tr>
+                <td class="leftcol" valign="baseline" align="left">
+                    <img src="/assets/tsdb-logo-icon-only.png" width="24px" class="logo" />
+                    <h1 class="name">OpenTSDB</h1>
+                </td>
+                <td class="rightcol" valign="middle">
+                    <a href="" class="navlink">View details</a>
+                    <a href="" class="navlink">Modify alert</a>
+                </td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" width="640px" class="summary">
+            <tr>
+                <td class="leftcol" valign="baseline" align="left">
+                    <h2 class="description">7 new alerts</h4>
+                    <span class="timestampSec">10:40 pm tues, apr 16, 2019 UTC</span>
+                </td>
+                <td class="rightcol" valign="middle">
+                    <span class="indicator bad">2 bad</span>
+                    <span class="indicator warn">4 warn</span>
+                    <span class="indicator recovery">1 recovery</span>
+                </td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" width="640px" class="detail">
+            <tr>
+                <td valign="top">
+                    <div class="detail-wrap bad">
+                        <h3 class="type bad">Bad</h3>
+                        <div class="description">
+                            <span class="metric">system.cpu.busy.pct</span> <strong class="condition">above 50</strong> <span>in the</span> <strong class="timespan">last 5 minutes</strong>
+                        </div>
+                        <!-- visual block loops -->
+                        <div class="visual">
+                            <div class="graph">
+                                <div class="state-indicator">
+                                    <span class="indicator warn">Warn</span>&rarr;<span class="indicator bad">Bad</span>
+                                </div>
+                                <!-- graph -->
+                            </div>
+                            <div class="tags">
+                                <span class="tag"><span class="tagk">Host</span>: <strong class="tagv">proc.den.opentsdb.net</strong></span>
+                                <span class="tag"><span class="tagk">hostgroup</span>: <strong class="tagv">alerting</strong></span>
+                                <span class="tag"><span class="tagk">metric</span>: <strong class="tagv">NS.system.cpu.busy.pct</strong></span>
+                            </div>
+                        </div>
+                        <div class="visual">
+                            <div class="graph">
+                                <div class="state-indicator">
+                                    <span class="indicator recovery">Good</span>&rarr;<span class="indicator bad">Bad</span>
+                                </div>
+                                <!-- graph -->
+                            </div>
+                            <div class="tags">
+                                <span class="tag"><span class="tagk">Host</span>: <strong class="tagv">proc.den.opentsdb.net</strong></span>
+                                <span class="tag"><span class="tagk">hostgroup</span>: <strong class="tagv">alerting</strong></span>
+                                <span class="tag"><span class="tagk">metric</span>: <strong class="tagv">NS.system.cpu.busy.pct</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" width="640px" class="detail">
+            <tr>
+                <td valign="top">
+                    <div class="detail-wrap warn">
+                        <h3 class="type warn">Warn</h3>
+                        <div class="description">
+                            <span class="metric">system.cpu.busy.pct</span> <strong class="condition">above 40</strong> <span>in the</span> <strong class="timespan">last 5 minutes</strong>
+                        </div>
+                        <!-- visual block loops -->
+                        <div class="visual">
+                            <div class="graph">
+                                <div class="state-indicator">
+                                    <span class="indicator recovery">Good</span>&rarr;<span class="indicator warn">Warn</span>
+                                </div>
+                                <!-- graph -->
+                            </div>
+                            <div class="tags">
+                                <span class="tag"><span class="tagk">Host</span>: <strong class="tagv">proc2.den.opentsdb.net</strong></span>
+                                <span class="tag"><span class="tagk">hostgroup</span>: <strong class="tagv">alerting</strong></span>
+                                <span class="tag"><span class="tagk">metric</span>: <strong class="tagv">NS.system.cpu.busy.pct</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" width="640px" class="detail">
+            <tr>
+                <td valign="top">
+                    <div class="detail-wrap recovery">
+                        <h3 class="type recovery">Recovery</h3>
+                        <div class="description">
+                            <span class="metric">system.cpu.busy.pct</span> <strong class="condition">below 39.999</strong> <span>in the</span> <strong class="timespan">last 5 minutes</strong>
+                        </div>
+                        <!-- visual block loops -->
+                        <div class="visual">
+                            <div class="graph">
+                                <div class="state-indicator">
+                                    <span class="indicator warn">Warn</span>&rarr;<span class="indicator recovery">Good</span>
+                                </div>
+                                <!-- graph -->
+                            </div>
+                            <div class="tags">
+                                <span class="tag"><span class="tagk">Host</span>: <strong class="tagv">proc2.den.opentsdb.net</strong></span>
+                                <span class="tag"><span class="tagk">hostgroup</span>: <strong class="tagv">alerting</strong></span>
+                                <span class="tag"><span class="tagk">metric</span>: <strong class="tagv">NS.system.cpu.busy.pct</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" width="640px" class="footer">
+            <tr>
+                <td valign="top">
+                    This is a generated email from <a href="">OpenTSDB</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

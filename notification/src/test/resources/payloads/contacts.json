@@ -1,0 +1,26 @@
+{
+  "email": [
+    {
+      "name": "bob@opentsdb.net",
+      "email": "bob@opentsdb.net",
+      "admin": true
+    },
+    {
+      "name": "bar@opentsdb.net",
+      "email": "bar@opentsdb.net",
+      "admin": false
+    },
+    {
+      "name": "foo@opentsdb.net",
+      "email": "foo@opentsdb.net",
+      "admin": true
+    }
+  ],
+  "http": [
+    {
+      "name": "ns http endpoint",
+      "endpoint": "http://webhook.opentsdb.net"
+    }
+  ],
+  "namespaceId": 0
+}

@@ -1,0 +1,33 @@
+[
+  {
+    "createdTime": 1556323202318,
+    "createdBy": "ns.test.configapi",
+    "updatedTime": 1556323202318,
+    "updatedBy": "ns.test.configapi",
+    "id": 738,
+    "name": "ns1",
+    "alias": "ns1",
+    "enabled": true,
+    "meta": {
+      "athensDomain": "ns1.athenz",
+      "emailId": "ns1@mailinglist.com",
+      "jiraProjectName": "UNKNOWN"
+    }
+  },
+  {
+    "createdTime": 1556582402191,
+    "createdBy": "ns.test.configapi",
+    "updatedTime": 1557412201967,
+    "updatedBy": "ns.test.configapi",
+    "id": 739,
+    "name": "ns2",
+    "alias": "ns2",
+    "enabled": true,
+    "meta": {
+      "athensDomain": "ns2.athenz",
+      "gitConfigUrl": "UNKNOWN",
+      "emailId": "bob@opentsdb.net",
+      "jiraProjectName": "UNKNOWN"
+    }
+  }
+]

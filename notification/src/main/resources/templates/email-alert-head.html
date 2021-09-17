@@ -1,0 +1,246 @@
+<!--
+  ~  This file is part of OpenTSDB.
+  ~  Copyright (C) 2021 Yahoo.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<head>
+    <meta charset="utf-8">
+    <title>OpenTSDB Alert</title>
+    <base href="/">
+    <style type="text/css">
+        /* overall wrapper */
+        div.email-wrapper {
+            font-family: Arial;
+            font-size: 12px;
+            font-weight: normal;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* header nav - logo and stuff */
+
+        table.nav {
+            width: 640px;
+            margin: 0 auto;
+            background-color: #084B4E;
+            color: #ffffff;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        table.nav td.leftcol {
+            padding: 5px 5px 5px 10px;
+        }
+
+        table.nav td.leftcol img.logo {
+            width: 24px;
+            float: left;
+            margin-right: 5px;
+        }
+
+        table.nav td.leftcol h1.name {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        table.nav td.rightcol {
+            padding: 5px 10px;
+            white-space: nowrap;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        table.nav a.navlink {
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            white-space: nowrap;
+        }
+
+        table.nav a.navlink:hover {
+            background-color: rgba(255, 255, 255, .08);
+        }
+
+        /* summary section - with indicators */
+
+        table.summary {
+            background-color: #F2F3F7;
+            width: 640px;
+            margin: 0 auto;
+        }
+
+        table.summary td.leftcol {
+            padding: 5px 5px 5px 10px;
+            width: 100%;
+        }
+
+        table.summary td.rightcol {
+            padding: 5px 10px;
+            white-space: nowrap;
+        }
+
+        table.summary td.bodycol {
+            padding: 5px 10px 5px 10px;
+            width: 100%;
+        }
+
+        h2.description {
+            font-size: 18px;
+            font-weight: bold;
+            color: #303030;
+            margin: 5px 0;
+        }
+
+        .timestamp {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #939395;
+        }
+
+        .indicator {
+            white-space: nowrap;
+            color: white;
+            padding: 4px;
+            margin: auto 8px;
+            border-radius: 3px;
+        }
+
+        .indicator.bad {
+            background-color: #E94141;
+        }
+
+        .indicator.warn {
+            background-color: #F17603;
+        }
+
+        .indicator.missing {
+            background-color: #5c5b4b;
+        }
+
+        .indicator.recovery,
+        .indicator.good {
+            background-color: #15C046;
+        }
+
+        /* detail per alert type */
+
+        table.detail {
+            background-color: #F2F3F7;
+            width: 640px;
+            margin: 0 auto;
+        }
+
+        table.detail td {
+            padding: 10px;
+            background-color: #F2F3F7;
+            vertical-align: top;
+        }
+
+        .detail-wrap {
+            background-color: #ffffff;
+            padding: 10px;
+            border-width: 4px 1px 1px 1px;
+            border-style: solid;
+            text-align: left;
+        }
+
+        .detail-wrap.bad {
+            border-color: #E94141;
+        }
+
+        .detail-wrap.warn {
+            border-color: #F17603;
+        }
+
+        .detail-wrap.recovery {
+            border-color: #15C046;
+        }
+
+        h3.type {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .type.bad {
+            color: #E94141 ;
+        }
+
+        .type.warn {
+            color: #F17603;
+        }
+
+        .type.recovery {
+            color: #15C046;
+        }
+
+        td detail .description {
+            margin-bottom: 8px;
+        }
+
+        .visual {
+            margin: 5px auto;
+        }
+
+        .visual .graph {
+            position: relative;
+            width: 100%;
+            min-height: 100px;
+            /* properties below are only for preview */
+            /* background-color: #F2F3F7; */
+            margin-bottom: 6px;
+            /* height: 150px; */
+            text-align: right;
+        }
+
+        .graph .state-indicator {
+            white-space: nowrap;
+            /* position: absolute; */
+            top: 0;
+            right: 0;
+        }
+
+        .state-indicator .indicator {
+            font-size: 8px;
+            text-transform: uppercase;
+            padding: 2px 3px;
+        }
+
+        .tags .tag {
+            white-space: nowrap;
+            border-radius: 3px;
+            padding: 4px 6px;
+            margin: 0 6px 6px 0;
+            background-color: #F2F2F2;
+            display: inline-block;
+        }
+
+        /* footer */
+        table.footer {
+            background-color: #F2F3F7;
+            width: 640px;
+            margin: 0 auto;
+        }
+
+        table.footer td {
+            padding: 10px;
+            background-color: #F2F3F7;
+            vertical-align: top;
+            text-align: left;
+        }
+
+    </style>
+</head>

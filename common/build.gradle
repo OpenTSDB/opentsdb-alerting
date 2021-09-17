@@ -22,7 +22,7 @@ dependencies {
     implementation ('it.unimi.dsi:dsiutils:2.3.6') {
         exclude group: 'ch.qos.logback', module: 'logback-classic'
     }
-    implementation 'com.yahoo.cryptogen:core:0.1.6'
+    
     implementation ('org.apache.kafka:kafka_2.9.2:0.8.2.1') {
         exclude group: 'org.apache.zookeeper', module: 'zookeeper'
         exclude group: 'log4j', module: 'log4j'
