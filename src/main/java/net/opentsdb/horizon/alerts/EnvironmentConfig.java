@@ -291,6 +291,30 @@ public class EnvironmentConfig {
 
     private static final String DEFAULT_ENABLE_SNOOZE_TAGS = "false";
 
+    public static final String PULSAR_ATHENZ_TYPE = "pulsar_athenz_type";
+
+    public static final String DEFAULT_PULSAR_ATHENZ_TYPE = "tls";
+
+    public static final String PULSAR_ATHENZ_TENANT_DOMAIN = "pulsar_athenz_tenant_domain";
+
+    public static final String DEFAULT_PULSAR_ATHENZ_TENANT_DOMAIN = "";
+
+    public static final String PULSAR_ATHENZ_TENANT_SERVICE = "pulsar_athenz_tenant_service";
+
+    public static final String DEFAULT_PULSAR_ATHENZ_TENANT_SERVICE = "";
+
+    public static final String PULSAR_ATHENZ_PROVIDER_DOMAIN = "pulsar_athenz_provider_domain";
+
+    public static final String DEFAULT_PULSAR_ATHENZ_PROVIDER_DOMAIN = "";
+
+    public static final String PULSAR_ATHENZ_PRIVATE_KEY = "pulsar_athenz_private_key";
+
+    public static final String DEFAULT_PULSAR_ATHENZ_PRIVATE_KEY = "";
+
+    public static final String PULSAR_ATHENZ_KEY_ID = "pulsar_athenz_key_id";
+
+    public static final String DEFAULT_PULSAR_ATHENZ_KEY_ID = "0";
+
     static {
         String file = PROPERTIES_FILE;
         if(IS_LOCAL) {
@@ -521,6 +545,30 @@ public class EnvironmentConfig {
 
     public String getPulsarTopicName() {
         return propertiesFile.getProperty(PULSAR_TOPIC_NAME, DEFAULT_PULSAR_TOPIC_NAME);
+    }
+
+    public String getPulsarAthenzType() {
+        return propertiesFile.getProperty(PULSAR_ATHENZ_TYPE, DEFAULT_PULSAR_ATHENZ_TYPE);
+    }
+
+    public String getPulsarAthenzTenantDomain() {
+        return propertiesFile.getProperty(PULSAR_ATHENZ_TENANT_DOMAIN, DEFAULT_PULSAR_ATHENZ_TENANT_DOMAIN);
+    }
+
+    public String getPulsarAthenzTenantService() {
+        return propertiesFile.getProperty(PULSAR_ATHENZ_TENANT_SERVICE, DEFAULT_PULSAR_ATHENZ_TENANT_SERVICE);
+    }
+
+    public String getPulsarAthenzProviderDomain() {
+        return propertiesFile.getProperty(PULSAR_ATHENZ_PROVIDER_DOMAIN, DEFAULT_PULSAR_ATHENZ_PROVIDER_DOMAIN);
+    }
+
+    public String getPulsarAthenzPrivateKey() {
+        return propertiesFile.getProperty(PULSAR_ATHENZ_PRIVATE_KEY, DEFAULT_PULSAR_ATHENZ_PRIVATE_KEY);
+    }
+
+    public String getPulsarAthenzKeyId() {
+        return propertiesFile.getProperty(PULSAR_ATHENZ_KEY_ID, DEFAULT_PULSAR_ATHENZ_KEY_ID);
     }
 
     public String getStatusWriteSink() {

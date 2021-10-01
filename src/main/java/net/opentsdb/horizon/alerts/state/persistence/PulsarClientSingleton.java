@@ -26,6 +26,7 @@ import net.opentsdb.horizon.alerts.EnvironmentConfig;
 import org.apache.pulsar.client.api.Authentication;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
+import org.apache.pulsar.client.impl.AuthenticationUtil;
 import org.apache.pulsar.client.impl.auth.AuthenticationAthenz;
 
 // TODO: Probably fine. But maybe it is possible to avoid singletons.
@@ -42,16 +43,39 @@ public enum PulsarClientSingleton implements Closeable {
                 : null;
     }
 
+    private Map<String, String> getAthenzTokenParam(final EnvironmentConfig config) {
+        Map<String, String> authParams = Maps.newHashMap();
+        authParams.put("tenantDomain", config.getPulsarAthenzTenantDomain());
+        authParams.put("tenantService", config.getPulsarAthenzTenantService());
+        authParams.put("providerDomain", config.getPulsarAthenzProviderDomain());
+        authParams.put("privateKey", config.getPulsarAthenzPrivateKey());
+        authParams.put("keyId", config.getPulsarAthenzKeyId());
+        return authParams;
+    }
+
     private PulsarClient createPulsarClient(final EnvironmentConfig config) {
         final String brokerName = config.getPulsarBrokerName();
-        final Authentication auth;
-        if (config.isPulsarAthenzEnabled()) {
-            auth = new AuthenticationAthenz();
-            Map<String, String> authParams = Maps.newHashMap();
-            authParams.put("privateKeyPath", config.getAthenzKey());
-            // TODO - other params.
-        } else {
-            auth = null;
+        Map authParams = null;
+        String authClassName = null;
+         if (config.isPulsarAthenzEnabled()) {
+             String type = config.getPulsarAthenzType();
+             if("tls".equals(type)) {
+                 authParams = Maps.newHashMap();
+                 authParams.put("privateKeyPath", config.getAthenzKey());
+                 // TODO - other params.
+                 authClassName = AuthenticationAthenz.class.getName();
+
+             }else if("token".equals(config.getPulsarAthenzType())){
+                 authParams = getAthenzTokenParam(config);
+                 authClassName = AuthenticationAthenz.class.getName();
+             }
+         }
+
+        Authentication auth = null;
+        try {
+            auth = AuthenticationUtil.create(authClassName, authParams);
+        } catch (PulsarClientException.UnsupportedAuthenticationException e) {
+            e.printStackTrace();
         }
 
         try {
