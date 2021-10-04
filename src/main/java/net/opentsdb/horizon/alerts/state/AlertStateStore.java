@@ -124,7 +124,7 @@ public interface AlertStateStore extends Iterable<AlertStateEntry> {
     void purgeState(long stateId);
 
     /**
-     * Purge all state with last update time < given timestamp.
+     * Purge all state with last update time less than given timestamp.
      *
      * @param timestampSec timestamp in seconds.
      */

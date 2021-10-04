@@ -16,4 +16,6 @@
  */
 
 rootProject.name = 'opentsdb-alerting'
+
 include 'common'
+include 'notification'

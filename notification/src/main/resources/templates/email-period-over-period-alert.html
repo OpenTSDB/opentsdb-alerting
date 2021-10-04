@@ -1,0 +1,114 @@
+<!--
+  ~  This file is part of OpenTSDB.
+  ~  Copyright (C) 2021 Yahoo.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<!doctype html>
+<html lang="en">
+
+{% include "./email-alert-head.html" %}
+
+<body>
+<!-- email template -->
+<div class="email-wrapper">
+
+    {% include "./email-navigation-summary-blocks.html" %}
+
+    <!-- block of alert views by type
+        Args:
+            namespace (String) - namespace
+            viewMap   (Map<String, List<SingleMetricAlertView>) - map of views.
+    -->
+    {% for state in ["bad", "warn", "missing", "recovery"] %}
+    {% if viewMap[state] is not empty %}
+    {% set views = viewMap[state] %}
+
+    <!-- views block
+        Args:
+            namespace (String) - namespace (inherited)
+            state     (String) - `bad`, `warn`, `missing`, `recovery`
+            views     (List<SingleMetricAlertView>) - view blocks
+    -->
+    <table cellpadding="0" cellspacing="0" width="640px" class="detail">
+        <tr>
+            <td valign="top">
+                <div class="detail-wrap {{ state }}">
+                    <h3 class="type {{ state }}">{{ state | capitalize }}</h3>
+                    {% for view in views %}
+                    <!-- view block
+                        Args:
+                            namespace (String) - namespace (inherited)
+
+                            metric      (String) - metric name
+                            comparator  (String) - comparator (<, <=, =, >=, >)
+                            threshold   (double) - threshold value
+                            timeSampler (String) - `at least once`, `at all times`, `on average`, `in total`
+                            timestampMs (long)   - evaluated at
+                            evaluationWindowMin (int) - time span of evaluation
+                            stateFrom   (String) - `bad`, `warn`, `missing`, `recovery`
+                            stateTo     (String) - `bad`, `warn`, `missing`, `recovery`
+                            properties  (Map<String, Object>) - properties, containing cid.
+                     -->
+                    <div class="visual">
+                        <div class="description">
+                            <!--
+                            I am sacrificing this style in favor of consistency.
+                            <span class="metric">{{ view.metric }}</span>
+                            -->
+                            <span>{{ view.getDescription("<strong>", "</strong>") | raw }}</span>
+                        </div>
+                        <div class="description">
+                            <span class="timestamp">{{ view.getHumanTimestamp() }}</span>
+                        </div>
+                        <div class="graph">
+                            <div class="state-indicator">
+                                <span class="indicator {{ view.stateFrom }}">{{ view.stateFrom | capitalize }}</span>&rarr;<span class="indicator {{ view.stateTo }}">{{ view.stateTo | capitalize }}</span>
+                            </div>
+                            <!-- graph -->
+                            {% if view.showGraph() %}
+                                <img src="cid:{{ view.properties.cid }}"/>
+                            {% else %}
+                                <br>
+                                <span><i>No pic intended ¯\_(ツ)_/¯.</i></span>
+                            {% endif %}
+                        </div>
+                        <div class="tags">
+                            {% for tag in view.sortedTags %}
+                            <span class="tag"><span class="tagk">{{ tag.key }}</span>: <strong class="tagv">{{ tag.value }}</strong></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if not loop.last %}
+                    <hr/>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+    </table>
+    {% endif %}
+    {% endfor %} <!-- end iterate over possible states-->
+
+    <table cellpadding="0" cellspacing="0" width="640px" class="footer">
+        <tr>
+            <td valign="top">
+                This is a generated email from <a href="">OpenTSDB</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+</html>

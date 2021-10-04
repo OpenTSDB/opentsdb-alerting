@@ -1,0 +1,74 @@
+<!--
+  ~  This file is part of OpenTSDB.
+  ~  Copyright (C) 2021 Yahoo.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<!-- nav block
+        Args:
+            detailsLink (String) - link to the alert details
+            editLink    (String) - link to the alert edit page
+    -->
+<table cellpadding="0" cellspacing="0" width="640px" class="nav">
+    <tr>
+        <td class="leftcol" valign="baseline" align="left">
+            <img src="cid:tsdb-logo" width="24px" class="logo"/>
+            <h1 class="name">OpenTSDB</h1>
+        </td>
+        <td class="rightcol" valign="middle">
+            <a href="{{ detailsLink }}" class="navlink">View details</a>
+            <a href="{{ editLink }}" class="navlink">Modify alert</a>
+        </td>
+    </tr>
+</table>
+
+<!-- summary block
+    Args:
+        total       (int)  - total number of alerts
+        bad         (int)  - number of bad alerts
+        warn        (int)  - number of warn alerts
+        missing     (int)  - number of missing alerts
+        recovery    (int)  - number of recovery alerts
+        timestampMs (long) - timestamp in ms
+        body        (String) - customer given body
+-->
+<table cellpadding="0" cellspacing="0" width="640px" class="summary">
+    <tr>
+        <td class="leftcol" valign="baseline" align="left">
+            <h2 class="description">{{ total }} new alerts</h2>
+            <span class="timestamp">{{ timestampMs | date("EEE MMM d, yyyy hh:mm:ss a z") }}</span>
+        </td>
+        <td class="rightcol" valign="middle">
+            {% if bad != 0 %}
+                <span class="indicator bad">{{ bad }} bad</span>
+            {% endif %}
+            {% if warn != 0 %}
+                <span class="indicator warn">{{ warn }} warn</span>
+            {% endif %}
+            {% if missing != 0 %}
+                <span class="indicator missing">{{ missing }} missing</span>
+            {% endif %}
+            {% if recovery != 0 %}
+                <span class="indicator recovery">{{ recovery }} recovery</span>
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td class="bodycol" colspan="2" align="left">
+            <div class="description">
+                <span>{{ body }}</span>
+            </div>
+        </td>
+    </tr>
+</table>

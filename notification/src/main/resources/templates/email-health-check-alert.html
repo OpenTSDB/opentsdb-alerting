@@ -1,0 +1,123 @@
+<!--
+  ~  This file is part of OpenTSDB.
+  ~  Copyright (C) 2021 Yahoo.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<!doctype html>
+<html lang="en">
+
+{% include "./email-alert-head.html" %}
+
+<body>
+<!-- email template -->
+<div class="email-wrapper">
+
+    {% include "./email-navigation-summary-blocks.html" %}
+
+    <!-- block of alert views by type
+        Args:
+            namespace (String) - namespace
+            viewMap   (Map<String, List<HealthCheckAlertView>) - map of views.
+    -->
+    {% for state in ["bad", "warn", "missing", "recovery"] %}
+    {% if viewMap[state] is not empty %}
+    {% set views = viewMap[state] %}
+
+    <!-- views block
+        Args:
+            state     (String) - `bad`, `warn`, `missing`, `recovery`
+            views     (List<HealthCheckAlertView>) - view blocks
+    -->
+    <table cellpadding="0" cellspacing="0" width="640px" class="detail">
+        <tr>
+            <td valign="top">
+                <div class="detail-wrap {{ state }}">
+                    <h3 class="type {{ state }}">{{ state | capitalize }}</h3>
+                    {% for view in views %}
+                    <!-- view block
+                        Args:
+                            getDescription(..)  - return alert description
+                            getHumanTimestamp() - return human readable timestamp
+
+                            threshold      (int)     - threshold range
+                            stateFrom      (String)  - `bad`, `warn`, `missing`, `recovery`
+                            stateTo        (String)  - `bad`, `warn`, `missing`, `recovery`
+                            sortedTags     (Map<String, String>) - tags
+
+                            timestampsSec  (long[])  - timestamps in seconds
+                            states         (State[]) - array of states.
+                     -->
+                    <div class="visual">
+                        <div class="description">
+                            <span>{{ view.getDescription("<strong>", "</strong>") | raw }}</span><br />
+                            {% set statusMessage = view.getStatusMessage() %}
+                            {% if statusMessage is not empty %}
+                            <span><strong>Message</strong>: </span><span>{{ statusMessage }}</span>
+                            {% else %}
+                            <span><strong>Message</strong>: </span><span><i>none.</i></span>
+                            {% endif %}
+                        </div>
+                        <div class="description">
+                            <span class="timestamp">{{ view.getHumanTimestamp() }}</span>
+                        </div>
+                        <div class="graph">
+                            <div class="state-indicator">
+                                <span class="indicator {{ view.stateFrom }}">{{ view.stateFrom }}</span>&rarr;<span class="indicator {{ view.stateTo }}">{{ view.stateTo }}</span>
+                            </div>
+                            <!-- graph -->
+                            <div style="text-align:center;margin-top:12px;">
+                                {% if view.showGraph() %}
+                                    {% for state in view.states %}
+                                        <span class="indicator {{ state | lower }}">{{ state | upper }}</span>
+                                    {% endfor %}
+                                    <br>
+                                    {% for ts in view.timestampsSec %}
+                                        <span class="timestamp" style="padding:4px;margin:auto 4px;border-radius:3px;">{{ (ts * 1000) | date("hh:mm:ss") }}</span>
+                                    {% endfor %}
+                                    <br>
+                                {% else %}
+                                    <br>
+                                    <span><i>No pic intended ¯\_(ツ)_/¯.</i></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="tags">
+                            {% for tag in view.sortedTags %}
+                            <span class="tag"><span class="tagk">{{ tag.key }}</span>: <strong class="tagv">{{ tag.value }}</strong></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if not loop.last %}
+                    <hr/>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+    </table>
+    {% endif %}
+    {% endfor %} <!-- end iterate over possible states-->
+
+    <table cellpadding="0" cellspacing="0" width="640px" class="footer">
+        <tr>
+            <td valign="top">
+                This is a generated email from <a href="">OpenTSDB</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+</html>
