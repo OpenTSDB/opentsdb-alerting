@@ -26,6 +26,7 @@ import net.opentsdb.horizon.alerts.EnvironmentConfig;
 import org.apache.pulsar.client.api.Authentication;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
+import org.apache.pulsar.client.impl.AuthenticationUtil;
 import org.apache.pulsar.client.impl.auth.AuthenticationAthenz;
 
 // TODO: Probably fine. But maybe it is possible to avoid singletons.
@@ -46,10 +47,18 @@ public enum PulsarClientSingleton implements Closeable {
         final String brokerName = config.getPulsarBrokerName();
         final Authentication auth;
         if (config.isPulsarAthenzEnabled()) {
-            auth = new AuthenticationAthenz();
             Map<String, String> authParams = Maps.newHashMap();
-            authParams.put("privateKeyPath", config.getAthenzKey());
-            // TODO - other params.
+            authParams.put("privateKey", config.getAthenzKey());
+            authParams.put("tenantDomain", config.getPulsarAthenzTenantDomain());
+            authParams.put("tenantService", config.getPulsarAthenzTenantService());
+            authParams.put("providerDomain", config.getPulsarAthenzProviderDomain());
+            authParams.put("keyId", config.getPulsarAthenzKeyId());
+            try {
+                auth = AuthenticationUtil.create(AuthenticationAthenz.class.getName(), authParams);
+            } catch (PulsarClientException.UnsupportedAuthenticationException e) {
+                throw new RuntimeException(
+                        "failed to create a Pulsar Authentication", e);
+            }
         } else {
             auth = null;
         }
