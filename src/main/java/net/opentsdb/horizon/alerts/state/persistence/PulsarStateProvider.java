@@ -217,6 +217,7 @@ public class PulsarStateProvider implements StateProvider, Closeable {
             consumer = pulsarClient.newConsumer()
                     .topic(topicName)
                     .consumerName(consumerName)
+                    .subscriptionName(consumerName)
                     .subscribe();
         } catch (PulsarClientException e) {
             throw new RuntimeException(e);
