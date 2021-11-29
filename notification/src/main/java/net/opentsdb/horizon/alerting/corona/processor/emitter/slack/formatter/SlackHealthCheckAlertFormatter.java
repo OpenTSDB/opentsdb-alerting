@@ -20,10 +20,10 @@ package net.opentsdb.horizon.alerting.corona.processor.emitter.slack.formatter;
 import net.opentsdb.horizon.alerting.corona.model.alert.impl.HealthCheckAlert;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.slack.client.api.SlackBuilders;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 
 public class SlackHealthCheckAlertFormatter
-        extends SlackAbstractFormatter<HealthCheckAlert, HealthCheckAlertView, HealthChekMessageKitView>
+        extends SlackAbstractFormatter<HealthCheckAlert, HealthCheckAlertView, HealthCheckMessageKitView>
 {
 
     public SlackHealthCheckAlertFormatter(final SlackBuilders buildersFactory)

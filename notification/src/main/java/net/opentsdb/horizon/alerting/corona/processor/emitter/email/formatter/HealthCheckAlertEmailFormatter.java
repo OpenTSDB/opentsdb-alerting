@@ -22,13 +22,13 @@ import java.util.Map;
 
 import net.opentsdb.horizon.alerting.corona.model.alert.impl.HealthCheckAlert;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 
 public class HealthCheckAlertEmailFormatter
         extends AbstractEmailFormatter<
         HealthCheckAlert,
         HealthCheckAlertView,
-        HealthChekMessageKitView
+        HealthCheckMessageKitView
         >
 {
 
@@ -39,7 +39,7 @@ public class HealthCheckAlertEmailFormatter
 
     @Override
     protected Map<String, byte[]> generateImages(
-            final HealthChekMessageKitView messageKit)
+            final HealthCheckMessageKitView messageKit)
     {
         return new HashMap<>();
     }

@@ -19,13 +19,13 @@ package net.opentsdb.horizon.alerting.corona.processor.emitter.opsgenie.formatte
 
 import net.opentsdb.horizon.alerting.corona.model.alert.impl.HealthCheckAlert;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 
 public class HealthCheckAlertOpsGenieFormatter
         extends AbstractOpsGenieFormatter<
         HealthCheckAlert,
         HealthCheckAlertView,
-        HealthChekMessageKitView
+        HealthCheckMessageKitView
         >
 {
     /* ------------ Constructors ------------ */

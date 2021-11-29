@@ -25,20 +25,20 @@ import net.opentsdb.horizon.alerting.corona.model.alert.impl.HealthCheckAlert;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OcContact;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.OcMeta;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 
 public class PrismHealthCheckAlertFacade
         extends PrismAbstractAlertFacade<
         HealthCheckAlert,
         HealthCheckAlertView,
-        HealthChekMessageKitView
+        HealthCheckMessageKitView
         > {
 
     private final AlertDetails alertDetails;
 
     public PrismHealthCheckAlertFacade(
             final String hostname,
-            final HealthChekMessageKitView messageKitView,
+            final HealthCheckMessageKitView messageKitView,
             final HealthCheckAlertView alertView,
             final OcMeta meta,
             final OcContact contact) {

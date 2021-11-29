@@ -19,13 +19,13 @@ package net.opentsdb.horizon.alerting.corona.processor.emitter.oc.formatter;
 
 import net.opentsdb.horizon.alerting.corona.model.alert.impl.HealthCheckAlert;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 
 public class HealthCheckAlertOcFormatter
         extends AbstractAlertOcFormatter<
         HealthCheckAlert,
         HealthCheckAlertView,
-        HealthChekMessageKitView
+        HealthCheckMessageKitView
         > {
 
     /* ------------ Constructor ------------ */
@@ -48,7 +48,7 @@ public class HealthCheckAlertOcFormatter
 
     @Override
     protected String buildMessageSnippet(
-            final HealthChekMessageKitView messageKitView,
+            final HealthCheckMessageKitView messageKitView,
             final HealthCheckAlertView view) {
         if (view.getStatusMessage() != null) {
             return String.format(

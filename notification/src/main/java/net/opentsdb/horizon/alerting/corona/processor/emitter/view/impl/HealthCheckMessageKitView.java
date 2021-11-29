@@ -25,11 +25,11 @@ import net.opentsdb.horizon.alerting.corona.model.messagekit.MessageKit;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.MessageKitView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.Views;
 
-public class HealthChekMessageKitView
+public class HealthCheckMessageKitView
         extends MessageKitView<HealthCheckAlert, HealthCheckAlertView> {
     /* ------------ Constructors ------------ */
 
-    public HealthChekMessageKitView(final MessageKit messageKit) {
+    public HealthCheckMessageKitView(final MessageKit messageKit) {
         super(messageKit);
     }
 
