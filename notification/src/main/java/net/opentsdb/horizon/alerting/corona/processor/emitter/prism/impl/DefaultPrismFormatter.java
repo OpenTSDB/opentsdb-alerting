@@ -32,7 +32,7 @@ import net.opentsdb.horizon.alerting.corona.processor.emitter.view.MessageKitVie
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.EventAlertView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.EventMessageKitView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.PeriodOverPeriodAlertView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.PeriodOverPeriodMessageKitView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.SingleMetricAlertView;
@@ -63,7 +63,7 @@ public class DefaultPrismFormatter implements PrismFormatter {
         } else if (alertView instanceof HealthCheckAlertView) {
             return new PrismHealthCheckAlertFacade(
                     hostname,
-                    (HealthChekMessageKitView) messageKit,
+                    (HealthCheckMessageKitView) messageKit,
                     (HealthCheckAlertView) alertView,
                     meta,
                     contact

@@ -40,7 +40,7 @@ import net.opentsdb.horizon.alerting.corona.model.messagekit.MessageKit;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.EventAlertView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.EventMessageKitView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.PeriodOverPeriodAlertView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.PeriodOverPeriodMessageKitView;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.SingleMetricAlertView;
@@ -63,7 +63,7 @@ public class Views {
             case SINGLE_METRIC:
                 return new SingleMetricMessageKitView(messageKit);
             case HEALTH_CHECK:
-                return new HealthChekMessageKitView(messageKit);
+                return new HealthCheckMessageKitView(messageKit);
             case EVENT:
                 return new EventMessageKitView(messageKit);
             case PERIOD_OVER_PERIOD:

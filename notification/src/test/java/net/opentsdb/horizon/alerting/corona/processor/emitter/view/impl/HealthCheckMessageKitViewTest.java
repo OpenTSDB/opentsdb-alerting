@@ -36,7 +36,7 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HealthChekMessageKitViewTest {
+class HealthCheckMessageKitViewTest {
 
     @Test
     void interpolateSubjectBody() {
@@ -81,7 +81,7 @@ class HealthChekMessageKitViewTest {
                         .build())
                 .build();
 
-        HealthChekMessageKitView mkView = (HealthChekMessageKitView) Views.of(mk);
+        HealthCheckMessageKitView mkView = (HealthCheckMessageKitView) Views.of(mk);
         assertEquals("job_id: jenkins-5, status: Status OK", mkView.interpolateSubject(mkView.getAllViews().get(0)));
         assertEquals("status: Status OK", mkView.interpolateBody(mkView.getAllViews().get(0)));
     }

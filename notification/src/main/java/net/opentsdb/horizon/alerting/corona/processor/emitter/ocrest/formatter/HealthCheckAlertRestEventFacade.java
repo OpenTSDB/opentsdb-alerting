@@ -22,13 +22,13 @@ import net.opentsdb.horizon.alerting.corona.model.contact.impl.OcContact;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.OcMeta;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.ocrest.OcRestEvent;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 
 public class HealthCheckAlertRestEventFacade
         extends AbstractRestEventFacade<
         HealthCheckAlert,
         HealthCheckAlertView,
-        HealthChekMessageKitView
+        HealthCheckMessageKitView
         > {
 
     private static final OcRestEvent.AlertDetails ALERT_DETAILS =
@@ -48,7 +48,7 @@ public class HealthCheckAlertRestEventFacade
 
     public HealthCheckAlertRestEventFacade(
             final String hostname,
-            final HealthChekMessageKitView messageKitView,
+            final HealthCheckMessageKitView messageKitView,
             final HealthCheckAlertView alertView,
             final OcMeta meta,
             final OcContact contact)

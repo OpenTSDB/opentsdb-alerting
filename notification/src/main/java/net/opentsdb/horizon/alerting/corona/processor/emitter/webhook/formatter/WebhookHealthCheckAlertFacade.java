@@ -20,17 +20,17 @@ package net.opentsdb.horizon.alerting.corona.processor.emitter.webhook.formatter
 import net.opentsdb.horizon.alerting.corona.model.alert.impl.HealthCheckAlert;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.WebhookMeta;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckAlertView;
-import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthChekMessageKitView;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.HealthCheckMessageKitView;
 
 public class WebhookHealthCheckAlertFacade
         extends WebhookAbstractAlertFacade<
         HealthCheckAlert,
                         HealthCheckAlertView,
-                        HealthChekMessageKitView
+                        HealthCheckMessageKitView
                         > {
 
     public WebhookHealthCheckAlertFacade(
-            final HealthChekMessageKitView messageKitView,
+            final HealthCheckMessageKitView messageKitView,
             final HealthCheckAlertView alertView,
             final WebhookMeta meta)
     {
