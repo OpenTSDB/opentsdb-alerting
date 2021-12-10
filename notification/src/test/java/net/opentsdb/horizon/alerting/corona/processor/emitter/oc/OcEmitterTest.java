@@ -25,6 +25,7 @@ import net.opentsdb.horizon.alerting.corona.model.contact.Contact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OcContact;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.MessageKit;
 import net.opentsdb.horizon.alerting.corona.monitoring.AppMonitor;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.Views;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -38,6 +39,17 @@ public class OcEmitterTest {
 
     @Capturing
     private OcClient ocClient;
+
+    @BeforeAll
+    public static void setup()
+    {
+        Views.initialize(Views.config()
+                .setHorizonUrl("https://opentsdb.net")
+                .setSplunkUrl("https://splunk.opentsdb.net/splunk")
+                .setSplunkIndex("corona-alerts")
+                .setSplunkLocale("en-US")
+        );
+    }
 
     @BeforeAll
     static void stubMonitoring() {
