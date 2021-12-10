@@ -20,12 +20,25 @@ package net.opentsdb.horizon.alerting.corona.processor.emitter.email;
 import net.opentsdb.horizon.alerting.corona.TestData;
 import net.opentsdb.horizon.alerting.corona.model.alert.AlertType;
 import net.opentsdb.horizon.alerting.corona.model.contact.Contact;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.Views;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class EmailFormatterTest {
+
+    @BeforeAll
+    public static void setup()
+    {
+        Views.initialize(Views.config()
+                .setHorizonUrl("https://opentsdb.net")
+                .setSplunkUrl("https://splunk.opentsdb.net/splunk")
+                .setSplunkIndex("corona-alerts")
+                .setSplunkLocale("en-US")
+        );
+    }
 
     @Test
     public void testFormat()
