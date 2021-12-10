@@ -117,9 +117,9 @@ public class SlackSingleMetricAlertFormatterTest {
                         slackBuilders.createAttachmentBuilder()
                                 .setColor(SlackColor.NEUTRAL)
                                 .setMarkdownIn("text")
-                                .setText("<" + Views.alertSplunkUrl(alertId,
+                                .setText("<" + Views.get().alertSplunkUrl(alertId,
                                         alertTsSec * 1000) + "|View details> | " +
-                                        "<" + Views.alertEditUrl(alertId) + "|Modify alert>\n" +
+                                        "<" + Views.get().alertEditUrl(alertId) + "|Modify alert>\n" +
                                         "Body: Slack Alert"
                                 )
                                 .build()

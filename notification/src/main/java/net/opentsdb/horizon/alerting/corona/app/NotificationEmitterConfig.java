@@ -94,7 +94,12 @@ public class NotificationEmitterConfig extends AbstractConfig {
         // Prism Emitter
 
         PRISM_HOST("alerts.opentsdb.net"),
-        PRISM_ENDPOINT("prism.opentsdb.net");
+        PRISM_ENDPOINT("prism.opentsdb.net"),
+
+        VIEWS_HORIZON_URL,
+        VIEWS_SPLUNK_URL,
+        VIEWS_SPLUNK_INDEX,
+        VIEWS_SPLUNK_LOCALE("en_US");
 
         final String key;
 
@@ -396,6 +401,26 @@ public class NotificationEmitterConfig extends AbstractConfig {
     public String getDebugWebhookEndpoint()
     {
         return get(C.DEBUG_WEBHOOK_ENDPOINT);
+    }
+
+    public String getViewsHorizonUrl()
+    {
+        return get(C.VIEWS_HORIZON_URL);
+    }
+
+    public String getViewsSplunkUrl()
+    {
+        return get(C.VIEWS_SPLUNK_URL);
+    }
+
+    public String getViewsSplunkIndex()
+    {
+        return get(C.VIEWS_SPLUNK_INDEX);
+    }
+
+    public String getViewsSplunkLocale()
+    {
+        return get(C.VIEWS_SPLUNK_LOCALE);
     }
 
     /* ------------ Builder ------------ */

@@ -22,7 +22,9 @@ import net.opentsdb.horizon.alerting.corona.model.alert.AlertType;
 import net.opentsdb.horizon.alerting.corona.model.contact.Contact;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.MessageKit;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.opsgenie.OpsGenieAlert;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.Views;
 import org.apache.commons.lang.StringUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -31,6 +33,17 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OpsGenieSingleMetricAlertFormatterTest {
+
+    @BeforeAll
+    public static void setup()
+    {
+        Views.initialize(Views.config()
+                .setHorizonUrl("https://opentsdb.net")
+                .setSplunkUrl("https://splunk.opentsdb.net/splunk")
+                .setSplunkIndex("corona-alerts")
+                .setSplunkLocale("en-US")
+        );
+    }
 
     @Test
     public void singleAlert() {

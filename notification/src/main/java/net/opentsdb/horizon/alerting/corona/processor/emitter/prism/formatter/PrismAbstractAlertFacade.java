@@ -144,6 +144,6 @@ public abstract class PrismAbstractAlertFacade<
 
     @Override
     public String getDashboardUrl() {
-        return Views.alertViewUrl(messageKitView.getAlertId());
+        return Views.get().alertViewUrl(messageKitView.getAlertId());
     }
 }

@@ -155,7 +155,7 @@ public abstract class AbstractAlertOcFormatter<
                         buildMessageSnippet(messageKitView, view)
                 )
                 .setDashboardLink(
-                        Views.alertViewUrl(messageKitView.getAlertId())
+                        Views.get().alertViewUrl(messageKitView.getAlertId())
                 )
                 .setAlertHash(getAlertHash(messageKitView, view))
                 .setRecovery(view.isRecovery() ? 0 : 1)

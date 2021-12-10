@@ -289,14 +289,14 @@ abstract class AbstractOpsGenieFormatter<
                 .setIncludeRecoveryNote(canBeClosed)
                 .addDetail(
                         "OpenTSDB View Details",
-                        Views.alertSplunkUrl(
+                        Views.get().alertSplunkUrl(
                                 messageKitView.getAlertId(),
                                 sampleAlertTimestampMs
                         )
                 )
                 .addDetail(
                         "OpenTSDB Modify Alert",
-                        Views.alertViewUrl(messageKitView.getAlertId())
+                        Views.get().alertViewUrl(messageKitView.getAlertId())
                 )
                 .build();
     }

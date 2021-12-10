@@ -17,6 +17,7 @@
 
 package net.opentsdb.horizon.alerting.corona.app;
 
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.Views;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +68,13 @@ public class NotificationEmitterApp {
                         "container-name",
                         config.getMonitoringContainerName()
                 )
+        );
+
+        Views.initialize(Views.config()
+                .setHorizonUrl(config.getViewsHorizonUrl())
+                .setSplunkUrl(config.getViewsSplunkUrl())
+                .setSplunkIndex(config.getViewsSplunkIndex())
+                .setSplunkLocale(config.getViewsSplunkLocale())
         );
 
         try {

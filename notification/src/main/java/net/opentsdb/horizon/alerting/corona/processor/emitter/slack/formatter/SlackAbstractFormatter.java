@@ -188,8 +188,8 @@ abstract class SlackAbstractFormatter<
         // Footer.
         final long alertId = mkView.getAlertId();
         final long alertTsMs = views.get(0).getTimestampMs();
-        final String splunkUrl = Views.alertSplunkUrl(alertId, alertTsMs);
-        final String editUrl = Views.alertEditUrl(alertId);
+        final String splunkUrl = Views.get().alertSplunkUrl(alertId, alertTsMs);
+        final String editUrl = Views.get().alertEditUrl(alertId);
         final String footerText = escape(mkView.getGroupInterpolatedBody());
 
         final SlackRequest.Attachment footer =

@@ -48,6 +48,8 @@ import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.SingleMe
 
 public class Views {
 
+    private static volatile Views INSTANCE;
+
     private static final SimpleDateFormat DATE_TIME_FORMATTER;
 
     static {
@@ -56,6 +58,23 @@ public class Views {
     }
 
     /* ------------ Static Methods ------------ */
+
+    public static Views get()
+    {
+        return INSTANCE;
+    }
+
+    /**
+     * Initialize the {@code Views} singleton in a not thread-safe way.
+     * <p>
+     * Note: Not thread safe.
+     *
+     * @param config {@code Views} configuration.
+     */
+    public static void initialize(final Config config)
+    {
+        INSTANCE = new Views(config);
+    }
 
     public static MessageKitView<?, ?> of(final MessageKit messageKit)
     {
@@ -154,35 +173,54 @@ public class Views {
         }
     }
 
-
-    public static String alertEditUrl(final long alertId)
-    {
-        return "https://opentsdb.net/a/" + alertId + "/edit";
-    }
-
-    public static String alertViewUrl(final long alertId)
-    {
-        return "https://opentsdb.net/a/" + alertId + "/view";
-    }
-
-    public static String alertSplunkUrl(final long alertId)
-    {
-        return "https://splunk.opentsdb.net/splunk/en-US/app/search/search?"
-                + "q=search"
-                + "%20index%3Dcorona-alerts"
-                + "%20alert_id%3D" + alertId;
-    }
-
     private static long fiveMinuteRoundDownMs(final long timestampMs)
     {
         return timestampMs - timestampMs % 300_000L;
     }
 
-    public static String alertSplunkUrl(final long alertId,
-                                        final long timestampMs)
+    /* ------------ Fields ------------ */
+
+    private final String horizonUrl;
+
+    private final String splunkUrl;
+
+    private final String splunkIndex;
+
+    private final String splunkLocale;
+
+    /* ------------ Constructor ------------ */
+
+    private Views(Config config)
     {
-        final long earliestMs =
-                fiveMinuteRoundDownMs(timestampMs) - 5L * 60_000L;
+        horizonUrl = config.horizonUrl;
+        splunkUrl = config.splunkUrl;
+        splunkIndex = config.splunkIndex;
+        splunkLocale = config.splunkLocale;
+    }
+
+    /* ------------ Methods ------------ */
+
+    public String alertEditUrl(final long alertId)
+    {
+        return horizonUrl + "/a/" + alertId + "/edit";
+    }
+
+    public String alertViewUrl(final long alertId)
+    {
+        return horizonUrl + "/a/" + alertId + "/view";
+    }
+
+    public String alertSplunkUrl(final long alertId)
+    {
+        return  splunkUrl + "/" + splunkLocale + "/app/search/search?"
+                + "q=search"
+                + "%20index%3D" + splunkIndex
+                + "%20alert_id%3D" + alertId;
+    }
+
+    public String alertSplunkUrl(final long alertId, final long timestampMs)
+    {
+        final long earliestMs = fiveMinuteRoundDownMs(timestampMs) - 5L * 60_000L;
         // Opportunistically hope that the alert has already
         // been written to Splunk.
         final long latestMs = earliestMs + 15L * 60_000L;
@@ -190,24 +228,63 @@ public class Views {
         final String earliest = DATE_TIME_FORMATTER.format(new Date(earliestMs));
         final String latest = DATE_TIME_FORMATTER.format(new Date(latestMs));
 
-        final String query = " index=corona-alerts"
+        final String query = " index=" + splunkIndex
                 + " alert_id=" + alertId
                 + " earliest=" + earliest
                 + " latest=" + latest
                 + " timeformat=%m/%d/%Y:%H:%M:%S%Z";
 
+        // TODO: Change to specify "StandardCharsets.UTF_8" when migrating to JDK11 or later.
         try {
-            return "https://splunk.opentsdb.net/splunk/en-US/app/search/search?q=search"
-                    + URLEncoder.encode(query, "UTF-8");
+            return splunkUrl + "/" + splunkLocale + "/app/search/search?q=search" + URLEncoder.encode(query, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("utf8 encoding should be known");
         }
     }
 
-    /* ------------ Constructor ------------ */
+    /* ------------ Configuration ------------ */
 
-    private Views()
+    public static class Config
     {
+
+        private String horizonUrl;
+
+        private String splunkUrl;
+
+        private String splunkIndex;
+
+        private String splunkLocale;
+
+        private Config() { }
+
+        public Config setHorizonUrl(final String horizonUrl)
+        {
+            this.horizonUrl = horizonUrl;
+            return this;
+        }
+
+        public Config setSplunkUrl(final String splunkUrl)
+        {
+            this.splunkUrl = splunkUrl;
+            return this;
+        }
+
+        public Config setSplunkIndex(final String splunkIndex)
+        {
+            this.splunkIndex = splunkIndex;
+            return this;
+        }
+
+        public Config setSplunkLocale(final String splunkLocale)
+        {
+            this.splunkLocale = splunkLocale;
+            return this;
+        }
+    }
+
+    public static Config config()
+    {
+        return new Config();
     }
 
     /* ------------ Static Classes ------------ */

@@ -22,6 +22,7 @@ import net.opentsdb.horizon.alerting.corona.model.alert.State;
 import net.opentsdb.horizon.alerting.corona.model.alert.WindowSampler;
 import net.opentsdb.horizon.alerting.corona.model.alert.impl.SingleMetricSimpleAlert;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.view.impl.SingleMetricAlertView;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -29,6 +30,17 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ViewsTest {
+
+    @BeforeAll
+    public static void setup()
+    {
+        Views.initialize(Views.config()
+                .setHorizonUrl("https://horizon.example.com")
+                .setSplunkUrl("https://splunk.example.com/splunk")
+                .setSplunkIndex("test-index")
+                .setSplunkLocale("ja_JP")
+        );
+    }
 
     @Test
     public void testOfSingleMetricSimpleAlert()
@@ -79,5 +91,29 @@ class ViewsTest {
         final SingleMetricAlertView actual = Views.of(given);
 
         assertEquals(expectedView, actual);
+    }
+
+    @Test
+    void alertEditUrl()
+    {
+        assertEquals("https://horizon.example.com/a/9876543210/edit", Views.get().alertEditUrl(9876543210L));
+    }
+
+    @Test
+    void alertViewUrl()
+    {
+        assertEquals("https://horizon.example.com/a/9876543210/view", Views.get().alertViewUrl(9876543210L));
+    }
+
+    @Test
+    void alertSplunkUrl()
+    {
+        assertEquals("https://splunk.example.com/splunk/ja_JP/app/search/search?q=search%20index%3Dtest-index%20alert_id%3D9876543210", Views.get().alertSplunkUrl(9876543210L));
+    }
+
+    @Test
+    void testAlertSplunkUrl()
+    {
+        assertEquals("https://splunk.example.com/splunk/ja_JP/app/search/search?q=search+index%3Dtest-index+alert_id%3D9876543210+earliest%3D12%2F01%2F2021%3A11%3A55%3A00UTC+latest%3D12%2F01%2F2021%3A12%3A10%3A00UTC+timeformat%3D%25m%2F%25d%2F%25Y%3A%25H%3A%25M%3A%25S%25Z", Views.get().alertSplunkUrl(9876543210L, 1638360000000L));
     }
 }
