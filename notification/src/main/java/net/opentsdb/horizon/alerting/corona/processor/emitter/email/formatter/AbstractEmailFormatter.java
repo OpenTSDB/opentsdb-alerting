@@ -253,9 +253,9 @@ public abstract class AbstractEmailFormatter<
 
         final Parameters params = new Parameters()
                 .setDetailsLink(
-                        Views.alertSplunkUrl(alertId, sampleAlertTimestampMs)
+                        Views.get().alertSplunkUrl(alertId, sampleAlertTimestampMs)
                 )
-                .setEditLink(Views.alertEditUrl(alertId))
+                .setEditLink(Views.get().alertEditUrl(alertId))
                 .setTimestampMs(System.currentTimeMillis())
                 .setBody(view.getGroupInterpolatedBody())
                 .setNamespace(namespace)

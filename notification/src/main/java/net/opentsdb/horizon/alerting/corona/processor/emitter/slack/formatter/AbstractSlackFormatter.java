@@ -277,11 +277,11 @@ public abstract class AbstractSlackFormatter<
                 body.trim(),
                 tagsStr,
                 buildStateCountLine(messageKitView),
-                Views.alertSplunkUrl(
+                Views.get().alertSplunkUrl(
                         messageKitView.getAlertId(),
                         sampleAlertTimestmpMs
                 ),
-                Views.alertEditUrl(messageKitView.getAlertId())
+                Views.get().alertEditUrl(messageKitView.getAlertId())
         );
     }
 
@@ -295,7 +295,7 @@ public abstract class AbstractSlackFormatter<
                 buildAttachments(messageKitView);
 
         return buildersFactory.createRequestBuilder()
-                .setUrl(Views.alertViewUrl(messageKitView.getAlertId()))
+                .setUrl(Views.get().alertViewUrl(messageKitView.getAlertId()))
                 .setText(buildText(messageKitView))
                 .setAttachments(attachments)
                 .build();

@@ -129,9 +129,9 @@ public class SlackEventAlertFormatterTest {
                         slackBuilders.createAttachmentBuilder()
                                 .setColor(SlackColor.NEUTRAL)
                                 .setMarkdownIn("text")
-                                .setText("<" + Views.alertSplunkUrl(alertId,
+                                .setText("<" + Views.get().alertSplunkUrl(alertId,
                                         alertTsSec * 1000) + "|View details> | " +
-                                        "<" + Views.alertEditUrl(alertId) + "|Modify alert>\n" +
+                                        "<" + Views.get().alertEditUrl(alertId) + "|Modify alert>\n" +
                                         SlackAbstractFormatter.escape("Body: Slack Alert")
                                 )
                                 .build()

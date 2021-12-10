@@ -25,6 +25,7 @@ import net.opentsdb.horizon.alerting.corona.TestData;
 import net.opentsdb.horizon.alerting.corona.model.alert.AlertType;
 import net.opentsdb.horizon.alerting.corona.model.contact.Contact;
 import net.opentsdb.horizon.alerting.corona.monitoring.AppMonitor;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.view.Views;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.webhook.impl.DefaultWebhookFormatter;
 import net.opentsdb.horizon.alerting.corona.testutils.Utils;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,6 +45,17 @@ public class WebhookEmitterTest {
 
     @Capturing
     WebhookClient webhookClient;
+
+    @BeforeAll
+    public static void setup()
+    {
+        Views.initialize(Views.config()
+                .setHorizonUrl("https://opentsdb.net")
+                .setSplunkUrl("https://splunk.opentsdb.net/splunk")
+                .setSplunkIndex("corona-alerts")
+                .setSplunkLocale("en-US")
+        );
+    }
 
     @BeforeAll
     static void stubMonitoring() {

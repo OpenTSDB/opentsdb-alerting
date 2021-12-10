@@ -141,7 +141,7 @@ public class SplunkJson implements Processor<Triple<AlertGroup, Metadata, Contac
                 contactNames,
                 metadata.getSubject(),
                 metadata.getBody(),
-                Views.alertViewUrl(groupKey.getAlertId())
+                Views.get().alertViewUrl(groupKey.getAlertId())
         );
     }
 

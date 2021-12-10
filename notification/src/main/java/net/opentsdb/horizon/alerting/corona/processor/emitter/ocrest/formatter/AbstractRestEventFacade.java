@@ -162,7 +162,7 @@ public abstract class AbstractRestEventFacade<
     @Override
     public String getDashboardUrl()
     {
-        return Views.alertViewUrl(messageKitView.getAlertId());
+        return Views.get().alertViewUrl(messageKitView.getAlertId());
     }
 
     @Override

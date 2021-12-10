@@ -112,7 +112,7 @@ public abstract class WebhookAbstractAlertFacade<
     @Override
     public String getUrl()
     {
-        return Views.alertViewUrl(messageKitView.getAlertId());
+        return Views.get().alertViewUrl(messageKitView.getAlertId());
     }
 
     @Override
