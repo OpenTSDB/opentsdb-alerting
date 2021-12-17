@@ -49,14 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -71,6 +64,13 @@ import static net.opentsdb.horizon.alerts.query.tsdb.TSDV3Constants.RESULTS;
 public class TsdbV3ResultProcessor {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsdbV3ResultProcessor.class);
+
+    private static final Set<String> EMPTY_HEARTBEAT_TAGSET = Collections.unmodifiableSet(new HashSet<>());
+
+    static {
+        EMPTY_HEARTBEAT_TAGSET.add(QueryConstants.GROUP_BY_ALL);
+    }
+
 
     public static String runQueryAndGetResponse(TSDBClient tsdbClient, long alertId,
                                                 String namespace,
@@ -1745,4 +1745,9 @@ public class TsdbV3ResultProcessor {
             tagMap.put(QueryConstants.GROUP_BY_ALL, QueryConstants.GROUP_BY_ALL);
         }
     }
+
+    public static Set<String> getEmptyHeartbeatTagset() {
+        return EMPTY_HEARTBEAT_TAGSET;
+    }
+
 }

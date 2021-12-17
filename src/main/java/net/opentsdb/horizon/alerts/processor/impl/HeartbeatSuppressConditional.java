@@ -54,7 +54,7 @@ public class HeartbeatSuppressConditional implements Conditional {
         subMap.keySet().retainAll(tagKeys);
         final long hashCode = AlertUtils.getHashForNAMT(namespace, alertId, subMap);
         if (!this.heartbeatMap.containsKey(hashCode)) {
-            LOG.info("id: {} not in heartbeat subMap: {}", alertId, convertWithStream(subMap));
+            LOG.info("id: {} not in heartbeat subMap: {} hash: {}", alertId, convertWithStream(subMap), hashcode);
             return false;
         }
         if (this.heartbeatMap.containsKey(hashCode) && this.heartbeatMap.get(hashCode)) {
