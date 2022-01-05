@@ -30,6 +30,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
 
 import net.opentsdb.horizon.alerting.Builder;
+import org.apache.http.HttpHost;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -86,6 +88,10 @@ public class CloseableHttpClientBuilder
     private int socketTimeoutMs = 500;
 
     private int connectionRequestTimeoutMs = 500;
+
+    private HttpHost proxy;
+
+    private CredentialsProvider credsProvider;
 
     /* ----------- Constructor ----------- */
 
@@ -169,15 +175,33 @@ public class CloseableHttpClientBuilder
         return this;
     }
 
+    public CloseableHttpClientBuilder setProxy(HttpHost proxyHost)
+    {
+        this.proxy = proxyHost;
+        return this;
+    }
+
+    public CloseableHttpClientBuilder setProxy(String proxyHost, int proxyPort)
+    {
+        this.proxy = new HttpHost(proxyHost, proxyPort);
+        return this;
+    }
+
+    public CloseableHttpClientBuilder setCredentialsProvider(CredentialsProvider credsProvider)
+    {
+        this.credsProvider = credsProvider;
+        return this;
+    }
+
     private void validate()
     {
         if (!tlsEnabled) {
             return;
         }
-        Objects.requireNonNull(trustStorePath, "trustStorePath cannot bu null");
-        Objects.requireNonNull(trustStorePassword, "trustStorePassword cannot bu null");
-        Objects.requireNonNull(certificatePath, "certificatePath cannot bu null");
-        Objects.requireNonNull(privateKeyPath, "privateKeyPath cannot bu null");
+        Objects.requireNonNull(trustStorePath, "trustStorePath cannot be null");
+        Objects.requireNonNull(trustStorePassword, "trustStorePassword cannot be null");
+        Objects.requireNonNull(certificatePath, "certificatePath cannot be null");
+        Objects.requireNonNull(privateKeyPath, "privateKeyPath cannot be null");
     }
 
     private SSLContext buildSSLContext()
@@ -238,6 +262,7 @@ public class CloseableHttpClientBuilder
                 .setConnectTimeout(connectTimeoutMs)
                 .setSocketTimeout(socketTimeoutMs)
                 .setConnectionRequestTimeout(connectionRequestTimeoutMs)
+                .setProxy(proxy)
                 .build();
 
         final SSLConnectionSocketFactory socketFactory =
@@ -247,6 +272,7 @@ public class CloseableHttpClientBuilder
                 .setRetryHandler(retryHandler)
                 .setMaxConnTotal(maxConnTotal)
                 .setMaxConnPerRoute(maxConnPerRoute)
+                .setDefaultCredentialsProvider(credsProvider)
                 .setDefaultRequestConfig(requestConfig)
                 .setSSLSocketFactory(socketFactory)
                 .build();

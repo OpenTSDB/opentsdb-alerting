@@ -39,7 +39,11 @@ dependencies {
 }
 
 test {
-    jvmArgs "-javaagent:${classpath.find { it.name.contains("jmockit") }.absolutePath}"
+    jvmArgs = [
+            "-javaagent:${classpath.find { it.name.contains("jmockit") }.absolutePath}",
+            "-Duser.language=en",
+            "-Duser.timezone=UTC"
+    ]
 
     classpath = project.sourceSets.test.runtimeClasspath +
             files("${projectDir}/src/main/resources/templates")

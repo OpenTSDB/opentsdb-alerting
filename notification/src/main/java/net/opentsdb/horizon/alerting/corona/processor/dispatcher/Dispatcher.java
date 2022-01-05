@@ -46,6 +46,8 @@ public class Dispatcher implements Processor<PrePackedMessageKit> {
 
     private final Processor<PrePackedMessageKit> webhookHandler;
 
+    private final Processor<PrePackedMessageKit> pagerDutyHandler;
+
     /* ------------ Constructor ------------ */
 
     // TODO: Try to make this type-safe.
@@ -61,12 +63,15 @@ public class Dispatcher implements Processor<PrePackedMessageKit> {
                 "slackHandler cannot be null");
         Objects.requireNonNull(builder.webhookHandler,
                 "webhookHandler cannot be null");
+        Objects.requireNonNull(builder.pagerDutyHandler,
+                "pagerDutyHandler cannot be null");
 
         this.emailHandler = builder.emailHandler;
         this.ocHandler = builder.ocHandler;
         this.opsGenieHandler = builder.opsGenieHandler;
         this.slackHandler = builder.slackHandler;
         this.webhookHandler = builder.webhookHandler;
+        this.pagerDutyHandler = builder.pagerDutyHandler;
     }
 
     /* ------------ Methods ------------ */
@@ -103,6 +108,9 @@ public class Dispatcher implements Processor<PrePackedMessageKit> {
             case WEBHOOK:
                 submit(message, webhookHandler::process);
                 break;
+            case PAGERDUTY:
+                submit(message, pagerDutyHandler::process);
+                break;
             default:
                 LOG.error("Unknown messagekit type: messagekit = {}", message);
         }
@@ -121,6 +129,8 @@ public class Dispatcher implements Processor<PrePackedMessageKit> {
         private Processor<PrePackedMessageKit> slackHandler;
 
         private Processor<PrePackedMessageKit> webhookHandler;
+
+        private Processor<PrePackedMessageKit> pagerDutyHandler;
 
         protected Builder() {}
 
@@ -159,6 +169,12 @@ public class Dispatcher implements Processor<PrePackedMessageKit> {
             return this;
         }
 
+        public Builder setPagerDutyHandler(
+                final Processor<PrePackedMessageKit> pagerDutyHandler)
+        {
+            this.pagerDutyHandler = pagerDutyHandler;
+            return this;
+        }
 
         public Dispatcher build()
         {

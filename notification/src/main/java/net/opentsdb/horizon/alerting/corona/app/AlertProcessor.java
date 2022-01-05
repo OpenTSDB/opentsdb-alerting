@@ -161,6 +161,8 @@ public class AlertProcessor {
                 kafkaTopicWriter(config.getOcKafkaTopic());
         final KafkaTopicWriter webhookTopicWriter =
                 kafkaTopicWriter(config.getWebhookKafkaTopic());
+        final KafkaTopicWriter pagerDutyTopicWriter =
+                kafkaTopicWriter(config.getPagerDutyKafkaTopic());
         LOG.debug("Created KafkaTopicWriters");
 
         final Dispatcher dispatcher = Dispatcher.builder()
@@ -178,6 +180,9 @@ public class AlertProcessor {
                 )
                 .setWebhookHandler(
                         PreSendSerializer.create(webhookTopicWriter)
+                )
+                .setPagerDutyHandler(
+                        PreSendSerializer.create(pagerDutyTopicWriter)
                 )
                 .build();
         LOG.debug("Created Dispatcher");

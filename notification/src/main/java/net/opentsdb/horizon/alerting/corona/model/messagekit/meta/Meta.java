@@ -48,6 +48,8 @@ public abstract class Meta {
                 return OpsGenieMeta.from(metadata);
             case SLACK:
                 return SlackMeta.from(metadata);
+            case PAGERDUTY:
+                return PagerDutyMeta.from(metadata);
             default:
                 throw new IllegalArgumentException("Unknown type=" + type);
         }

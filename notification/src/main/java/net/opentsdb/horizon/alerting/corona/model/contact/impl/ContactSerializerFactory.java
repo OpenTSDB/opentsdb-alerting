@@ -32,6 +32,8 @@ public class ContactSerializerFactory {
 
     private final SlackContactSerializer slackContactSerializer;
 
+    private final PagerDutyContactSerializer pagerDutyContactSerializer;
+
     public ContactSerializerFactory()
     {
         this.emailContactSerializer = new EmailContactSerializer();
@@ -39,6 +41,7 @@ public class ContactSerializerFactory {
         this.ocContactSerializer = new OcContactSerializer();
         this.opsGenieContactSerializer = new OpsGenieContactSerializer();
         this.slackContactSerializer = new SlackContactSerializer();
+        this.pagerDutyContactSerializer = new PagerDutyContactSerializer();
     }
 
     public AbstractSerializer<? extends Contact> get(Contact.Type type)
@@ -54,6 +57,8 @@ public class ContactSerializerFactory {
                 return opsGenieContactSerializer;
             case SLACK:
                 return slackContactSerializer;
+            case PAGERDUTY:
+                return pagerDutyContactSerializer;
             default:
                 throw new IllegalArgumentException(
                         "Unknown contact type: " + type.name());

@@ -80,6 +80,7 @@ class AlertProcessorConfigTest {
         assertEquals("test_corona_opsgenie", cfg.getOpsgenieKafkaTopic());
         assertEquals("test_corona_slack", cfg.getSlackKafkaTopic());
         assertEquals("test_corona_oc", cfg.getOcKafkaTopic());
+        assertEquals("test_corona_pagerduty", cfg.getPagerDutyKafkaTopic());
 
         assertTrue(cfg.isEnablePeriodOverPeriodAlertFilter());
         assertTrue(cfg.isDebug());

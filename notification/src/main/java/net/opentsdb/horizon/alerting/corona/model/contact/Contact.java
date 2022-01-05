@@ -30,7 +30,8 @@ public interface Contact {
         WEBHOOK((byte) 1),
         OC((byte) 2),
         OPSGENIE((byte) 3),
-        SLACK((byte) 4);
+        SLACK((byte) 4),
+        PAGERDUTY((byte) 5);
 
         /* ------------ Static Methods ------------ */
 
@@ -47,6 +48,8 @@ public interface Contact {
                     return OPSGENIE;
                 case 4:
                     return SLACK;
+                case 5:
+                    return PAGERDUTY;
             }
             throw new IllegalArgumentException("Unknown id=" + id);
         }

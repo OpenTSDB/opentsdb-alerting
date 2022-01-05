@@ -64,6 +64,9 @@ public class Notification {
     @Getter
     private final OcTier ocTier;
 
+    @Getter
+    private final boolean pagerDutyAutoClose;
+
     /* ------------ Constructor ------------ */
 
     Notification(final Builder builder)
@@ -85,6 +88,7 @@ public class Notification {
         this.ocTier = builder.ocTier == null
                 ? OcTier.NOT_SET
                 : builder.ocTier;
+        this.pagerDutyAutoClose = builder.pagerDutyAutoClose;
     }
 
     private static Map<Contact.Type, List<Recipient>> safetify(
@@ -132,7 +136,8 @@ public class Notification {
                 Objects.equals(opsGenieTags, that.opsGenieTags) &&
                 Objects.equals(runbookId, that.runbookId) &&
                 Objects.equals(ocSeverity, that.ocSeverity) &&
-                Objects.equals(ocTier, that.ocTier);
+                Objects.equals(ocTier, that.ocTier) &&
+                Objects.equals(pagerDutyAutoClose, that.pagerDutyAutoClose);
     }
 
     @Override
@@ -148,7 +153,8 @@ public class Notification {
                 opsGenieTags,
                 runbookId,
                 ocSeverity,
-                ocTier
+                ocTier,
+                pagerDutyAutoClose
         );
     }
 
@@ -166,6 +172,7 @@ public class Notification {
                 ", runbookId='" + runbookId + '\'' +
                 ", ocSeverity=" + ocSeverity +
                 ", ocTier=" + ocTier +
+                ", pagerDutyAutoClose=" + pagerDutyAutoClose +
                 '}';
     }
 
@@ -194,6 +201,8 @@ public class Notification {
         private OcSeverity ocSeverity;
 
         private OcTier ocTier;
+
+        private boolean pagerDutyAutoClose;
 
         /* ------------ Constructor ------------ */
 
@@ -260,6 +269,12 @@ public class Notification {
         public Builder setOcTier(OcTier ocTier)
         {
             this.ocTier = ocTier;
+            return this;
+        }
+
+        public Builder setPagerDutyAutoClose(boolean pagerDutyAutoClose)
+        {
+            this.pagerDutyAutoClose = pagerDutyAutoClose;
             return this;
         }
 

@@ -28,6 +28,7 @@ import net.opentsdb.horizon.alerting.corona.model.AbstractSerializer;
 import net.opentsdb.horizon.alerting.corona.model.contact.Contact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.ContactSerializerFactory;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.EmailContact;
+import net.opentsdb.horizon.alerting.corona.model.contact.impl.PagerDutyContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.WebhookContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OcContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OpsGenieContact;
@@ -93,6 +94,8 @@ public abstract class AbstractMessageKitSerializer<M extends AbstractMessageKit>
                 return OpsGenieContact.class;
             case SLACK:
                 return SlackContact.class;
+            case PAGERDUTY:
+                return PagerDutyContact.class;
         }
         throw new IllegalArgumentException("Unknown type: " + type.name());
     }

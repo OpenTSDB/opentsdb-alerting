@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MetadataTest {
 
     @Test
-    private void testBuilder()
+    void testBuilder()
     {
         final Metadata metadata = Metadata.builder()
                 .setSubject("subject")
@@ -36,6 +36,7 @@ class MetadataTest {
                 .setOcTier(OcTier.TIER_2)
                 .setOpsGeniePriority("P5")
                 .setOpsGenieAutoClose(true)
+                .setPagerDutyAutoClose(true)
                 .setRunbookId("RB4000")
                 .build();
 
@@ -46,6 +47,7 @@ class MetadataTest {
         assertEquals(OcTier.TIER_2, metadata.getOcTier());
         assertEquals("P5", metadata.getOpsGeniePriority());
         assertTrue(metadata.isOpsGenieAutoClose());
+        assertTrue(metadata.isPagerDutyAutoClose());
         assertEquals("RB4000", metadata.getRunbookId());
     }
 }

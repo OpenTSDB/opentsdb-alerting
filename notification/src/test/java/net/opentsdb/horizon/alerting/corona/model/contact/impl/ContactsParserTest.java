@@ -120,6 +120,20 @@ public class ContactsParserTest {
                                 " \"name\": \"test second webhook contact\"," +
                                 " \"endpoint\": \"https://test.second.endpoint.url\"" +
                                 "}" +
+                                "]," +
+
+                                // pagerduty
+                                "\"pagerduty\": [" +
+                                "{" +
+                                " \"id\": 41," +
+                                " \"name\": \"test pagerduty contact\"," +
+                                " \"routingkey\": \"12345678123456789012345678901234\"" +
+                                "}," +
+                                "{" +
+                                " \"id\": 42," +
+                                " \"name\": \"test second pagerduty contact\"," +
+                                " \"routingkey\": \"45678123456789012345678901234567\"" +
+                                "}" +
                                 "]" +
                                 "}",
                         Contacts.builder()
@@ -185,6 +199,18 @@ public class ContactsParserTest {
                                             .setId(38)
                                             .setName("test second webhook contact")
                                             .setEndpoint("https://test.second.endpoint.url")
+                                            .build()
+                                )
+                                .setPagerDutyContacts(
+                                        PagerDutyContact.builder()
+                                            .setId(41)
+                                            .setName("test pagerduty contact")
+                                            .setRoutingKey("12345678123456789012345678901234")
+                                            .build(),
+                                        PagerDutyContact.builder()
+                                            .setId(42)
+                                            .setName("test second pagerduty contact")
+                                            .setRoutingKey("45678123456789012345678901234567")
                                             .build()
                                 )
                                 .build()

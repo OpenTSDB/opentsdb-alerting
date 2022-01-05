@@ -29,6 +29,12 @@ import net.opentsdb.horizon.alerting.corona.Utils;
 import net.opentsdb.horizon.alerting.corona.model.alertgroup.AlertGroup;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.MessageKit;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.MessageKitSerializer;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +59,9 @@ import net.opentsdb.horizon.alerting.corona.processor.emitter.ocrest.impl.Defaul
 import net.opentsdb.horizon.alerting.corona.processor.emitter.opsgenie.OpsGenieClient;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.opsgenie.OpsGenieEmitter;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.opsgenie.OpsGenieFormatter;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.pagerduty.PagerDutyEmitter;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.pagerduty.impl.DefaultPagerDutyClient;
+import net.opentsdb.horizon.alerting.corona.processor.emitter.pagerduty.impl.DefaultPagerDutyFormatter;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.prism.PrismEmitter;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.prism.impl.DefaultPrismClient;
 import net.opentsdb.horizon.alerting.corona.processor.emitter.prism.impl.DefaultPrismFormatter;
@@ -73,7 +82,8 @@ public class NotificationEmitter {
         OC,
         OCREST,
         PRISM,
-        WEBHOOK
+        WEBHOOK,
+        PAGERDUTY
     }
 
     /* ------------ Constants ------------ */
@@ -277,6 +287,47 @@ public class NotificationEmitter {
                 .build();
     }
 
+    private Processor<MessageKit> createPagerDutyEmitter()
+    {
+        final CloseableHttpClientBuilder httpClientBuilder =
+                CloseableHttpClientBuilder.create()
+                        .setRetryMax(3)
+                        .setTLSEnabled(false);
+
+        if (config.isPagerDutyProxyConfigured()) {
+            final HttpHost proxy = new HttpHost(
+                    config.getPagerdutyProxyHost(),
+                    config.getPagerdutyProxyPort());
+            httpClientBuilder.setProxy(proxy);
+
+            if (config.isPagerDutyProxyAuthEnabled()) {
+                final CredentialsProvider credsProvider = new BasicCredentialsProvider();
+                credsProvider.setCredentials(
+                        new AuthScope(proxy),
+                        new UsernamePasswordCredentials(
+                                config.getPagerdutyProxyUsername(),
+                                config.getPagerdutyProxyPassword()
+                        )
+                );
+                httpClientBuilder.setCredentialsProvider(credsProvider);
+            }
+        }
+
+        final CloseableHttpClient httpClient = httpClientBuilder.build();
+
+        PagerDutyEmitter pagerDutyEmitter = PagerDutyEmitter.builder()
+                .setClient(DefaultPagerDutyClient.builder()
+                        .setHttpClient(httpClient)
+                        .build())
+                .setFormatter(DefaultPagerDutyFormatter.builder().build())
+                .build();
+
+        return Denoiser.builder()
+                .setNext(pagerDutyEmitter)
+                .setEmitterType("pagerduty")
+                .build();
+    }
+
     private Processor<MessageKit> proxy(final Processor<MessageKit> next)
     {
         final Processor<MessageKit> logWrappedNext = messageKit -> {
@@ -322,6 +373,8 @@ public class NotificationEmitter {
                 return createPrismEmitter();
             case WEBHOOK:
                 return createWebhookEmitter();
+            case PAGERDUTY:
+                return createPagerDutyEmitter();
             default:
                 throw new IllegalArgumentException(
                         "Unsupported emitter type" + type.name());
