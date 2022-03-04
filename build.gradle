@@ -72,10 +72,10 @@ dependencies {
     implementation 'io.undertow:undertow-servlet:2.0.4.Final'
     implementation 'com.esotericsoftware.kryo:kryo:2.21'
     implementation 'org.slf4j:slf4j-api:1.7.12'
-    implementation 'org.apache.logging.log4j:log4j-1.2-api:2.15.0'
-    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.15.0'
-    implementation 'org.apache.logging.log4j:log4j-api:2.15.0'
-    implementation 'org.apache.logging.log4j:log4j-core:2.15.0'
+    implementation 'org.apache.logging.log4j:log4j-1.2-api:2.16.0'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.16.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.16.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.16.0'
     implementation('it.unimi.dsi:dsiutils:2.3.6') {
         exclude group: 'ch.qos.logback', module: 'logback-classic'
     }
@@ -169,6 +169,7 @@ test {
 shadowJar {
     dependsOn build
     zip64 true
+    exclude "**/Log4j2Plugins.dat"
 }
 
 task sourcesJar(type: Jar) {
