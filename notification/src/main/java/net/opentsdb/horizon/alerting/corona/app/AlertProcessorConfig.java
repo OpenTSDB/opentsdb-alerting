@@ -80,6 +80,7 @@ public class AlertProcessorConfig extends AbstractConfig {
         SLACK_KAFKA_TOPIC("test_corona_slack"),
         OC_KAFKA_TOPIC("test_corona_oc"),
         WEBHOOK_KAFKA_TOPIC("test_corona_webhook"),
+        PAGERDUTY_KAFKA_TOPIC("test_corona_pagerduty"),
 
         ENABLE_PERIOD_OVER_PERIOD_ALERT_FILTER(TRUE),
 
@@ -279,6 +280,10 @@ public class AlertProcessorConfig extends AbstractConfig {
     String getWebhookKafkaTopic()
     {
         return get(C.WEBHOOK_KAFKA_TOPIC);
+    }
+
+    String getPagerDutyKafkaTopic() {
+        return get(C.PAGERDUTY_KAFKA_TOPIC);
     }
 
     // ------ Monitoring ------ //

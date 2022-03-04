@@ -55,7 +55,7 @@ class OpsGenieMetaTest {
         assertArrayEquals(new String[]{"opsgenie", "meta"}, meta2.getLabels());
         assertEquals("P5", meta2.getOpsGeniePriority());
         assertFalse(meta2.isOpsGenieAutoClose());
-        assertEquals(Arrays.asList("hello", "world"), meta1.getOpsGenieTags());
+        assertEquals(Arrays.asList("hello", "world"), meta2.getOpsGenieTags());
     }
 
     @Test

@@ -48,6 +48,9 @@ public class Metadata {
     private final List<String> opsGenieTags;
 
     @Getter
+    private final boolean pagerDutyAutoClose;
+
+    @Getter
     private final String runbookId;
 
     @Getter
@@ -70,6 +73,7 @@ public class Metadata {
         this.opsGenieTags = builder.opsGenieTags == null
                 ? Collections.emptyList()
                 : builder.opsGenieTags;
+        this.pagerDutyAutoClose = builder.pagerDutyAutoClose;
         this.runbookId = builder.runbookId;
         this.ocSeverity = builder.ocSeverity;
         this.ocTier = builder.ocTier;
@@ -93,6 +97,7 @@ public class Metadata {
                 Objects.equals(opsGeniePriority, other.opsGeniePriority) &&
                 Objects.equals(opsGenieAutoClose, other.opsGenieAutoClose) &&
                 Objects.equals(opsGenieTags, other.opsGenieTags) &&
+                Objects.equals(pagerDutyAutoClose, other.pagerDutyAutoClose) &&
                 Objects.equals(runbookId, other.runbookId) &&
                 Objects.equals(ocSeverity, other.ocSeverity) &&
                 Objects.equals(ocTier, other.ocTier) &&
@@ -109,6 +114,7 @@ public class Metadata {
                         opsGeniePriority,
                         opsGenieAutoClose,
                         opsGenieTags,
+                        pagerDutyAutoClose,
                         runbookId,
                         ocSeverity,
                         ocTier
@@ -124,6 +130,7 @@ public class Metadata {
                 ", opsGeniePriority='" + opsGeniePriority + '\'' +
                 ", opsGenieAutoClose=" + opsGenieAutoClose +
                 ", opsGenieTags=" + opsGenieTags +
+                ", pagerDutyAutoClose=" + pagerDutyAutoClose +
                 ", runbookId='" + runbookId + '\'' +
                 ", ocSeverity=" + ocSeverity +
                 ", ocTier=" + ocTier +
@@ -144,6 +151,8 @@ public class Metadata {
         private boolean opsGenieAutoClose;
 
         private List<String> opsGenieTags;
+
+        private boolean pagerDutyAutoClose;
 
         private String runbookId;
 
@@ -182,6 +191,12 @@ public class Metadata {
         public Builder setOpsGenieTags(final List<String> opsGenieTags)
         {
             this.opsGenieTags = opsGenieTags;
+            return this;
+        }
+
+        public Builder setPagerDutyAutoClose(final boolean pagerDutyAutoClose)
+        {
+            this.pagerDutyAutoClose = pagerDutyAutoClose;
             return this;
         }
 

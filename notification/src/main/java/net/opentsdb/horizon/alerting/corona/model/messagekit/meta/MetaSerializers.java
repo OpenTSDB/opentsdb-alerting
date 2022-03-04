@@ -34,6 +34,8 @@ public class MetaSerializers {
 
     private final SlackMetaSerializer slackSerializer;
 
+    private final PagerDutyMetaSerializer pagerDutySerializer;
+
     /* ------------ Constructor ------------ */
 
     public MetaSerializers()
@@ -43,6 +45,7 @@ public class MetaSerializers {
         this.ocSerializer = new OcMetaSerializer();
         this.opsGenieSerializer = new OpsGenieMetaSerializer();
         this.slackSerializer = new SlackMetaSerializer();
+        this.pagerDutySerializer = new PagerDutyMetaSerializer();
     }
 
     /* ------------ Methods ------------ */
@@ -60,6 +63,8 @@ public class MetaSerializers {
                 return opsGenieSerializer;
             case SLACK:
                 return slackSerializer;
+            case PAGERDUTY:
+                return pagerDutySerializer;
             default:
                 throw new RuntimeException(
                         "Unknown contact type: " + type.name());

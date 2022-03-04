@@ -60,6 +60,8 @@ public class NotificationParser extends AbstractParser<Notification> {
 
     private static final String F_OC_TIER = "octier";
 
+    private static final String F_PAGERDUTY_AUTOCLOSE = "pagerdutyautoclose";
+
     private static final boolean QUIET = true;
 
     /* ------------ Fields ------------ */
@@ -104,6 +106,9 @@ public class NotificationParser extends AbstractParser<Notification> {
                             break;
                         case "SLACK":
                             contactType = Contact.Type.SLACK;
+                            break;
+                        case "PAGERDUTY":
+                            contactType = Contact.Type.PAGERDUTY;
                             break;
                         default:
                             LOG.warn("Unknown contact type '{}'", e.getKey());
@@ -192,6 +197,15 @@ public class NotificationParser extends AbstractParser<Notification> {
                                 val.asText(), ex.getMessage());
                         builder.setOcTier(OcTier.NOT_SET);
                     }
+                    break;
+                case F_PAGERDUTY_AUTOCLOSE:
+                    final boolean pagerDutyAutoClose;
+                    if (val.isBoolean()) {
+                        pagerDutyAutoClose = val.asBoolean();
+                    } else {
+                        pagerDutyAutoClose = Boolean.parseBoolean(val.asText());
+                    }
+                    builder.setPagerDutyAutoClose(pagerDutyAutoClose);
                     break;
                 default:
                     LOG.trace("Unknown entry: key='{}', value='{}'",

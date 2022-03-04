@@ -36,6 +36,7 @@ import net.opentsdb.horizon.alerting.corona.model.contact.Contacts;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.EmailContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OcContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OpsGenieContact;
+import net.opentsdb.horizon.alerting.corona.model.contact.impl.PagerDutyContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.SlackContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.WebhookContact;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.MessageKit;
@@ -43,6 +44,7 @@ import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.EmailMeta;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.Meta;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.OcMeta;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.OpsGenieMeta;
+import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.PagerDutyMeta;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.SlackMeta;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.meta.WebhookMeta;
 import net.opentsdb.horizon.alerting.corona.model.metadata.Metadata;
@@ -112,6 +114,12 @@ public class TestData {
                         WebhookContact.builder()
                                 .setName("Test HTTP Contact")
                                 .setEndpoint("http://endpoint.url")
+                                .build()
+                )
+                .setPagerDutyContacts(
+                        PagerDutyContact.builder()
+                                .setName("Test PagerDuty Contact")
+                                .setRoutingKey("secret.pagerduty.routing.key")
                                 .build()
                 )
                 .build();
@@ -547,6 +555,11 @@ public class TestData {
                         .setSubject("Subject. Host: {{host}}")
                         .setBody("Body\n with many lines. Host: {{host}}")
                         .build();
+            case PAGERDUTY:
+                return PagerDutyMeta.builder()
+                        .setSubject("Subject. Host: {{host}}")
+                        .setBody("Body\n with many lines. Host: {{host}}")
+                        .build();
         }
         throw new RuntimeException(
                 "Unknown contact type: " + contactType.name());
@@ -567,6 +580,17 @@ public class TestData {
     {
         try {
             final File file = new File("opsgenie.apikey");
+            final FileReader fr = new FileReader(file);
+            return new BufferedReader(fr).readLine();
+        } catch (IOException e) {
+            return "abra-cadabra";
+        }
+    }
+
+    private static String getPagerDutyRoutingKey()
+    {
+        try {
+            final File file = new File("pagerduty.routingkey");
             final FileReader fr = new FileReader(file);
             return new BufferedReader(fr).readLine();
         } catch (IOException e) {
@@ -613,6 +637,13 @@ public class TestData {
                         WebhookContact.builder()
                                 .setEndpoint("https://test.endpoint.url")
                                 .setName("test http contact")
+                                .build()
+                );
+            case PAGERDUTY:
+                return Arrays.asList(
+                        PagerDutyContact.builder()
+                                .setName("test pagerduty contact")
+                                .setRoutingKey(getPagerDutyRoutingKey())
                                 .build()
                 );
         }

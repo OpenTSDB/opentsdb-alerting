@@ -28,6 +28,7 @@ import net.opentsdb.horizon.alerting.corona.model.contact.Contacts;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.EmailContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OcContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OpsGenieContact;
+import net.opentsdb.horizon.alerting.corona.model.contact.impl.PagerDutyContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.SlackContact;
 import net.opentsdb.horizon.alerting.corona.model.metadata.OcSeverity;
 import net.opentsdb.horizon.alerting.corona.model.metadata.OcTier;
@@ -162,6 +163,18 @@ class DbMetadataProviderTest {
                                     .setContext("analysis")
                                     .setDisplayCount("1")
                                     .setOpsdbProperty("Zack")
+                                    .build()
+                    )
+                    .setPagerDutyContacts(
+                            PagerDutyContact.builder()
+                                    .setId(41)
+                                    .setName("test pagerduty contact")
+                                    .setRoutingKey("12345678123456789012345678901234")
+                                    .build(),
+                            PagerDutyContact.builder()
+                                    .setId(42)
+                                    .setName("test second pagerduty contact")
+                                    .setRoutingKey("45678123456789012345678901234567")
                                     .build()
                     )
                     .build();

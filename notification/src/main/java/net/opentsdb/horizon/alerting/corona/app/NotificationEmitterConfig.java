@@ -68,6 +68,7 @@ public class NotificationEmitterConfig extends AbstractConfig {
         DEBUG_OPSGENIE_API_KEY,
         DEBUG_SLACK_ENDPOINT,
         DEBUG_WEBHOOK_ENDPOINT("https://set.me"),
+        DEBUG_PAGERDUTY_ROUTING_KEY,
 
         // Email Emitter.
 
@@ -95,6 +96,13 @@ public class NotificationEmitterConfig extends AbstractConfig {
 
         PRISM_HOST("alerts.opentsdb.net"),
         PRISM_ENDPOINT("prism.opentsdb.net"),
+
+        // PagerDuty Emitter
+
+        PAGERDUTY_PROXY_HOST,
+        PAGERDUTY_PROXY_PORT(0),
+        PAGERDUTY_PROXY_USERNAME,
+        PAGERDUTY_PROXY_PASSWORD,
 
         VIEWS_HORIZON_URL,
         VIEWS_SPLUNK_URL,
@@ -241,6 +249,32 @@ public class NotificationEmitterConfig extends AbstractConfig {
     String getPrismEndpoint()
     {
         return get(C.PRISM_ENDPOINT);
+    }
+
+    // ------ PagerDuty Emitter ------ //
+
+    String getPagerdutyProxyHost() {
+        return get(C.PAGERDUTY_PROXY_HOST);
+    }
+
+    int getPagerdutyProxyPort() {
+        return getInt(C.PAGERDUTY_PROXY_PORT);
+    }
+
+    String getPagerdutyProxyUsername() {
+        return get(C.PAGERDUTY_PROXY_USERNAME);
+    }
+
+    String getPagerdutyProxyPassword() {
+        return get(C.PAGERDUTY_PROXY_PASSWORD);
+    }
+
+    boolean isPagerDutyProxyConfigured() {
+        return (getPagerdutyProxyHost().length() > 0 && getPagerdutyProxyPort() > 0);
+    }
+
+    boolean isPagerDutyProxyAuthEnabled() {
+        return (getPagerdutyProxyUsername().length() > 0 && getPagerdutyProxyPassword().length() > 0);
     }
 
     // ------ MessageKitProcessor ------ //
@@ -401,6 +435,11 @@ public class NotificationEmitterConfig extends AbstractConfig {
     public String getDebugWebhookEndpoint()
     {
         return get(C.DEBUG_WEBHOOK_ENDPOINT);
+    }
+
+    public String getDebugPagerdutyRoutingKey()
+    {
+        return get(C.DEBUG_PAGERDUTY_ROUTING_KEY);
     }
 
     public String getViewsHorizonUrl()

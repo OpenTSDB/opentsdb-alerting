@@ -48,6 +48,9 @@ public class ContactsParser extends AbstractParser<Contacts> {
     private static final Parser<SlackContact> slackContactParser =
             new SlackContactParser();
 
+    private static final Parser<PagerDutyContact> pagerDutyContactParser =
+            new PagerDutyContactParser();
+
     private static final String F_EMAIL = "email";
 
     private static final String F_HTTP = "http";
@@ -59,6 +62,8 @@ public class ContactsParser extends AbstractParser<Contacts> {
     private static final String F_OC = "oc";
 
     private static final String F_OPSGENIE = "opsgenie";
+
+    private static final String F_PAGERDUTY = "pagerduty";
 
     private static final boolean SILENT_FAIL = true;
 
@@ -102,6 +107,10 @@ public class ContactsParser extends AbstractParser<Contacts> {
                             parseList(val, slackContactParser, SILENT_FAIL)
                     );
                     break;
+                case F_PAGERDUTY:
+                    builder.setPagerDutyContacts(
+                            parseList(val, pagerDutyContactParser, SILENT_FAIL)
+                    );
                 default:
                     LOG.trace("Unknown type: name={}, value={}", typeName, val);
             }

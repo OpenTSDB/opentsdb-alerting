@@ -27,6 +27,7 @@ import net.opentsdb.horizon.alerting.corona.model.contact.Contacts;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.EmailContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OcContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OpsGenieContact;
+import net.opentsdb.horizon.alerting.corona.model.contact.impl.PagerDutyContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.SlackContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.WebhookContact;
 import net.opentsdb.horizon.alerting.corona.model.messagekit.MessageKit;
@@ -65,6 +66,8 @@ public class ContactOverrider
 
     private final List<WebhookContact> webhookContacts;
 
+    private final List<PagerDutyContact> pagerDutyContacts;
+
     /* ------------ Constructors ------------ */
 
     public ContactOverrider(final Processor<MessageKit> next,
@@ -90,6 +93,12 @@ public class ContactOverrider
                 Contacts.of(WebhookContact.builder()
                         .setName("OpenTSDB-Test")
                         .setEndpoint(config.getDebugWebhookEndpoint())
+                        .build()
+                );
+        this.pagerDutyContacts =
+                Contacts.of(PagerDutyContact.builder()
+                        .setName("OpenTSDB-Test")
+                        .setRoutingKey(config.getDebugPagerdutyRoutingKey())
                         .build()
                 );
 
@@ -157,6 +166,9 @@ public class ContactOverrider
                 break;
             case WEBHOOK:
                 newKit = override(oldKit, webhookContacts);
+                break;
+            case PAGERDUTY:
+                newKit = override(oldKit, pagerDutyContacts);
                 break;
             default:
                 throw new RuntimeException(

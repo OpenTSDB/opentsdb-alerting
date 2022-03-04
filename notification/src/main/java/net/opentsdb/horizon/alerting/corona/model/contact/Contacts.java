@@ -27,10 +27,11 @@ import java.util.stream.Stream;
 import lombok.Getter;
 
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.EmailContact;
-import net.opentsdb.horizon.alerting.corona.model.contact.impl.WebhookContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OcContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.OpsGenieContact;
+import net.opentsdb.horizon.alerting.corona.model.contact.impl.PagerDutyContact;
 import net.opentsdb.horizon.alerting.corona.model.contact.impl.SlackContact;
+import net.opentsdb.horizon.alerting.corona.model.contact.impl.WebhookContact;
 
 @Getter
 public class Contacts {
@@ -63,19 +64,23 @@ public class Contacts {
 
     private final List<SlackContact> slackContacts;
 
+    private final List<PagerDutyContact> pagerDutyContacts;
+
     /* ------------ Constructor ------------ */
 
     private Contacts(final List<EmailContact> emailContacts,
                      final List<WebhookContact> webhookContacts,
                      final List<OcContact> ocContacts,
                      final List<OpsGenieContact> opsGenieContacts,
-                     final List<SlackContact> slackContacts)
+                     final List<SlackContact> slackContacts,
+                     final List<PagerDutyContact> pagerDutyContacts)
     {
         this.emailContacts = normalize(emailContacts);
         this.webhookContacts = normalize(webhookContacts);
         this.ocContacts = normalize(ocContacts);
         this.opsGenieContacts = normalize(opsGenieContacts);
         this.slackContacts = normalize(slackContacts);
+        this.pagerDutyContacts = normalize(pagerDutyContacts);
     }
 
     /* ------------ Methods ------------ */
@@ -87,7 +92,8 @@ public class Contacts {
                 webhookContacts,
                 ocContacts,
                 opsGenieContacts,
-                slackContacts
+                slackContacts,
+                pagerDutyContacts
         ).flatMap(List::stream);
     }
 
@@ -104,6 +110,8 @@ public class Contacts {
                 return getOpsGenieContacts();
             case SLACK:
                 return getSlackContacts();
+            case PAGERDUTY:
+                return getPagerDutyContacts();
         }
         return null;
     }
@@ -130,7 +138,8 @@ public class Contacts {
                 Objects.equals(webhookContacts, that.webhookContacts) &&
                 Objects.equals(ocContacts, that.ocContacts) &&
                 Objects.equals(opsGenieContacts, that.opsGenieContacts) &&
-                Objects.equals(slackContacts, that.slackContacts);
+                Objects.equals(slackContacts, that.slackContacts) &&
+                Objects.equals(pagerDutyContacts, that.pagerDutyContacts);
     }
 
     @Override
@@ -141,7 +150,8 @@ public class Contacts {
                 webhookContacts,
                 ocContacts,
                 opsGenieContacts,
-                slackContacts
+                slackContacts,
+                pagerDutyContacts
         );
     }
 
@@ -154,6 +164,7 @@ public class Contacts {
                 ", ocContacts=" + ocContacts +
                 ", opsGenieContacts=" + opsGenieContacts +
                 ", slackContacts=" + slackContacts +
+                ", pagerDutyContacts=" + pagerDutyContacts +
                 '}';
     }
 
@@ -170,6 +181,8 @@ public class Contacts {
         private List<OpsGenieContact> opsGenieContacts;
 
         private List<SlackContact> slackContacts;
+
+        private List<PagerDutyContact> pagerDutyContacts;
 
         public Builder setEmailContacts(final List<EmailContact> emailContacts)
         {
@@ -198,6 +211,12 @@ public class Contacts {
         public Builder setSlackContacts(final List<SlackContact> slackContacts)
         {
             this.slackContacts = slackContacts;
+            return this;
+        }
+
+        public Builder setPagerDutyContacts(final List<PagerDutyContact> pagerDutyContacts)
+        {
+            this.pagerDutyContacts = pagerDutyContacts;
             return this;
         }
 
@@ -231,6 +250,12 @@ public class Contacts {
             return this;
         }
 
+        public Builder setPagerDutyContacts(final PagerDutyContact... pagerDutyContacts)
+        {
+            this.pagerDutyContacts = Arrays.asList(pagerDutyContacts);
+            return this;
+        }
+
         @SuppressWarnings("unchecked")
         public Builder setContacts(final Contact.Type type,
                                    final List<? extends Contact> contacts)
@@ -246,6 +271,8 @@ public class Contacts {
                     return setOpsGenieContacts((List<OpsGenieContact>) contacts);
                 case SLACK:
                     return setSlackContacts((List<SlackContact>) contacts);
+                case PAGERDUTY:
+                    return setPagerDutyContacts((List<PagerDutyContact>) contacts);
             }
             return this;
         }
@@ -257,7 +284,8 @@ public class Contacts {
                     webhookContacts,
                     ocContacts,
                     opsGenieContacts,
-                    slackContacts
+                    slackContacts,
+                    pagerDutyContacts
             );
         }
     }
