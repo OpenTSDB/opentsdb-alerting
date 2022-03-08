@@ -304,19 +304,22 @@ public class TSDBV3SlidingWindowQuery extends StateTimeBasedExecutor<MetricAlert
         final AlertEventBag alertEventBag;
         final SuppressMetricConfig suppressMetricConfig = this.metricAlertConfig.getSuppressMetricConfig();
         if (suppressMetricConfig != null) {
-            LOG.info("Processing heartbeat for suppress metric config: {}", suppressMetricConfig.toString());
+
+            final Set<String> keySet = !suppressMetricConfig.getKeySet().isEmpty()
+                    ? suppressMetricConfig.getKeySet() : TsdbV3ResultProcessor.getEmptyHeartbeatTagset() ;
+            LOG.info("id: {} Processing heartbeat with suppress metric config: {} and key set: {}", this.alertId, suppressMetricConfig, keySet);
             if (suppressMetricConfig.getSampler().equals(SUMMARY)) {
                 Long2BooleanMap long2BooleanMap = TsdbV3ResultProcessor.processHeartBeatForSummaries(response,
                         suppressMetricConfig,
                         this.heartBeatMetricNodeId,
                         metricAlertConfig);
-                heartbeatSuppressConditional = new HeartbeatSuppressConditional(long2BooleanMap, suppressMetricConfig.getKeySet(), namespace, alertId);
+                heartbeatSuppressConditional = new HeartbeatSuppressConditional(long2BooleanMap, keySet, namespace, alertId);
             } else {
                 Long2BooleanMap long2BooleanMap = TsdbV3ResultProcessor.processHeartbeatForNonSummaries(response,
                         suppressMetricConfig,
                         this.heartBeatMetricNodeId,
                         metricAlertConfig);
-                heartbeatSuppressConditional = new HeartbeatSuppressConditional(long2BooleanMap, suppressMetricConfig.getKeySet(), namespace, alertId);
+                heartbeatSuppressConditional = new HeartbeatSuppressConditional(long2BooleanMap, keySet, namespace, alertId);
             }
         } else {
             heartbeatSuppressConditional = new NoOpConditional();
