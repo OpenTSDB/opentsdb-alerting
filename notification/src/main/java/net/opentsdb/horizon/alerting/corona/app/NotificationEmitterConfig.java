@@ -61,8 +61,6 @@ public class NotificationEmitterConfig extends AbstractConfig {
         TLS_TRUST_STORE_PATH,
         TLS_TRUST_STORE_PASSWORD,
 
-        CKMS_SECRET_GROUPS,
-
         DEBUG("true"),
         DEBUG_EMAIL_PREFIX("STAGE: "),
         DEBUG_OPSGENIE_API_KEY,
@@ -415,11 +413,6 @@ public class NotificationEmitterConfig extends AbstractConfig {
     String getTlsTrustStorePassword()
     {
         return get(C.TLS_TRUST_STORE_PASSWORD);
-    }
-
-    List<String> getCkmsSecretGroups()
-    {
-        return getList(C.CKMS_SECRET_GROUPS);
     }
 
     public String getDebugOpsgenieApiKey()
