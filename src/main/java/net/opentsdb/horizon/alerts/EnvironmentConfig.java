@@ -307,6 +307,10 @@ public class EnvironmentConfig {
 
     public static final String DEFAULT_PULSAR_ATHENZ_KEY_ID = "0";
 
+    public static final String ENABLE_PRIMING = "enable_pop_priming";
+
+    public static final String DEFAULT_ENABLE_PRIMING = "true";
+
     static {
         String file = PROPERTIES_FILE;
         if(IS_LOCAL) {
@@ -666,6 +670,15 @@ public class EnvironmentConfig {
                         ENABLE_SNOOZE_TAGS,
                         DEFAULT_ENABLE_SNOOZE_TAGS
                 ));
+    }
+
+    public boolean enablePOPPriming() {
+        return Boolean.parseBoolean(
+                propertiesFile.getProperty(
+                        ENABLE_PRIMING,
+                        DEFAULT_ENABLE_PRIMING
+                )
+        );
     }
 
     public Optional<List<String>> getList(final String property,
