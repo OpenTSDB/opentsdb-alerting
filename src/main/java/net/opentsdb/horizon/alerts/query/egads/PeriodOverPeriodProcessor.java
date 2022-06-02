@@ -75,6 +75,7 @@ public final class PeriodOverPeriodProcessor
     private final TSDBClient tsdbClient;
     private final StatusWriter statusWriter;
     private final CollectorWriter collectorWriter;
+    private final boolean enablePriming;
 
     private String namespace;
     private long alertId;
@@ -111,7 +112,23 @@ public final class PeriodOverPeriodProcessor
             final TSDBClient tsdbClient,
             final StatusWriter statusWriter,
             final CollectorWriter collectorWriter) {
+        this (
+            alertConfig,
+            tsdbClient,
+            statusWriter,
+            collectorWriter,
+            new EnvironmentConfig().enablePOPPriming()
+        );
+    }
+
+    public PeriodOverPeriodProcessor(
+            final PeriodOverPeriodAlertConfig alertConfig,
+            final TSDBClient tsdbClient,
+            final StatusWriter statusWriter,
+            final CollectorWriter collectorWriter,
+            final boolean enablePriming) {
         super(alertConfig);
+        this.enablePriming = enablePriming;
         Validate.paramNotNull(tsdbClient, "tsdbClient cannot be null");
         Validate.paramNotNull(statusWriter, "statusWriter cannot be null");
         Validate.paramNotNull(collectorWriter, "collectorWriter cannot be null");
@@ -121,6 +138,7 @@ public final class PeriodOverPeriodProcessor
         this.responseParser = EgadsResponseParser.create(EGADS_NODE_ID);
         displayWindowSec = DISPLAY_WINDOW_SEC;
     }
+
 
     /* ------------ Methods ------------ */
 
@@ -180,8 +198,11 @@ public final class PeriodOverPeriodProcessor
         final List<AlertEvent> alerts = processResponse(response, stateStore);
         LOG.debug("processed response result: alert_id={}, end_time={}, alerts={}",
                 alertId, endTime, alerts);
-
-        tryPrimeNextModel(endTime, timeUnit);
+        if (enablePriming) {
+            tryPrimeNextModel(endTime, timeUnit);
+        } else {
+            LOG.debug("Priming is disabled for Period over period alerts. Skipping for alert_id={}", alertId);
+        }
 
         return new AlertEventBag(alerts, getAlertConfig());
     }
