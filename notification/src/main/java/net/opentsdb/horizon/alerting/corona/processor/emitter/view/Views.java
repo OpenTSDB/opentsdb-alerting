@@ -200,6 +200,10 @@ public class Views {
 
     /* ------------ Methods ------------ */
 
+    public String horizonUrl() {
+        return horizonUrl;
+    }
+
     public String alertEditUrl(final long alertId)
     {
         return horizonUrl + "/a/" + alertId + "/edit";

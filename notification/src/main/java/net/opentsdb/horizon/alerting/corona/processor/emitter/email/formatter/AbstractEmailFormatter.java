@@ -58,6 +58,12 @@ public abstract class AbstractEmailFormatter<
 
         private final Map<String, Object> params = new HashMap<>();
 
+        private Parameters setWebuiLink(final String webuiLink)
+        {
+            params.put("webuiLink", webuiLink);
+            return this;
+        }
+
         private Parameters setDetailsLink(final String detailsLink)
         {
             params.put("detailsLink", detailsLink);
@@ -252,6 +258,9 @@ public abstract class AbstractEmailFormatter<
                 view.getAllViews().get(0).getTimestampMs();
 
         final Parameters params = new Parameters()
+                .setWebuiLink(
+                        Views.get().horizonUrl()
+                )
                 .setDetailsLink(
                         Views.get().alertSplunkUrl(alertId, sampleAlertTimestampMs)
                 )
