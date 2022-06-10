@@ -78,8 +78,8 @@ public final class SlackClientImpl implements SlackClient {
         try {
             final String jsonBody = MAPPER.writeValueAsString(request);
             System.out.println(jsonBody);
-            httpReq.setEntity(new StringEntity(jsonBody));
-        } catch (JsonProcessingException | UnsupportedEncodingException e) {
+            httpReq.setEntity(new StringEntity(jsonBody, "UTF-8"));
+        } catch (JsonProcessingException e) {
             throw new SlackException("serialization failed", e);
         }
 
